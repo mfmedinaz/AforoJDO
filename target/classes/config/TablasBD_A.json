@@ -1,15 +1,20 @@
 {
-	"title": "Nombres de las tablas de Parranderos Uniandes para la aplicación A",
-	"unidadPersistencia": "Parranderos",
+	"title": "Nombres de las tablas de AforoCC Uniandes para la aplicación A",
+	"unidadPersistencia": "AforoCC",
 	"tablas":
 	[
-		"Parranderos_sequence",
-		"A_TIPOBEBIDA",
-		"A_BEBIDA",
-		"A_BAR",
-		"A_BEBEDOR",
-		"A_GUSTAN",
-		"A_SIRVEN",
-		"A_VISITAN"
+		"AforoCC_sequence",
+		"ESPACIO",
+		"LOCAL_COMERCIAL",
+		"PARQUEADERO",
+		"BANIO",
+		"CENTRO_COMERCIAL",
+		"VISITA",
+		"VISITANTE",
+		"TIPO_VISITANTE",
+		"LECTOR",
+		"ADMINISTRADOR",
+		"TIPO_ESTABLECIMIENTO"
+		
 	]
 }
