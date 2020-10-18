@@ -29,7 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
-import uniandes.isis2304.aforocc.negocio.Parranderos;
+import uniandes.isis2304.aforocc.negocio.AforoCC;
 import uniandes.isis2304.aforocc.negocio.VOTipoBebida;
 
 /**
@@ -78,7 +78,7 @@ public class ConexionTest
 	/**
 	 * La clase que se quiere probar
 	 */
-    private Parranderos parranderos;
+    private AforoCC parranderos;
 	
 	/* ****************************************************************
 	 * 			Métodos de prueba de acceso a la BD
@@ -92,7 +92,7 @@ public class ConexionTest
   	  	try
 		{
 			log.info ("Probando el acceso a la base de datos con datos válidos (BD, credenciales, esquema");
-			parranderos = new Parranderos (openConfig (CONFIG_TABLAS_A));
+			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_A));
 			log.info ("Conexión realizada correstamente");
 			log.info ("Cerrando la conexión");
 			
@@ -123,7 +123,7 @@ public class ConexionTest
 		try
 		{
 	    	log.info ("Probando el acceso a la base de datos con una base de datos que no existe");
-			parranderos = new Parranderos (openConfig (CONFIG_TABLAS_ERR_DS));
+			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_ERR_DS));
 			fail ("Debería fallar. La base de datos no existe !!");
 		}
 		catch (Exception e)
@@ -148,7 +148,7 @@ public class ConexionTest
 		try
 		{
 	    	log.info ("Probando el acceso a la base de datos con datos de usuario incorrectos");
-			parranderos = new Parranderos (openConfig (CONFIG_TABLAS_ERR_USER));
+			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_ERR_USER));
 			fail ("Debería fallar. Las credenciales del usuario no son válidas");
 		}
 		catch (Exception e)
@@ -174,7 +174,7 @@ public class ConexionTest
 		try
 		{
 	    	log.info ("Probando el acceso a la base de datos con datos de usuario correctos, pero sin crear el esquema");
-			parranderos = new Parranderos (openConfig (CONFIG_TABLAS_B));
+			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_B));
 		}
 		catch (Exception e)
 		{

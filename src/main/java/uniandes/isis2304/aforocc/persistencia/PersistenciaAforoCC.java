@@ -32,7 +32,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import uniandes.isis2304.aforocc.negocio.Bar;
+import uniandes.isis2304.aforocc.negocio.Espacio;
 import uniandes.isis2304.aforocc.negocio.Bebedor;
 import uniandes.isis2304.aforocc.negocio.Bebida;
 import uniandes.isis2304.aforocc.negocio.Gustan;
@@ -935,7 +935,7 @@ public class PersistenciaAforoCC
 			String horarioVisita = (String) tupla [6];
 			
 			Object [] visita = new Object [3];
-			visita [0] = new Bar (idBar, nombreBar, ciudadBar, presupuestoBar, sedesBar);
+			visita [0] = new Espacio (idBar, nombreBar, ciudadBar, presupuestoBar, sedesBar);
 			visita [1] = fechaVisita;
 			visita [2] = horarioVisita;
 
@@ -984,7 +984,7 @@ public class PersistenciaAforoCC
 	 * @param sedes - El número de sedes del bar en la ciudad (Mayor que 0)
 	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
 	 */
-	public Bar adicionarBar(String nombre, String ciudad, String presupuesto, int sedes) 
+	public Espacio adicionarBar(String nombre, String ciudad, String presupuesto, int sedes) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
@@ -997,7 +997,7 @@ public class PersistenciaAforoCC
 
             log.trace ("Inserción de Bar: " + nombre + ": " + tuplasInsertadas + " tuplas insertadas");
 
-            return new Bar (idBar, nombre, ciudad, presupuesto, sedes);
+            return new Espacio (idBar, nombre, ciudad, presupuesto, sedes);
         }
         catch (Exception e)
         {
@@ -1087,7 +1087,7 @@ public class PersistenciaAforoCC
 	 * Método que consulta todas las tuplas en la tabla BAR
 	 * @return La lista de objetos BAR, construidos con base en las tuplas de la tabla BAR
 	 */
-	public List<Bar> darBares ()
+	public List<Espacio> darBares ()
 	{
 		return sqlBar.darBares (pmf.getPersistenceManager());
 	}
@@ -1097,7 +1097,7 @@ public class PersistenciaAforoCC
 	 * @param nombreBar - El nombre del bar
 	 * @return La lista de objetos BAR, construidos con base en las tuplas de la tabla BAR
 	 */
-	public List<Bar> darBaresPorNombre (String nombreBar)
+	public List<Espacio> darBaresPorNombre (String nombreBar)
 	{
 		return sqlBar.darBaresPorNombre (pmf.getPersistenceManager(), nombreBar);
 	}
@@ -1107,7 +1107,7 @@ public class PersistenciaAforoCC
 	 * @param idBar - El identificador del bar
 	 * @return El objeto BAR, construido con base en la tuplas de la tabla BAR, que tiene el identificador dado
 	 */
-	public Bar darBarPorId (long idBar)
+	public Espacio darBarPorId (long idBar)
 	{
 		return sqlBar.darBarPorId (pmf.getPersistenceManager(), idBar);
 	}

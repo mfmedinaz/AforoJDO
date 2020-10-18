@@ -46,7 +46,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
-import uniandes.isis2304.aforocc.negocio.Parranderos;
+import uniandes.isis2304.aforocc.negocio.AforoCC;
 import uniandes.isis2304.aforocc.negocio.VOTipoBebida;
 
 /**
@@ -86,7 +86,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     /**
      * Asociación a la clase principal del negocio.
      */
-    private Parranderos parranderos;
+    private AforoCC parranderos;
     
 	/* ****************************************************************
 	 * 			Atributos de interfaz
@@ -126,7 +126,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
         }
         
         tableConfig = openConfig ("Tablas BD", CONFIG_TABLAS);
-        parranderos = new Parranderos (tableConfig);
+        parranderos = new AforoCC (tableConfig);
         
     	String path = guiConfig.get("bannerPath").getAsString();
         panelDatos = new PanelDatos ( );
