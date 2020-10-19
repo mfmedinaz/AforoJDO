@@ -9,9 +9,9 @@ public class Visita implements VOVisita
 	 *****************************************************************/
 	private long id;
 	
-	private Date horaInicial;
+	private String horaInicial;
 	
-	private Date horaFinal;
+	private String horaFinal;
 	
 	private long visitante;
 	
@@ -21,7 +21,7 @@ public class Visita implements VOVisita
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
-	public Visita(long id, Date horaInicial, Date horaFinal, long visitante, long lector) {
+	public Visita(long id, String horaInicial, String horaFinal, long visitante, long lector) {
 		super();
 		this.id = id;
 		this.horaInicial = horaInicial;
@@ -38,19 +38,19 @@ public class Visita implements VOVisita
 		this.id = id;
 	}
 
-	public Date getHoraInicial() {
+	public String getHoraInicial() {
 		return horaInicial;
 	}
 
-	public void setHoraInicial(Date horaInicial) {
+	public void setHoraInicial(String horaInicial) {
 		this.horaInicial = horaInicial;
 	}
 
-	public Date getHoraFinal() {
+	public String getHoraFinal() {
 		return horaFinal;
 	}
 
-	public void setHoraFinal(Date horaFinal) {
+	public void setHoraFinal(String horaFinal) {
 		this.horaFinal = horaFinal;
 	}
 

@@ -9,9 +9,9 @@ public interface VOVisita
 	 *****************************************************************/
 	public long getId();
 	
-	public Date getHoraInicial();
+	public String getHoraInicial();
 	
-	public Date getHoraFinal();
+	public String getHoraFinal();
 	
 	public long getVisitante();
 	

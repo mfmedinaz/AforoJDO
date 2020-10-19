@@ -77,32 +77,33 @@ class SQLUtil
 	 */
 	public long [] limpiarAforoCC (PersistenceManager pm)
 	{
-        Query qEspacio = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaEspacio ());          
-        Query qLocalComercial = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaLocalComercial ());
-        Query qParqueadero = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaParqueadero ());
-        Query qBanio = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaBanio ());
-        Query qCentroComercial = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaCentroComercial ());
-        Query qVisita = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaVisita ());
-        Query qVisitante = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaVisitante ());
-        Query qTipoVisitante = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaTipoVisitante ());
-        Query qLector = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaLector ());
-        Query qAdministrador = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaAdministrador ());
-        Query qTipoEstablecimiento = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaTipoEstablecimiento ());
-
-        long espacioEliminados = (long) qEspacio.executeUnique ();
-        long localComercialEliminados = (long) qLocalComercial.executeUnique ();
-        long parqueaderoEliminados = (long) qParqueadero.executeUnique ();
-        long banioEliminados = (long) qBanio.executeUnique ();
-        long centroComercialEliminados = (long) qCentroComercial.executeUnique ();
-        long visitaEliminados = (long) qVisita.executeUnique ();
-        long visitanteEliminados = (long) qVisitante.executeUnique ();
-        long tipoVisitanteEliminados = (long) qTipoVisitante.executeUnique ();
-        long lectorEliminados = (long) qLector.executeUnique ();
-        long administradorEliminados = (long) qAdministrador.executeUnique ();
-        long tipoEstablecimientoEliminados = (long) qTipoEstablecimiento.executeUnique ();
-        return new long[] {espacioEliminados, localComercialEliminados, parqueaderoEliminados, banioEliminados, 
-        		centroComercialEliminados, visitaEliminados, visitanteEliminados, tipoVisitanteEliminados, lectorEliminados, 
-        		administradorEliminados, tipoEstablecimientoEliminados};
+//        Query qEspacio = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaEspacio ());          
+//        Query qLocalComercial = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaLocalComercial ());
+//        Query qParqueadero = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaParqueadero ());
+//        Query qBanio = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaBanio ());
+//        Query qCentroComercial = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaCentroComercial ());
+//        Query qVisita = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaVisita ());
+//        Query qVisitante = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaVisitante ());
+//        Query qTipoVisitante = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaTipoVisitante ());
+//        Query qLector = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaLector ());
+//        Query qAdministrador = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaAdministrador ());
+//        Query qTipoEstablecimiento = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaTipoEstablecimiento ());
+//
+//        long espacioEliminados = (long) qEspacio.executeUnique ();
+//        long localComercialEliminados = (long) qLocalComercial.executeUnique ();
+//        long parqueaderoEliminados = (long) qParqueadero.executeUnique ();
+//        long banioEliminados = (long) qBanio.executeUnique ();
+//        long centroComercialEliminados = (long) qCentroComercial.executeUnique ();
+//        long visitaEliminados = (long) qVisita.executeUnique ();
+//        long visitanteEliminados = (long) qVisitante.executeUnique ();
+//        long tipoVisitanteEliminados = (long) qTipoVisitante.executeUnique ();
+//        long lectorEliminados = (long) qLector.executeUnique ();
+//        long administradorEliminados = (long) qAdministrador.executeUnique ();
+//        long tipoEstablecimientoEliminados = (long) qTipoEstablecimiento.executeUnique ();
+//        return new long[] {espacioEliminados, localComercialEliminados, parqueaderoEliminados, banioEliminados, 
+//        		centroComercialEliminados, visitaEliminados, visitanteEliminados, tipoVisitanteEliminados, lectorEliminados, 
+//        		administradorEliminados, tipoEstablecimientoEliminados};
+		return new long[] {0};
 	}
 
 }

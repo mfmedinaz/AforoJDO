@@ -111,9 +111,9 @@ class SQLVisitante
 	 * @param ciudad - La nueva ciudad del visitante
 	 * @return El número de tuplas modificadas
 	 */
-	public long registrarEntradaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idEspacio) 
+	public long registrarEntradaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idEspacio, long idVisita) 
 	{
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
 		LocalDateTime now = LocalDateTime.now(); 
 
 		String sql1 = "SELECT lector";
@@ -123,7 +123,7 @@ class SQLVisitante
 		String sql = "INSERT INTO " + pp.darTablaVisita();
 		sql+=" (id, hora_inicial, hora_final, visitante, lector)";
 		sql += " VALUES ";
-		sql += "(" + UUID.randomUUID() + ", " + dtf.format(now) + ", null, ?, " + sql1 +")";
+		sql += "(" + idVisita + ", TO_DATE('" + dtf.format(now)  + "', 'hh24:mi:ss') , null, ?, " + sql1 +")";
 		Query q = pm.newQuery(SQL, sql);
 		q.setParameters(idVisitante, idEspacio);
 		return (long) q.executeUnique();     
@@ -131,22 +131,22 @@ class SQLVisitante
 	
 	public long registrarSalidaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idEspacio)
 	{
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
 		LocalDateTime now = LocalDateTime.now(); 
 
 		String sql1 = "SELECT lector";
 		sql1 += " FROM " + pp.darTablaEspacio ();
 		sql1 += " WHERE id = ? AND ROWNUM = 1";
 
-		Query q = pm.newQuery(SQL, "UPDATE " + pp.darTablaVisita () + " SET hora_final = " + "TO_DATE('14:49:00', 'hh24:mi:ss')" + dtf.format(now) + "WHERE visitante = ? AND lector = " + sql1);
+		Query q = pm.newQuery(SQL, "UPDATE " + pp.darTablaVisita () + " SET hora_final = " + "TO_DATE('" + dtf.format(now)  + "', 'hh24:mi:ss') WHERE visitante = ? AND lector = " + sql1);
 		q.setParameters(idVisitante, idEspacio);
 		return (long) q.executeUnique(); 		
 	}
 	
 	public static void main(String[] args)
 	{
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.MAX;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();
 		System.out.println(dtf.format(now));
 	
 	}

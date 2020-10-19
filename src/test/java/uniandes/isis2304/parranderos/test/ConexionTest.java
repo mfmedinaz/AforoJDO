@@ -30,7 +30,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.aforocc.negocio.AforoCC;
-import uniandes.isis2304.aforocc.negocio.VOTipoBebida;
 
 /**
  * Clase con métodos de prueba de conexión a la base de datos
@@ -78,7 +77,7 @@ public class ConexionTest
 	/**
 	 * La clase que se quiere probar
 	 */
-    private AforoCC parranderos;
+    private AforoCC aforoCC;
 	
 	/* ****************************************************************
 	 * 			Métodos de prueba de acceso a la BD
@@ -92,11 +91,11 @@ public class ConexionTest
   	  	try
 		{
 			log.info ("Probando el acceso a la base de datos con datos válidos (BD, credenciales, esquema");
-			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_A));
+			aforoCC = new AforoCC (openConfig (CONFIG_TABLAS_A));
 			log.info ("Conexión realizada correstamente");
 			log.info ("Cerrando la conexión");
 			
-			parranderos.cerrarUnidadPersistencia ();
+			aforoCC.cerrarUnidadPersistencia ();
 			log.info ("Conexión cerrada");
 		}
 		catch (Exception e)
@@ -123,7 +122,7 @@ public class ConexionTest
 		try
 		{
 	    	log.info ("Probando el acceso a la base de datos con una base de datos que no existe");
-			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_ERR_DS));
+			aforoCC = new AforoCC (openConfig (CONFIG_TABLAS_ERR_DS));
 			fail ("Debería fallar. La base de datos no existe !!");
 		}
 		catch (Exception e)
@@ -148,7 +147,7 @@ public class ConexionTest
 		try
 		{
 	    	log.info ("Probando el acceso a la base de datos con datos de usuario incorrectos");
-			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_ERR_USER));
+			aforoCC = new AforoCC (openConfig (CONFIG_TABLAS_ERR_USER));
 			fail ("Debería fallar. Las credenciales del usuario no son válidas");
 		}
 		catch (Exception e)
@@ -174,7 +173,7 @@ public class ConexionTest
 		try
 		{
 	    	log.info ("Probando el acceso a la base de datos con datos de usuario correctos, pero sin crear el esquema");
-			parranderos = new AforoCC (openConfig (CONFIG_TABLAS_B));
+			aforoCC = new AforoCC (openConfig (CONFIG_TABLAS_B));
 		}
 		catch (Exception e)
 		{
@@ -191,7 +190,6 @@ public class ConexionTest
 		// Ahora si se puede probar si la tabla existe o no...
 		try
 		{
-			parranderos.darTiposBebida ();
 			fail ("Debería fallar. La tabla consultada no existe en la BD");
 		}
 		catch (Exception e)
@@ -206,8 +204,7 @@ public class ConexionTest
 		}
 		finally
 		{
-			parranderos.limpiarParranderos ();
-    		parranderos.cerrarUnidadPersistencia ();    		
+    		aforoCC.cerrarUnidadPersistencia ();    		
 		}
     }
 
