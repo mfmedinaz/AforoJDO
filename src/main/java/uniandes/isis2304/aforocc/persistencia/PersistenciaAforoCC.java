@@ -33,12 +33,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import uniandes.isis2304.aforocc.negocio.Espacio;
-import uniandes.isis2304.aforocc.negocio.Bebedor;
-import uniandes.isis2304.aforocc.negocio.Bebida;
-import uniandes.isis2304.aforocc.negocio.Gustan;
-import uniandes.isis2304.aforocc.negocio.Sirven;
-import uniandes.isis2304.aforocc.negocio.TipoBebida;
-import uniandes.isis2304.aforocc.negocio.Visitan;
+
 
 /**
  * Clase para el manejador de persistencia del proyecto AforoCC
