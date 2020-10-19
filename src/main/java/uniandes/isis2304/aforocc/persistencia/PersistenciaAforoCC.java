@@ -4,7 +4,7 @@
  * Licenciado	bajo	el	esquema	Academic Free License versión 2.1
  * 		
  * Curso: isis2304 - Sistemas Transaccionales
- * Proyecto: Parranderos Uniandes
+ * Proyecto: AforoCC Uniandes
  * @version 1.0
  * @author Germán Bravo
  * Julio de 2018
@@ -41,7 +41,7 @@ import uniandes.isis2304.aforocc.negocio.TipoBebida;
 import uniandes.isis2304.aforocc.negocio.Visitan;
 
 /**
- * Clase para el manejador de persistencia del proyecto Parranderos
+ * Clase para el manejador de persistencia del proyecto AforoCC
  * Traduce la información entre objetos Java y tuplas de la base de datos, en ambos sentidos
  * Sigue un patrón SINGLETON (Sólo puede haber UN objeto de esta clase) para comunicarse de manera correcta
  * con la base de datos
@@ -85,7 +85,7 @@ public class PersistenciaAforoCC
 	private List <String> tablas;
 	
 	/**
-	 * Atributo para el acceso a las sentencias SQL propias a PersistenciaParranderos
+	 * Atributo para el acceso a las sentencias SQL propias a PersistenciaAforoCC
 	 */
 	private SQLUtil sqlUtil;
 	
@@ -105,9 +105,9 @@ public class PersistenciaAforoCC
 	private SQLBar sqlBar;
 	
 	/**
-	 * Atributo para el acceso a la tabla BEBIDA de la base de datos
+	 * Atributo para el acceso a la tabla VISITANTE de la base de datos
 	 */
-	private SQLBebedor sqlBebedor;
+	private SQLVisitante sqlVisitante;
 	
 	/**
 	 * Atributo para el acceso a la tabla GUSTAN de la base de datos
@@ -133,19 +133,25 @@ public class PersistenciaAforoCC
 	 */
 	private PersistenciaAforoCC ()
 	{
-		pmf = JDOHelper.getPersistenceManagerFactory("Parranderos");		
+		pmf = JDOHelper.getPersistenceManagerFactory("AforoCC");		
 		crearClasesSQL ();
 		
 		// Define los nombres por defecto de las tablas de la base de datos
 		tablas = new LinkedList<String> ();
-		tablas.add ("Parranderos_sequence");
-		tablas.add ("TIPOBEBIDA");
-		tablas.add ("BEBIDA");
-		tablas.add ("BAR");
-		tablas.add ("BEBEDOR");
-		tablas.add ("GUSTAN");
-		tablas.add ("SIRVEN");
-		tablas.add ("VISITAN");
+		tablas.add ("AforoCC_sequence");
+		tablas.add ("ESPACIO");
+		tablas.add ("LOCAL_COMERCIAL");
+		tablas.add ("PARQUEADERO");
+		tablas.add ("BANIO");
+		tablas.add ("CENTRO_COMERCIAL");
+		tablas.add ("VISITA");
+		tablas.add ("VISITANTE");
+		tablas.add ("TIPO_VISITANTE");
+		tablas.add ("LECTOR");
+		tablas.add ("ADMINISTRADOR");
+		tablas.add ("ADMIN_CC");
+		tablas.add ("ADMIN_LOCAL");
+		tablas.add ("TIPO_ESTABLECMIENTO");
 }
 
 	/**
@@ -163,7 +169,7 @@ public class PersistenciaAforoCC
 	}
 
 	/**
-	 * @return Retorna el único objeto PersistenciaParranderos existente - Patrón SINGLETON
+	 * @return Retorna el único objeto PersistenciaAforoCC existente - Patrón SINGLETON
 	 */
 	public static PersistenciaAforoCC getInstance ()
 	{
@@ -177,7 +183,7 @@ public class PersistenciaAforoCC
 	/**
 	 * Constructor que toma los nombres de las tablas de la base de datos del objeto tableConfig
 	 * @param tableConfig - El objeto JSON con los nombres de las tablas
-	 * @return Retorna el único objeto PersistenciaParranderos existente - Patrón SINGLETON
+	 * @return Retorna el único objeto PersistenciaAforoCC existente - Patrón SINGLETON
 	 */
 	public static PersistenciaAforoCC getInstance (JsonObject tableConfig)
 	{
@@ -223,7 +229,7 @@ public class PersistenciaAforoCC
 		sqlTipoBebida = new SQLTipoBebida(this);
 		sqlBebida = new SQLBebida(this);
 		sqlBar = new SQLBar(this);
-		sqlBebedor = new SQLBebedor(this);
+		sqlVisitante = new SQLVisitante(this);
 		sqlGustan = new SQLGustan(this);
 		sqlSirven = new SQLSirven (this);
 		sqlVisitan = new SQLVisitan(this);		
@@ -231,15 +237,15 @@ public class PersistenciaAforoCC
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre del secuenciador de parranderos
+	 * @return La cadena de caracteres con el nombre del secuenciador de aforoCC
 	 */
-	public String darSeqParranderos ()
+	public String darSeqAforoCC ()
 	{
 		return tablas.get (0);
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de TipoBebida de parranderos
+	 * @return La cadena de caracteres con el nombre de la tabla de TipoBebida de aforoCC
 	 */
 	public String darTablaTipoBebida ()
 	{
@@ -247,39 +253,44 @@ public class PersistenciaAforoCC
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Bebida de parranderos
+	 * @return La cadena de caracteres con el nombre de la tabla de Bebida de aforoCC
 	 */
 	public String darTablaBebida ()
 	{
 		return tablas.get (2);
 	}
-
-	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Bar de parranderos
-	 */
-	public String darTablaBar ()
+	
+	public String darTablaVisita()
 	{
-		return tablas.get (3);
+		return tablas.get(6);
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Bebedor de parranderos
+	 * @return La cadena de caracteres con el nombre de la tabla de Bar de aforoCC
 	 */
-	public String darTablaBebedor ()
+	public String darTablaLector ()
 	{
-		return tablas.get (4);
+		return tablas.get (9);
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de parranderos
+	 * @return La cadena de caracteres con el nombre de la tabla de Bebedor de aforoCC
 	 */
-	public String darTablaGustan ()
+	public String darTablaVisitante ()
 	{
-		return tablas.get (5);
+		return tablas.get (7);
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Sirven de parranderos
+	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
+	 */
+	public String darTablaEspacio ()
+	{
+		return tablas.get (1);
+	}
+
+	/**
+	 * @return La cadena de caracteres con el nombre de la tabla de Sirven de aforoCC
 	 */
 	public String darTablaSirven ()
 	{
@@ -287,7 +298,7 @@ public class PersistenciaAforoCC
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Visitan de parranderos
+	 * @return La cadena de caracteres con el nombre de la tabla de Visitan de aforoCC
 	 */
 	public String darTablaVisitan ()
 	{
@@ -295,9 +306,9 @@ public class PersistenciaAforoCC
 	}
 	
 	/**
-	 * Transacción para el generador de secuencia de Parranderos
+	 * Transacción para el generador de secuencia de AforoCC
 	 * Adiciona entradas al log de la aplicación
-	 * @return El siguiente número del secuenciador de Parranderos
+	 * @return El siguiente número del secuenciador de AforoCC
 	 */
 	private long nextval ()
 	{
@@ -588,7 +599,7 @@ public class PersistenciaAforoCC
 	}
  
 	/**
-	 * Método que elimina, de manera transaccional, las bebidas que no son referenciadas en la tabla SIRVEN de Parranderos
+	 * Método que elimina, de manera transaccional, las bebidas que no son referenciadas en la tabla SIRVEN de AforoCC
 	 * @return El número de tuplas eliminadas. -1 si ocurre alguna Excepción
 	 */
 	public long eliminarBebidasNoServidas ()
@@ -1490,19 +1501,19 @@ public class PersistenciaAforoCC
 	}	
 
 	/**
-	 * Elimina todas las tuplas de todas las tablas de la base de datos de Parranderos
+	 * Elimina todas las tuplas de todas las tablas de la base de datos de AforoCC
 	 * Crea y ejecuta las sentencias SQL para cada tabla de la base de datos - EL ORDEN ES IMPORTANTE 
 	 * @return Un arreglo con 7 números que indican el número de tuplas borradas en las tablas GUSTAN, SIRVEN, VISITAN, BEBIDA,
 	 * TIPOBEBIDA, BEBEDOR y BAR, respectivamente
 	 */
-	public long [] limpiarParranderos ()
+	public long [] limpiarAforoCC ()
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         try
         {
             tx.begin();
-            long [] resp = sqlUtil.limpiarParranderos (pm);
+            long [] resp = sqlUtil.limpiarAforoCC (pm);
             tx.commit ();
             log.info ("Borrada la base de datos");
             return resp;

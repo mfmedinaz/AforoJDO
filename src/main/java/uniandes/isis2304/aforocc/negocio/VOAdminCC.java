@@ -1,13 +1,13 @@
 package uniandes.isis2304.aforocc.negocio;
 
-public interface VOAdministrador 
+public interface VOAdminCC 
 {
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
-	public long getId();
+	public long getIdAdmin();
 	
-	public String getNombre();	
+	public long getIdCentroComercial();
 
 	@Override
 	public String toString();

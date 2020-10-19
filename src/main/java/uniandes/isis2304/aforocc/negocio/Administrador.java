@@ -8,17 +8,14 @@ public class Administrador implements VOAdministrador
 	private long id;
 	
 	private String nombre;
-	
-	private long centroComercial;
 
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
-	public Administrador(long id, String nombre, long centroComercial) {
+	public Administrador(long id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
-		this.centroComercial = centroComercial;
 	}
 
 	public long getId() {
@@ -37,17 +34,9 @@ public class Administrador implements VOAdministrador
 		this.nombre = nombre;
 	}
 
-	public long getCentroComercial() {
-		return centroComercial;
-	}
-
-	public void setCentroComercial(long centroComercial) {
-		this.centroComercial = centroComercial;
-	}
-
 	@Override
 	public String toString() {
-		return "Administrador [id=" + id + ", nombre=" + nombre + ", centroComercial=" + centroComercial + "]";
+		return "Administrador [id=" + id + ", nombre=" + nombre + "]";
 	}		
 
 }
