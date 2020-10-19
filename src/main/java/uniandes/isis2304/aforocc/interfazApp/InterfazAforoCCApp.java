@@ -47,11 +47,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.aforocc.negocio.AforoCC;
-import uniandes.isis2304.aforocc.negocio.VOTipoBebida;
 
 /**
  * Clase principal de la interfaz
- * @author Germán Bravo
  */
 @SuppressWarnings("serial")
 
@@ -86,7 +84,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     /**
      * Asociación a la clase principal del negocio.
      */
-    private AforoCC parranderos;
+    private AforoCC aforoCC;
     
 	/* ****************************************************************
 	 * 			Atributos de interfaz
@@ -126,7 +124,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
         }
         
         tableConfig = openConfig ("Tablas BD", CONFIG_TABLAS);
-        parranderos = new AforoCC (tableConfig);
+        aforoCC = new AforoCC (tableConfig);
         
     	String path = guiConfig.get("bannerPath").getAsString();
         panelDatos = new PanelDatos ( );
@@ -178,7 +176,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     	if ( guiConfig == null )
     	{
     		log.info ( "Se aplica configuración por defecto" );			
-			titulo = "Parranderos APP Default";
+			titulo = "AforoCC APP Default";
 			alto = 300;
 			ancho = 500;
     	}
