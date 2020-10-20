@@ -101,6 +101,14 @@ class SQLVisitante
 		q.setParameters(idVisitante);
 		return (Visitante) q.executeUnique();
 	}
+	
+	public Visitante darVisitantePorCodigo(PersistenceManager pm, String codigo)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaVisitante() + " WHERE codigo_qr = ?");
+		q.setResultClass(Visitante.class);
+		q.setParameters(codigo);
+		return (Visitante) q.executeUnique();
+	}
 
 	/**
 	 * 

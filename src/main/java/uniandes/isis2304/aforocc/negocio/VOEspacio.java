@@ -9,7 +9,7 @@ public interface VOEspacio
 	
 	public String getNombre();
 	
-	public long getCentroComercial();
+	public long getCentro_Comercial();
 	
 	public long getLector();
 	

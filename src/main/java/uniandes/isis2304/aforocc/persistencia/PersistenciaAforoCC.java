@@ -34,9 +34,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.sun.org.apache.bcel.internal.generic.IDIV;
 
-import uniandes.isis2304.aforocc.negocio.Espacio;
-import uniandes.isis2304.aforocc.negocio.Visita;
-
+import uniandes.isis2304.aforocc.negocio.*;
 
 /**
  * Clase para el manejador de persistencia del proyecto AforoCC
@@ -96,6 +94,11 @@ public class PersistenciaAforoCC
 	  * Atributo para el acceso a la tabla VISITA de la base de datos
 	 */
 	private SQLVisita sqlVisita;
+	
+	/** 
+	  * Atributo para el acceso a la tabla ESPACIO de la base de datos
+	 */
+	private SQLEspacio sqlEspacio;
 	
 	
 	/* ****************************************************************
@@ -203,6 +206,7 @@ public class PersistenciaAforoCC
 		sqlVisitante = new SQLVisitante(this);
 		sqlVisita = new SQLVisita(this);
 		sqlUtil = new SQLUtil(this);
+		sqlEspacio = new SQLEspacio(this);
 	}
 
 	/**
@@ -333,7 +337,15 @@ public class PersistenciaAforoCC
 	}
 	
 	
+	public Visitante darVisitantePorCodigo(String codigo)
+	{
+		return (Visitante) sqlVisitante.darVisitantePorCodigo(pmf.getPersistenceManager(), codigo);
+	}
 	
+	public Espacio darEspacioPorNombre(String nombre)
+	{
+		return (Espacio) sqlEspacio.darEspacioPorNombre(pmf.getPersistenceManager(), nombre);
+	}
 	
 	
 	

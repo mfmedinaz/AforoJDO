@@ -9,7 +9,7 @@ public class Espacio implements VOEspacio
 	
 	private String nombre;
 
-	private long centroComercial;
+	private long centro_Comercial;
 	
 	private long lector;
 	
@@ -23,10 +23,18 @@ public class Espacio implements VOEspacio
 		super();
 		this.id = id;
 		this.nombre = nombre;
-		this.centroComercial = centroComercial;
+		this.centro_Comercial = centroComercial;
 		this.lector = lector;
 		this.tipo = tipo;
 	}
+	
+	
+
+	public Espacio() {
+		System.out.println("xd x2");
+	}
+
+
 
 	public long getId() {
 		return id;
@@ -44,12 +52,12 @@ public class Espacio implements VOEspacio
 		this.nombre = nombre;
 	}
 
-	public long getCentroComercial() {
-		return centroComercial;
+	public long getCentro_Comercial() {
+		return centro_Comercial;
 	}
 
-	public void setCentroComercial(Long centroComercial) {
-		this.centroComercial = centroComercial;
+	public void setCentro_Comercial(Long centroComercial) {
+		this.centro_Comercial = centroComercial;
 	}
 
 	public long getLector() {
@@ -70,7 +78,7 @@ public class Espacio implements VOEspacio
 
 	@Override
 	public String toString() {
-		return "Espacio [id=" + id + ", nombre=" + nombre + ", centroComercial=" + centroComercial + ", lector="
+		return "Espacio [id=" + id + ", nombre=" + nombre + ", centroComercial=" + centro_Comercial + ", lector="
 				+ lector + ", tipo=" + tipo + "]";
 	}	
 

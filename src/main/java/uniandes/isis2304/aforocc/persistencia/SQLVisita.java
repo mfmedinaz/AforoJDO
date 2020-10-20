@@ -23,9 +23,9 @@ public class SQLVisita
 		String sql = "INSERT INTO " + pa.darTablaVisita();
 		sql+=" (id, hora_inicial, hora_final, visitante, lector)";
 		sql += " VALUES ";
-		sql += "( ? , TO_DATE('?', 'hh24:mi:ss') , ?, ?, ?)";
+		sql += "( ? , TO_DATE('" + horaInicial + "', 'hh24:mi:ss') , null, ?, ?)";
 		Query q = pm.newQuery(SQL, sql);
-		q.setParameters(idVisita, horaInicial, horaFinal ,idVisitante, idLector);
+		q.setParameters(idVisita,idVisitante, idLector);
 		return (long) q.executeUnique();     
 	}
 	

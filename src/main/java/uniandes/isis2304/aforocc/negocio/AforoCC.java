@@ -39,7 +39,6 @@ public class AforoCC
 	 * Logger para escribir la traza de la ejecución
 	 */
 	private static Logger log = Logger.getLogger(AforoCC.class.getName());
-	
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
@@ -90,6 +89,22 @@ public class AforoCC
 		log.info("Registrando salida [" + horaFinal + ", " + idVisitante + "]");
 		long resp = pp.registrarSalidaVisitante(idVisitante, idLector, horaFinal);
 		log.info("Registrando salida: " + resp + " tuplas editadas");
+		return resp;
+	}
+	
+	public Visitante darVisitantePorCodigo(String codigo)
+	{
+		log.info("Obteniendo visitante por codigo [" + codigo + "]");
+		Visitante resp = pp.darVisitantePorCodigo(codigo);
+		log.info("Obteniendo visitante por codigo:" + resp != null ? resp : "NO EXISTE");
+		return resp;
+	}
+	
+	public Espacio darEspacioPorNombre(String nombre)
+	{
+		log.info("Obteniendo espacio por nombre [" + nombre + "]");
+		Espacio resp = pp.darEspacioPorNombre(nombre);
+		log.info("Obteniendo espacio por nombre: " + resp != null? resp : "NO EXISTE");
 		return resp;
 	}
 

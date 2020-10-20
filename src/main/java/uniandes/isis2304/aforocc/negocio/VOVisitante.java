@@ -15,15 +15,15 @@ public interface VOVisitante
 	
 	public String getTelefono();
 	
-	public String getNombreEmergencia();
+	public String getNombre_Emergencia();
 	
-	public String getTelefonoEmergencia();
+	public String getTelefono_Emergencia();
 	
-	public String getTipoVisitante();
+	public String getTipo_Visitante();
 	
-	public String getCodigoQR();
+	public String getCodigo_QR();
 	
-	public long getCentroComercial();
+	public long getCentro_Comercial();
 
 	@Override
 	public String toString();
