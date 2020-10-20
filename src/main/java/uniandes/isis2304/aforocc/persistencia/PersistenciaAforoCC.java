@@ -100,6 +100,15 @@ public class PersistenciaAforoCC
 	 */
 	private SQLEspacio sqlEspacio;
 	
+	/** 
+	  * Atributo para el acceso a la tabla CENTRO_COMERCIAL de la base de datos
+	 */
+	private SQLCentroComercial sqlCentroComercial;
+	
+	/** 
+	  * Atributo para el acceso a la tabla TIPO_VISITANTE de la base de datos
+	 */
+	private SQLTipoVisitante sqlTipoVisitante;
 	
 	/* ****************************************************************
 	 * 			Métodos del MANEJADOR DE PERSISTENCIA
@@ -207,6 +216,8 @@ public class PersistenciaAforoCC
 		sqlVisita = new SQLVisita(this);
 		sqlUtil = new SQLUtil(this);
 		sqlEspacio = new SQLEspacio(this);
+		sqlCentroComercial = new SQLCentroComercial(this);
+		sqlTipoVisitante = new SQLTipoVisitante(this);
 	}
 
 	/**
@@ -223,6 +234,11 @@ public class PersistenciaAforoCC
 	public String darTablaTipoBebida ()
 	{
 		return tablas.get (1);
+	}
+	
+	public String darTablaCentroComercial()
+	{
+		return tablas.get(5);
 	}
 	
 	public String darTablaVisita()
@@ -244,6 +260,12 @@ public class PersistenciaAforoCC
 	public String darTablaVisitante ()
 	{
 		return tablas.get (7);
+	}
+	
+	
+	public String darTablaTipoVisitante ()
+	{
+		return tablas.get (8);
 	}
 
 	/**
@@ -282,6 +304,37 @@ public class PersistenciaAforoCC
 		}
 		return resp;
 	}
+	
+	
+	
+	public Visitante registrarVisitante(String nombre, String correo, String telefono, String nombreEmergencia, String telefonoEmergencia, String tipoVisitante, long centroComercial)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long idVisitante = nextval();
+			String codigoQR = "CODIGO-QR-" + idVisitante;
+			long tuplas = sqlVisitante.registrarVisitante(pm, idVisitante, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, codigoQR, centroComercial);
+			tx.commit();
+			
+			log.trace("Se registro un nuevo visitante [" + nombre + "]");
+			return new Visitante(idVisitante, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, codigoQR, centroComercial);
+		}
+		catch(Exception e)
+		{
+			log.error("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+				tx.rollback();
+			pm.close();
+		}
+	}
+	
 	
 	public Visita registrarEntradaVisitante(String horaInicial, String horaFinal, long idVisitante, long idLector) 
 	{
@@ -325,6 +378,7 @@ public class PersistenciaAforoCC
         }
         catch(Exception e)
         {
+        	e.printStackTrace();
         	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
         	return -1;
         }
@@ -348,7 +402,15 @@ public class PersistenciaAforoCC
 	}
 	
 	
+	public CentroComercial darCentroComercial()
+	{
+		return (CentroComercial) sqlCentroComercial.darCentroComercial(pmf.getPersistenceManager());
+	}
 	
+	public TipoVisitante darTipoCentroComercialPorNombre(String nombre)
+	{
+		return (TipoVisitante) sqlTipoVisitante.darTipoVisitantePorNombre(pmf.getPersistenceManager(), nombre);
+	}
 	
 	
 	

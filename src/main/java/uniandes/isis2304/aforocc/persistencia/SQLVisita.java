@@ -32,8 +32,8 @@ public class SQLVisita
 	public long registrarSalidaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idLector, String horaFinal)
 	{
 		Query q = pm.newQuery(SQL, "UPDATE " + pa.darTablaVisita () + " SET hora_final = "
-				+ "TO_DATE('?', 'hh24:mi:ss') WHERE visitante = ? AND lector = ?)");
-		q.setParameters(horaFinal, idVisitante, idLector);
+				+ "TO_DATE('" + horaFinal + "', 'hh24:mi:ss') WHERE visitante = ? AND lector = ?");
+		q.setParameters(idVisitante, idLector);
 		return (long) q.executeUnique(); 		
 	}
 }

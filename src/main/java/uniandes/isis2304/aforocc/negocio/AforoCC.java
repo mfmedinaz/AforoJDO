@@ -76,11 +76,19 @@ public class AforoCC
 	}
 	
 	
+	public Visitante registrarVisistante(String nombre, String correo, String telefono, String nombreEmergencia, String telefonoEmergencia, String tipoVisitante, long centroComercial)
+	{
+		log.info("Registrando al visitante [" + nombre + "]");
+		Visitante resp = pp.registrarVisitante(nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, centroComercial);
+		log.info("Registrando al visitante: " + resp != null ? resp : "NO EXISTE");
+		return resp;
+	}
+	
 	public Visita registrarEntradaVisitante (String horaInicial, String horaFinal, long idVisitante, long idLector )
 	{
 		log.info("Registrando entrada  [" + horaInicial + ", " + idVisitante + "]");
 		Visita resp = pp.registrarEntradaVisitante(horaInicial, horaFinal, idVisitante, idLector);
-		log.info("Registrando entrada: " + resp + " tuplas insertadas");
+		log.info("Registrando entrada: " + resp != null ? resp : "NO EXISTE");
 		return resp;
 	}
 	
@@ -105,6 +113,14 @@ public class AforoCC
 		log.info("Obteniendo espacio por nombre [" + nombre + "]");
 		Espacio resp = pp.darEspacioPorNombre(nombre);
 		log.info("Obteniendo espacio por nombre: " + resp != null? resp : "NO EXISTE");
+		return resp;
+	}
+	
+	public CentroComercial darCentroComercial()
+	{
+		log.info("Obteniendo centro comercial");
+		CentroComercial resp = pp.darCentroComercial();
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
 

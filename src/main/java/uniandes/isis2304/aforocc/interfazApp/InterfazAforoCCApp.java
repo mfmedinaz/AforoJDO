@@ -160,7 +160,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		} 
 		catch (Exception e)
 		{
-//			e.printStackTrace ();
+			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
 			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "Parranderos App", JOptionPane.ERROR_MESSAGE);
 		}	
@@ -244,6 +244,44 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
      * Adiciona un tipo de bebida con la información dada por el usuario
      * Se crea una nueva tupla de tipoBebida en la base de datos, si un tipo de bebida con ese nombre no existía
      */
+    
+    public void registrarVisitante()
+	{
+		try
+		{
+			String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del visitante", "Registrar visitante", JOptionPane.QUESTION_MESSAGE);
+			String correo = JOptionPane.showInputDialog(this, "Ingrese el correo del visitante", "Registrar visitante", JOptionPane.QUESTION_MESSAGE);
+			String telefono = JOptionPane.showInputDialog(this, "Ingrese el telefono del visitante", "Registrar visitante", JOptionPane.QUESTION_MESSAGE);
+			String nombreEme = JOptionPane.showInputDialog(this, "Ingrese el nombre de un contacto de emergencia del visitante", "Registrar visitante", JOptionPane.QUESTION_MESSAGE);
+			String telEme = JOptionPane.showInputDialog(this, "Ingrese el telefono de un contacto de emergencia del visitante", "Registrar visitante", JOptionPane.QUESTION_MESSAGE);
+			String tipo = JOptionPane.showInputDialog(this, "Ingrese el tipo del visitante", "Registrar visitante", JOptionPane.QUESTION_MESSAGE);
+		
+			if (nombre != null && correo != null && telefono != null && nombreEme != null && telEme != null && tipo != null)
+			{
+				VOCentroComercial cc = aforoCC.darCentroComercial(); 
+				VOVisitante visitante = aforoCC.registrarVisistante(nombre, correo, telefono, nombreEme, telEme, tipo, cc.getId());
+				if (visitante == null)
+				{
+					throw new Exception ("No se pudo resgistrar al visitante " + nombre);
+				}
+				String resultado = "En registrar visitante\n\n";
+				resultado += "visitante creada exitosamente " + visitante;
+				resultado += "\n Operación terminada";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+    
     public void registrarEntradaVisitante( )
     {
     	try 

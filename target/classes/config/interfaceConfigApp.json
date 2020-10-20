@@ -18,6 +18,19 @@
 				}
 			]
 		},
+		{ "menuTitle": "Visitante",
+		  "options":
+			[
+				{
+					"label": "Registrar Visitante",
+					"event": "registrarVisitante"
+				},
+				{
+					"label": "Eliminar visitante",
+					"event": "EliminarVisitante"
+				}
+			]
+		},
 		{ "menuTitle": "Mantenimiento",
 		  "options":
 			[
