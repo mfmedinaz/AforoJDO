@@ -108,6 +108,14 @@ public class AforoCC
 		return resp;
 	}
 	
+	public List<Visitante> darVisitantesEspacio(VOEspacio espacio, String horaIni, String horaFin)
+	{
+		log.info("Obteniendo visitantes espacio en rango de fechas [" + espacio.getNombre() + ", " + horaIni + "," + horaFin + "]");
+		List<Visitante> resp = pp.darVisitantesEspacio(espacio, horaIni, horaFin);
+		log.info("Obteniendo visitantes espacio en rango de fechas: " + resp.size() + " existentes");
+		return resp;
+	}
+	
 	public Espacio darEspacioPorNombre(String nombre)
 	{
 		log.info("Obteniendo espacio por nombre [" + nombre + "]");

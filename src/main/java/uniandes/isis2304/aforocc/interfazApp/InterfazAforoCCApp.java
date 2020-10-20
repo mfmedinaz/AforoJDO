@@ -289,6 +289,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     		String codigoVisitante = JOptionPane.showInputDialog (this, "Ingrese el codigo del visitante", "Registrar entrada", JOptionPane.QUESTION_MESSAGE);
     		String nomEspacio = JOptionPane.showInputDialog(this, "Ingrese el espacio al que ingresa", "Registrar entrada", JOptionPane.QUESTION_MESSAGE);
     		
+    		
     		if (codigoVisitante != null && nomEspacio != null)
     		{
     			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
@@ -327,6 +328,46 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
+    }
+    
+
+    public void mostrarVisitantes( )
+    {
+    	try 
+    	{
+    		String nomEspacio = JOptionPane.showInputDialog(this, "Ingrese el espacio que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String horaInicial = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String horaFinal = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		if (nomEspacio != null)
+    		{
+    			VOEspacio espacio = aforoCC.darEspacioPorNombre(nomEspacio);
+
+    			List<Visitante> visitantes = aforoCC.darVisitantesEspacio(espacio, horaInicial, horaFinal);
+    			System.out.println("visitante encontrado" + visitantes.get(0));
+
+    			if (visitantes == null)
+    			{
+    				throw new Exception ("No se pudo obtener visitantes del espacio " + nomEspacio + " en el rango [ " + horaInicial + ", " + horaFinal + "]");
+    			}
+    			String resultado = "Visitantes obtenidos\n\n";
+    			for(Visitante vis: visitantes)
+    			{
+    				resultado+=vis.getNombre();
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	} 
+    	catch (Exception e) 
+    	{
+    		//			e.printStackTrace();
+    		String resultado = generarMensajeError(e);
+    		panelDatos.actualizarInterfaz(resultado);
+    	}
     }
 
 

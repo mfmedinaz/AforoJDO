@@ -18,6 +18,7 @@
 				}
 			]
 		},
+<<<<<<< Updated upstream
 		{ "menuTitle": "Visitante",
 		  "options":
 			[
@@ -28,6 +29,14 @@
 				{
 					"label": "Eliminar visitante",
 					"event": "EliminarVisitante"
+=======
+		{ "menuTitle": "Espacio",
+		  "options":
+			[
+				{
+					"label": "Mostrar visitantes",
+					"event": "mostrarVisitantes"
+>>>>>>> Stashed changes
 				}
 			]
 		},
