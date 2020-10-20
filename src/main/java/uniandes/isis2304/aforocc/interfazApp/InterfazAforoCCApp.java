@@ -26,6 +26,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.jdo.JDODataStoreException;
@@ -47,6 +49,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.aforocc.negocio.AforoCC;
+import uniandes.isis2304.aforocc.negocio.*;
 
 /**
  * Clase principal de la interfaz
@@ -245,21 +248,19 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		String nombreTipo = JOptionPane.showInputDialog (this, "Nombre del tipo de bedida?", "Adicionar tipo de bebida", JOptionPane.QUESTION_MESSAGE);
     		String codigoVisitante = JOptionPane.showInputDialog (this, "Ingrese el codigo del visitante", "Registrar entrada", JOptionPane.QUESTION_MESSAGE);
     		String nomEspacio = JOptionPane.showInputDialog(this, "Ingrese el espacio al que ingresa", "Registrar entrada", JOptionPane.QUESTION_MESSAGE);
     		
     		if (codigoVisitante != null && nomEspacio != null)
     		{
-        		VOTipoBebida tb = parranderos.adicionarTipoBebida (nombreTipo);
-        		if (tb == null)
-        		{
     			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
     			LocalDateTime now = LocalDateTime.now();
     			String horaInicial = dtf.format(now);
     			VOVisitante visitante = aforoCC.darVisitantePorCodigo(codigoVisitante);
+    			long idLector = -1;
+    			if (nomEspacio.equals("Centro comercial"))
     			{
-        			resultado += "El tipo de bebida es: " + tipoBebida;
+    				
     			}
     			else
     			{
@@ -267,7 +268,13 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     				idLector = espacio.getLector();
     			}
         		VOVisita visita = aforoCC.registrarEntradaVisitante(horaInicial, null, visitante.getId(), idLector);
+      
+        		if (visita == null)
         		{
+        			throw new Exception ("No se pudo resgistrar la entrada al espacio " + nomEspacio + " con el codigo " + codigoVisitante);
+        		}
+        		String resultado = "En registrarEntradaVisitante\n\n";
+        		resultado += "visita creada exitosamente " + visita;
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);
     		}
