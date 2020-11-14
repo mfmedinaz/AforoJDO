@@ -108,11 +108,19 @@ public class AforoCC
 		return resp;
 	}
 	
-	public List<Visitante> darVisitantesEspacio(VOEspacio espacio, String horaIni, String horaFin)
+	public List<Visitante> darVisitantesEspacio(String espacio, String horaIni, String horaFin)
 	{
-		log.info("Obteniendo visitantes espacio en rango de fechas [" + espacio.getNombre() + ", " + horaIni + "," + horaFin + "]");
+		log.info("Obteniendo visitantes espacio en rango de fechas [" + espacio + ", " + horaIni + "," + horaFin + "]");
 		List<Visitante> resp = pp.darVisitantesEspacio(espacio, horaIni, horaFin);
 		log.info("Obteniendo visitantes espacio en rango de fechas: " + resp.size() + " existentes");
+		return resp;
+	}
+	
+	public List<Espacio> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
+	{
+		log.info("Obteniendo 20 espacios más populares en rango de fechas [" + horaIni + "," + horaFin + "]");
+		List<Espacio> resp = pp.mostrar20EstablecimientosMasPopulares(horaIni, horaFin);
+		log.info("Obteniendo 20 espacios más populares en rango de fechas: " + resp.size() + " existentes");
 		return resp;
 	}
 	

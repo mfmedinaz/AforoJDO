@@ -53,25 +53,55 @@ public class SQLEspacio
 		return (Espacio) q.executeUnique();
 	}
 	
-	/**
-	 * Crea y ejecuta la sentencia SQL para encontrar la información de LOS BARES de la 
-	 * base de datos de Parranderos
-	 * @param pm - El manejador de persistencia
-	 * @return Una lista de objetos BAR
-	 */
-	public List<Visitante> darVisitantesEspacio(PersistenceManager pm, VOEspacio espacio, String horaIni, String horaFin)
+/**
+ * Retorna visitantes de un espacio en un rango de tiempo dado
+ * @param pm Manejador de persistencia
+ * @param espacio Espacio que se quiere consultar
+ * @param horaIni Hora Inicial del rango de horas que se quiere consultar
+ * @param horaFin Hora final del rango de horas que se quiere consultar
+ * @return
+ */
+	public List<Visitante> darVisitantesEspacio(PersistenceManager pm, String espacio, String horaIni, String horaFin)
 	{
-		String q1 = "SELECT VISITANTE.* FROM " + pp.darTablaVisitante();
+		String q1 = "SELECT VISITANTE.* ";
+		q1 += "FROM " + pp.darTablaVisitante();
 		q1+=" INNER JOIN " + pp.darTablaVisita();
 		q1+=" ON VISITANTE.id  = VISITA.visitante";
 		q1+=" INNER JOIN " + pp.darTablaEspacio();
 		q1+=" ON VISITA.lector = ESPACIO.lector";
-		q1+=" WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin +"' , 'hh24:mi:ss') AND ESPACIO.nombre = ?";
+		q1+=" WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "' , 'hh24:mi:ss') AND ESPACIO.nombre = '" + espacio + "'";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
-		q.setParameters(horaIni, horaFin, espacio.getNombre());
 		
 		return (List<Visitante>) q.executeList();
 	}
+	
+	public List<Espacio> mostrar20EstablecimientosMasPopulares(PersistenceManager pm, String horaIni, String horaFin)
+	{
+		String q1 = "WITH espacios AS ("
+				+ "	SELECT ESPACIO.nombre, RANK() OVER(ORDER BY COUNT(ESPACIO.id) DESC) popular_rank"
+				+ " FROM VISITANTE"
+				+ " INNER JOIN VISITA"
+				+ " ON VISITANTE.id = VISITA.visitante"
+				+ " INNER JOIN ESPACIO"
+				+ " ON VISITA.lector = ESPACIO.lector"
+				+ " INNER JOIN LOCAL_COMERCIAL"
+				+ " ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id"
+				+ " WHERE hora_inicial BETWEEN TO_DATE('" + horaIni + "', 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')"
+				+ " GROUP BY ESPACIO.nombre, ESPACIO.id\r\n"
+				+ ")"
+				+ " SELECT"
+				+ "	nombre"
+				+ " FROM"
+				+ "	espacios"
+				+ " WHERE"
+				+ "	popular_rank <= 20;";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(Espacio.class);
+		
+		return (List<Espacio>) q.executeList();
+	}
+	
 }

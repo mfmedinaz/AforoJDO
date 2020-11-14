@@ -402,9 +402,14 @@ public class PersistenciaAforoCC
 	}
 	
 
-	public List<Visitante> darVisitantesEspacio(VOEspacio espacio, String horaIni, String horaFin)
+	public List<Visitante> darVisitantesEspacio(String espacio, String horaIni, String horaFin)
 	{
 		return (List<Visitante>) sqlEspacio.darVisitantesEspacio (pmf.getPersistenceManager(), espacio, horaIni, horaFin);
+	}
+	
+	public List<Espacio> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
+	{
+		return (List<Espacio>) sqlEspacio.mostrar20EstablecimientosMasPopulares(pmf.getPersistenceManager(), horaIni, horaFin);
 	}
 	
 	

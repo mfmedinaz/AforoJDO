@@ -1,5 +1,5 @@
 {
-	"title": "Aplicación transaccional de AforoAndes",
+	"title": "Aplicaci�n transaccional de AforoAndes",
 	"frameH": 600,
 	"frameW": 800,
 	"bannerPath": "./src/main/resources/config/logo.png",
@@ -18,7 +18,6 @@
 				}
 			]
 		},
-<<<<<<< Updated upstream
 		{ "menuTitle": "Visitante",
 		  "options":
 			[
@@ -29,14 +28,19 @@
 				{
 					"label": "Eliminar visitante",
 					"event": "EliminarVisitante"
-=======
+					}
+					]
+					},
 		{ "menuTitle": "Espacio",
 		  "options":
 			[
 				{
 					"label": "Mostrar visitantes",
 					"event": "mostrarVisitantes"
->>>>>>> Stashed changes
+				},
+				{
+					"label": "Mostrar 20 Establecimientos Más Populares",
+					"event": "mostrar20EstablecimientosMasPopulares"
 				}
 			]
 		},

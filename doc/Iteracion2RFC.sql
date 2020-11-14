@@ -15,8 +15,10 @@ WITH espacios AS (
     ON VISITANTE.id = VISITA.visitante
     INNER JOIN ESPACIO
     ON VISITA.lector = ESPACIO.lector
+    INNER JOIN LOCAL_COMERCIAL
+    ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id
     WHERE hora_inicial BETWEEN TO_DATE('10:00:00', 'hh24:mi:ss') AND TO_DATE('20:00:00', 'hh24:mi:ss')
-    GROUP BY ESPACIO.nombre, ESPACIO.id
+    GROUP BY ESPACIO.nombre, ESPACIO.id	
 )
 SELECT 
 	nombre  

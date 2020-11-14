@@ -162,7 +162,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		{
 			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
-			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "Parranderos App", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "AforoCC App", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
     }
@@ -335,24 +335,56 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		String nomEspacio = JOptionPane.showInputDialog(this, "Ingrese el espacio que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String espacio = JOptionPane.showInputDialog(this, "Ingrese el espacio que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
     		String horaInicial = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
     		String horaFinal = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
-    		if (nomEspacio != null)
+    		if (espacio != null && horaInicial != null && horaFinal !=null)
     		{
-    			VOEspacio espacio = aforoCC.darEspacioPorNombre(nomEspacio);
-
     			List<Visitante> visitantes = aforoCC.darVisitantesEspacio(espacio, horaInicial, horaFinal);
-    			System.out.println("visitante encontrado" + visitantes.get(0));
 
     			if (visitantes == null)
     			{
-    				throw new Exception ("No se pudo obtener visitantes del espacio " + nomEspacio + " en el rango [ " + horaInicial + ", " + horaFinal + "]");
+    				throw new Exception ("No se pudo obtener visitantes del espacio " + espacio + " en el rango [ " + horaInicial + ", " + horaFinal + "]");
     			}
     			String resultado = "Visitantes obtenidos\n\n";
     			for(Visitante vis: visitantes)
     			{
     				resultado+=vis.getNombre();
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	} 
+    	catch (Exception e) 
+    	{
+    		//			e.printStackTrace();
+    		String resultado = generarMensajeError(e);
+    		panelDatos.actualizarInterfaz(resultado);
+    	}
+    }
+    
+    public void mostrar20EstablecimientosMasPopulares( )
+    {
+    	try 
+    	{
+    		String horaInicial = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String horaFinal = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		if (horaInicial != null && horaFinal !=null)
+    		{
+    			List<Espacio> espacios = aforoCC.mostrar20EstablecimientosMasPopulares(horaInicial, horaFinal);
+
+    			if (espacios == null)
+    			{
+    				throw new Exception ("No se pudo obtener espacios en el rango [ " + horaInicial + ", " + horaFinal + "]");
+    			}
+    			String resultado = "Espacios obtenidos\n\n";
+    			for(Espacio esp: espacios)
+    			{
+    				resultado+=esp.getNombre();
     			}
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);
