@@ -225,17 +225,24 @@ public class PersistenciaAforoCC
 	 */
 	public String darSeqAforoCC ()
 	{
-		return tablas.get (0);
+		return tablas.get(0);
 	}
 
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de TipoBebida de aforoCC
+	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
 	 */
-	public String darTablaTipoBebida ()
+	public String darTablaEspacio ()
 	{
 		return tablas.get (1);
 	}
 	
+	/**
+	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
+	 */
+	public String darTablaLocalComercial()
+	{
+		return tablas.get(2);
+	}
 	public String darTablaCentroComercial()
 	{
 		return tablas.get(5);
@@ -245,15 +252,7 @@ public class PersistenciaAforoCC
 	{
 		return tablas.get(6);
 	}
-
-	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Bar de aforoCC
-	 */
-	public String darTablaLector ()
-	{
-		return tablas.get (9);
-	}
-
+	
 	/**
 	 * @return La cadena de caracteres con el nombre de la tabla de Bebedor de aforoCC
 	 */
@@ -262,18 +261,17 @@ public class PersistenciaAforoCC
 		return tablas.get (7);
 	}
 	
-	
 	public String darTablaTipoVisitante ()
 	{
 		return tablas.get (8);
 	}
-
+	
 	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
+	 * @return La cadena de caracteres con el nombre de la tabla de Bar de aforoCC
 	 */
-	public String darTablaEspacio ()
+	public String darTablaLector ()
 	{
-		return tablas.get (1);
+		return tablas.get (9);
 	}
 
 	
@@ -407,9 +405,9 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlEspacio.darVisitantesEspacio (pmf.getPersistenceManager(), espacio, horaIni, horaFin);
 	}
 	
-	public List<Espacio> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
+	public List<String> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
 	{
-		return (List<Espacio>) sqlEspacio.mostrar20EstablecimientosMasPopulares(pmf.getPersistenceManager(), horaIni, horaFin);
+		return (List<String>) sqlEspacio.mostrar20EstablecimientosMasPopulares(pmf.getPersistenceManager(), horaIni, horaFin);
 	}
 	
 	

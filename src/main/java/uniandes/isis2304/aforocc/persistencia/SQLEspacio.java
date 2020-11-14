@@ -77,31 +77,25 @@ public class SQLEspacio
 		return (List<Visitante>) q.executeList();
 	}
 	
-	public List<Espacio> mostrar20EstablecimientosMasPopulares(PersistenceManager pm, String horaIni, String horaFin)
+	public List<String> mostrar20EstablecimientosMasPopulares(PersistenceManager pm, String horaIni, String horaFin)
 	{
-		String q1 = "WITH espacios AS ("
-				+ "	SELECT ESPACIO.nombre, RANK() OVER(ORDER BY COUNT(ESPACIO.id) DESC) popular_rank"
-				+ " FROM VISITANTE"
-				+ " INNER JOIN VISITA"
+		String q1 = "SELECT ESPACIO.nombre"
+				+ " FROM " + pp.darTablaVisitante()
+				+ " INNER JOIN VISITA "  + pp.darTablaVisita()
 				+ " ON VISITANTE.id = VISITA.visitante"
-				+ " INNER JOIN ESPACIO"
+				+ " INNER JOIN " + pp.darTablaEspacio()
 				+ " ON VISITA.lector = ESPACIO.lector"
-				+ " INNER JOIN LOCAL_COMERCIAL"
+				+ " INNER JOIN " + pp.darTablaLocalComercial()
 				+ " ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id"
-				+ " WHERE hora_inicial BETWEEN TO_DATE('" + horaIni + "', 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')"
-				+ " GROUP BY ESPACIO.nombre, ESPACIO.id\r\n"
-				+ ")"
-				+ " SELECT"
-				+ "	nombre"
-				+ " FROM"
-				+ "	espacios"
-				+ " WHERE"
-				+ "	popular_rank <= 20;";
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')"
+				+ " GROUP BY ESPACIO.nombre, ESPACIO.id"
+				+ " ORDER BY COUNT(ESPACIO.id) DESC";
+
 		
 		Query q = pm.newQuery(SQL, q1);	
-		q.setResultClass(Espacio.class);
+		q.setResultClass(String.class);
 		
-		return (List<Espacio>) q.executeList();
+		return (List<String>) q.executeList();
 	}
 	
 }

@@ -116,10 +116,10 @@ public class AforoCC
 		return resp;
 	}
 	
-	public List<Espacio> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
+	public List<String> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
 	{
 		log.info("Obteniendo 20 espacios más populares en rango de fechas [" + horaIni + "," + horaFin + "]");
-		List<Espacio> resp = pp.mostrar20EstablecimientosMasPopulares(horaIni, horaFin);
+		List<String> resp = pp.mostrar20EstablecimientosMasPopulares(horaIni, horaFin);
 		log.info("Obteniendo 20 espacios más populares en rango de fechas: " + resp.size() + " existentes");
 		return resp;
 	}
