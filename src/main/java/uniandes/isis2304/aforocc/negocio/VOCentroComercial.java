@@ -7,7 +7,9 @@ public interface VOCentroComercial
 	 *****************************************************************/
 	public long getId();
 	
-	public long getLectorEntradaCC();
+	public long getLector_Entrada_CC();
+	
+	public long getArea_total();
 
 	@Override
 	public String toString();

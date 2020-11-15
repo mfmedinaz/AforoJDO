@@ -7,11 +7,17 @@ public class TipoVisitante implements VOTipoVisitante
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
+	public final static String EMPLEADO_RESTAURANTE = "EMPLEADO_RESTAURANTE";
+	public final static String EMPLEADO_SUPERMERCADO = "EMPLEADO_SUPERMERCADO";
+	public final static String EMPLEADO_TIENDA = "EMPLEADO_TIENDA";
+	public final static String EMPLEADO_CC = "EMPLEADO_CC";
+	public final static String CONSUMIDOR = "CONSUMIDOR";
+	
 	private String nombre;
 	
-	private Date HoraInicialPermitida;
+	private Date hora_Inicial_Permitida;
 	
-	private Date HoraFinalPermitida;
+	private Date hora_Final_Permitida;
 
 	/* ****************************************************************
 	 * 			Métodos 
@@ -19,8 +25,8 @@ public class TipoVisitante implements VOTipoVisitante
 	public TipoVisitante(String nombre, Date horaInicialPermitida, Date horaFinalPermitida) {
 		super();
 		this.nombre = nombre;
-		HoraInicialPermitida = horaInicialPermitida;
-		HoraFinalPermitida = horaFinalPermitida;
+		hora_Inicial_Permitida = horaInicialPermitida;
+		hora_Final_Permitida = horaFinalPermitida;
 	}
 
 	public String getNombre() {
@@ -32,25 +38,25 @@ public class TipoVisitante implements VOTipoVisitante
 	}
 
 	public Date getHoraInicialPermitida() {
-		return HoraInicialPermitida;
+		return hora_Inicial_Permitida;
 	}
 
 	public void setHoraInicialPermitida(Date horaInicialPermitida) {
-		HoraInicialPermitida = horaInicialPermitida;
+		hora_Inicial_Permitida = horaInicialPermitida;
 	}
 
 	public Date getHoraFinalPermitida() {
-		return HoraFinalPermitida;
+		return hora_Final_Permitida;
 	}
 
 	public void setHoraFinalPermitida(Date horaFinalPermitida) {
-		HoraFinalPermitida = horaFinalPermitida;
+		hora_Final_Permitida = horaFinalPermitida;
 	}
 
 	@Override
 	public String toString() {
-		return "TipoVisitante [nombre=" + nombre + ", HoraInicialPermitida=" + HoraInicialPermitida
-				+ ", HoraFinalPermitida=" + HoraFinalPermitida + "]";
+		return "TipoVisitante [nombre=" + nombre + ", HoraInicialPermitida=" + hora_Inicial_Permitida
+				+ ", HoraFinalPermitida=" + hora_Final_Permitida + "]";
 	}
 
 

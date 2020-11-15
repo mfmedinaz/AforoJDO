@@ -32,7 +32,6 @@ public class Visitante implements VOVisitante
 	
 	public Visitante()
 	{
-		System.out.println("xd");
 	}
 	
 	public Visitante(long id, String nombre, String correo, String telefono, String nombre_Emergencia,

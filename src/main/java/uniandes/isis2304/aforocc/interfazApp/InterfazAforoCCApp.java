@@ -276,11 +276,39 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		}
 		catch (Exception e)
 		{
-			//e.printStackTrace();
+			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
 	}
+    
+    public void eliminarVisitante()
+    {
+    	try
+    	{
+    		String idVisitanteStr = JOptionPane.showInputDialog(this, "Id del visitante", "Borrar visitante", JOptionPane.QUESTION_MESSAGE);
+    		if (idVisitanteStr != null)
+    		{
+    			long idVisitante = Long.valueOf(idVisitanteStr);
+    			long vEliminados = aforoCC.eliminarVisitantePorId(idVisitante);
+    			String resultado = "En eliminar visitante\n\n";
+    			resultado += vEliminados + " visitantes eliminados";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	}
+    	catch (Exception e)
+    	{
+    		e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+    	}
+    }
+    
     
     public void registrarEntradaVisitante( )
     {
@@ -299,12 +327,17 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     			long idLector = -1;
     			if (nomEspacio.equals("Centro comercial"))
     			{
-    				
+    				VOCentroComercial cc = aforoCC.darCentroComercial();
+    				idLector = cc.getLector_Entrada_CC();
     			}
     			else
     			{
     				VOEspacio espacio = aforoCC.darEspacioPorNombre(nomEspacio);
+    				VOLocalComercial local = aforoCC.darLocalComercialPorIdEspacio(espacio.getId());
+    				if (local != null && local.getEstado().equals(LocalComercial.CERRADO) && !visitante.getTipo_Visitante().equals(TipoVisitante.EMPLEADO_CC))
+    					throw new Exception("No se puede registrar la entrada ya que el local está cerrado y el visitante no tiene permiso de entrar");
     				idLector = espacio.getLector();
+    				
     			}
         		VOVisita visita = aforoCC.registrarEntradaVisitante(horaInicial, null, visitante.getId(), idLector);
       
@@ -328,6 +361,79 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
+    }
+    
+    public void registrarSalidaVisitante()
+    {
+    	try
+    	{
+    		String codigoVisitante = JOptionPane.showInputDialog (this, "Ingrese el codigo del visitante", "Registrar salida", JOptionPane.QUESTION_MESSAGE);
+    		String nomEspacio = JOptionPane.showInputDialog(this, "Ingrese el espacio del que sale", "Registrar salida", JOptionPane.QUESTION_MESSAGE);
+    		if (codigoVisitante != null && nomEspacio != null)
+    		{
+    			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
+    			LocalDateTime now = LocalDateTime.now();
+    			String horaSalida = dtf.format(now);
+    			VOVisitante visitante = aforoCC.darVisitantePorCodigo(codigoVisitante);
+    			long idLector = -1;
+    			if (nomEspacio.equals("Centro comercial"))
+    			{
+    				VOCentroComercial cc = aforoCC.darCentroComercial();
+    				idLector = cc.getLector_Entrada_CC();
+    			}
+    			else
+    			{
+    				VOEspacio espacio = aforoCC.darEspacioPorNombre(nomEspacio);
+    				idLector = espacio.getLector();
+    			}
+        		long vEditados = aforoCC.registrarSalidaVisitante(horaSalida, visitante.getId(), idLector);
+        		String resultado = "En registrarEntradaVisitante\n\n";
+        		resultado += "visita creada exitosamente " + vEditados + " tuplas editadas";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	}
+    	catch (Exception e)
+    	{
+    		
+    	}
+    }
+    
+    public void cerrarEspacioComercial()
+    {
+    	try
+    	{
+    		String idLocalStr = JOptionPane.showInputDialog(this, "Ingrese el id del local que desea cerrar", "Cerrar local comercial", JOptionPane.QUESTION_MESSAGE);
+    		if (idLocalStr != null)
+    		{
+    			long idLocal = Long.valueOf(idLocalStr);
+    			List<Visita> visitasActivas = aforoCC.darVisitasEnCursoLocalComercial(idLocal);
+    			if (!visitasActivas.isEmpty())
+    			{
+    				throw new Exception("No se puede cerrar el local ya que hay visitantes a dentro");
+    			}
+    			long vEdit = aforoCC.cerrarLocalComercial(idLocal);
+        		String resultado = "En cerrarEspacioComercial\n\n";
+        		resultado += "local comercial editado exitosamente " + vEdit + " tuplas editadas";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    			
+    		}
+    		else 
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	}	
+    	catch (Exception e)
+    	{
+    	//	e.printStackTrace();
+    		String resultado = generarMensajeError(e);
+    		panelDatos.actualizarInterfaz(resultado);
+    	}
     }
     
 

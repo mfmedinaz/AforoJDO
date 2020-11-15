@@ -24,9 +24,12 @@ public class SQLVisita
 		sql+=" (id, hora_inicial, hora_final, visitante, lector)";
 		sql += " VALUES ";
 		sql += "( ? , TO_DATE('" + horaInicial + "', 'hh24:mi:ss') , null, ?, ?)";
+
 		Query q = pm.newQuery(SQL, sql);
 		q.setParameters(idVisita,idVisitante, idLector);
-		return (long) q.executeUnique();     
+
+		long resp = (long) q.executeUnique();
+		return resp;
 	}
 	
 	public long registrarSalidaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idLector, String horaFinal)

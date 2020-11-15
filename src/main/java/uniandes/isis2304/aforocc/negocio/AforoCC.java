@@ -84,6 +84,15 @@ public class AforoCC
 		return resp;
 	}
 	
+	public long eliminarVisitantePorId(long idVisitante)
+	{
+		log.info("Eliminando Visitante por Id: " + idVisitante);
+		long resp = pp.eliminarVisitantePorId(idVisitante);
+		log.info("Eliminando Visitante por id " + resp + " tuplas eliminadas");
+		return resp;
+	}
+	
+	
 	public Visita registrarEntradaVisitante (String horaInicial, String horaFinal, long idVisitante, long idLector )
 	{
 		log.info("Registrando entrada  [" + horaInicial + ", " + idVisitante + "]");
@@ -97,6 +106,14 @@ public class AforoCC
 		log.info("Registrando salida [" + horaFinal + ", " + idVisitante + "]");
 		long resp = pp.registrarSalidaVisitante(idVisitante, idLector, horaFinal);
 		log.info("Registrando salida: " + resp + " tuplas editadas");
+		return resp;
+	}
+	
+	public long cerrarLocalComercial(long idLocal)
+	{
+		log.info("Cerrando local comercial " + idLocal);
+		long resp = pp.cerraLocalComercial(idLocal);
+		log.info("Cerrando local comercial: " + resp + " tuplas editadas");
 		return resp;
 	}
 	
@@ -116,6 +133,14 @@ public class AforoCC
 		return resp;
 	}
 	
+	public List<Visita> darVisitasEnCursoLocalComercial(long idLocal)
+	{
+		log.info("Obteniendo las visitas en curso del local: " + idLocal);
+		List<Visita> resp = pp.darVisitasEnCurso(idLocal);
+		log.info("Obteniendo las visitas en curso del local: " + resp.size() + " existentes");
+		return resp;
+	}
+	
 	public Espacio darEspacioPorNombre(String nombre)
 	{
 		log.info("Obteniendo espacio por nombre [" + nombre + "]");
@@ -131,6 +156,16 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
+	
+	public LocalComercial darLocalComercialPorIdEspacio(long idEspacio)
+	{
+		log.info("Obteniendo local comercial " + idEspacio);
+		LocalComercial resp = pp.darLocalComercialPorIdEspacio(idEspacio);
+		log.info("Obteniendo local comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	
 
 	/**
 	 * Elimina todas las tuplas de todas las tablas de la base de datos de AforoCC

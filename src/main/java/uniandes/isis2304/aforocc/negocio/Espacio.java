@@ -31,7 +31,6 @@ public class Espacio implements VOEspacio
 	
 
 	public Espacio() {
-		System.out.println("xd x2");
 	}
 
 

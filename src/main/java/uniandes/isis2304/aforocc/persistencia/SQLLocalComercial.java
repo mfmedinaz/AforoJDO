@@ -1,18 +1,13 @@
 package uniandes.isis2304.aforocc.persistencia;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import java.util.List;
+import uniandes.isis2304.aforocc.negocio.*;
 
-import uniandes.isis2304.aforocc.negocio.Espacio;
-import uniandes.isis2304.aforocc.negocio.VOEspacio;
-import uniandes.isis2304.aforocc.negocio.Visitante;
-
-public class SQLEspacio 
+public class SQLLocalComercial 
 {
 	/* ****************************************************************
 	 * 			Constantes
@@ -39,19 +34,11 @@ public class SQLEspacio
 	 * Constructor
 	 * @param pp - El Manejador de persistencia de la aplicación
 	 */
-	public SQLEspacio (PersistenciaAforoCC pp)
+	public SQLLocalComercial (PersistenciaAforoCC pp)
 	{
 		this.pp = pp;
 	}
 	
-	
-	public Espacio darEspacioPorNombre(PersistenceManager pm, String nombre)
-	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaEspacio() + " WHERE nombre = ?");
-		q.setResultClass(Espacio.class);
-		q.setParameters(nombre);
-		return (Espacio) q.executeUnique();
-	}
 	
 	/**
 	 * Crea y ejecuta la sentencia SQL para encontrar la información de LOS BARES de la 
@@ -59,19 +46,36 @@ public class SQLEspacio
 	 * @param pm - El manejador de persistencia
 	 * @return Una lista de objetos BAR
 	 */
-	public List<Visitante> darVisitantesEspacio(PersistenceManager pm, VOEspacio espacio, String horaIni, String horaFin)
+	public List<Visita> darVisitasEnCurso(PersistenceManager pm, long idLocal)
 	{
-		String q1 = "SELECT VISITANTE.* FROM " + pp.darTablaVisitante();
-		q1+=" INNER JOIN " + pp.darTablaVisita();
-		q1+=" ON VISITANTE.id  = VISITA.visitante";
-		q1+=" INNER JOIN " + pp.darTablaEspacio();
-		q1+=" ON VISITA.lector = ESPACIO.lector";
-		q1+=" WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin +"' , 'hh24:mi:ss') AND ESPACIO.nombre = ?";
+		String q1 = "SELECT VISITA.* ";
+		q1 += "FROM " + pp.darTablaVisita() + ", " + pp.darTablaLocalComercial() + ", " + pp.darTablaLector() + ", " + pp.darTablaEspacio(); 
+		q1 += " WHERE visita.lector = LECTOR.ID AND ";
+		q1 += "espacio.lector = LECTOR.ID AND ";
+		q1 += "local_comercial.id_espacio = espacio.ID AND ";
+		q1 += "visita.hora_final IS NULL AND ";
+		q1 += "espacio.id = ?";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
-		q.setParameters(espacio.getNombre());
-		
-		return (List<Visitante>) q.executeList();
+		q.setParameters(idLocal);
+
+		return (List<Visita>) q.executeList();
+	}
+	
+	public long cerrarLocalComercial(PersistenceManager pm, long idLocal)
+	{
+		String q1 = "UPDATE " + pp.darTablaLocalComercial() + " SET estado = 'CERRADO' WHERE ID_ESPACIO = ?";
+		Query q = pm.newQuery(SQL, q1);
+		q.setParameters(idLocal);
+		return (long) q.executeUnique();
+	}
+	
+	public LocalComercial darLocalComercialPorIdEspacio(PersistenceManager pm, long idEspacio)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaLocalComercial() + " WHERE id_espacio = ?");
+		q.setResultClass(LocalComercial.class);
+		q.setParameters(idEspacio);
+		return (LocalComercial) q.executeUnique();
 	}
 }

@@ -18,7 +18,6 @@
 				}
 			]
 		},
-<<<<<<< Updated upstream
 		{ "menuTitle": "Visitante",
 		  "options":
 			[
@@ -28,15 +27,20 @@
 				},
 				{
 					"label": "Eliminar visitante",
-					"event": "EliminarVisitante"
-=======
+					"event": "eliminarVisitante"
+				}
+			]
+		},
 		{ "menuTitle": "Espacio",
 		  "options":
 			[
 				{
 					"label": "Mostrar visitantes",
 					"event": "mostrarVisitantes"
->>>>>>> Stashed changes
+				},
+				{
+					"label": "Cerrar local comercial",
+					"event": "cerrarEspacioComercial"
 				}
 			]
 		},

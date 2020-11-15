@@ -7,17 +7,29 @@ public class CentroComercial implements VOCentroComercial
 	 *****************************************************************/
 	private long id;
 	
-	private long lectorEntradaCC;
+	private long lector_Entrada_CC;
+	
+	private long area_total;
 
 
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
-	public CentroComercial(long id, long lectorEntradaCC) {
+	
+	public CentroComercial()
+	{
+	}
+	
+	
+
+	public CentroComercial(long id, long lector_Entrada_CC, long area_total) {
 		super();
 		this.id = id;
-		this.lectorEntradaCC = lectorEntradaCC;
+		this.lector_Entrada_CC = lector_Entrada_CC;
+		this.area_total = area_total;
 	}
+
+
 
 	public long getId() {
 		return id;
@@ -27,17 +39,25 @@ public class CentroComercial implements VOCentroComercial
 		this.id = id;
 	}
 
-	public long getLectorEntradaCC() {
-		return lectorEntradaCC;
+	public long getLector_Entrada_CC() {
+		return lector_Entrada_CC;
 	}
 
-	public void setLectorEntradaCC(long lectorEntradaCC) {
-		this.lectorEntradaCC = lectorEntradaCC;
+	public void setLector_Entrada_CC(long lector_Entrada_CC) {
+		this.lector_Entrada_CC = lector_Entrada_CC;
+	}
+
+	public long getArea_total() {
+		return area_total;
+	}
+
+	public void setArea_total(long area_total) {
+		this.area_total = area_total;
 	}
 
 	@Override
 	public String toString() {
-		return "CentroComercial [id=" + id + ", lectorEntradaCC=" + lectorEntradaCC + "]";
+		return "CentroComercial [id=" + id + ", lectorEntradaCC=" + lector_Entrada_CC + "]";
 	}
 
 }

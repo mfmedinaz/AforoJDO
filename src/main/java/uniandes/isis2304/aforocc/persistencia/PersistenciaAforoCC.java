@@ -110,6 +110,9 @@ public class PersistenciaAforoCC
 	 */
 	private SQLTipoVisitante sqlTipoVisitante;
 	
+	
+	private SQLLocalComercial sqlLocalComercial;
+	
 	/* ****************************************************************
 	 * 			Métodos del MANEJADOR DE PERSISTENCIA
 	 *****************************************************************/
@@ -218,6 +221,7 @@ public class PersistenciaAforoCC
 		sqlEspacio = new SQLEspacio(this);
 		sqlCentroComercial = new SQLCentroComercial(this);
 		sqlTipoVisitante = new SQLTipoVisitante(this);
+		sqlLocalComercial = new SQLLocalComercial(this);
 	}
 
 	/**
@@ -227,13 +231,15 @@ public class PersistenciaAforoCC
 	{
 		return tablas.get (0);
 	}
-
-	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de TipoBebida de aforoCC
-	 */
-	public String darTablaTipoBebida ()
+	
+	public String darTablaEspacio ()
 	{
 		return tablas.get (1);
+	}
+	
+	public String darTablaLocalComercial()
+	{
+		return tablas.get(2);
 	}
 	
 	public String darTablaCentroComercial()
@@ -245,18 +251,7 @@ public class PersistenciaAforoCC
 	{
 		return tablas.get(6);
 	}
-
-	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Bar de aforoCC
-	 */
-	public String darTablaLector ()
-	{
-		return tablas.get (9);
-	}
-
-	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Bebedor de aforoCC
-	 */
+	
 	public String darTablaVisitante ()
 	{
 		return tablas.get (7);
@@ -267,14 +262,15 @@ public class PersistenciaAforoCC
 	{
 		return tablas.get (8);
 	}
-
-	/**
-	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
-	 */
-	public String darTablaEspacio ()
+	
+	public String darTablaLector ()
 	{
-		return tablas.get (1);
+		return tablas.get (9);
 	}
+
+	
+
+	
 
 	
 	/**
@@ -325,12 +321,41 @@ public class PersistenciaAforoCC
 		catch(Exception e)
 		{
 			log.error("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			System.out.println("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
 			return null;
 		}
 		finally
 		{
 			if (tx.isActive())
 				tx.rollback();
+			pm.close();
+		}
+	}
+	
+	
+	public long eliminarVisitantePorId(long idVisitante)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlVisitante.eliminarVisitantePorId(pm, idVisitante);
+			tx.commit();
+			return resp;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			log.error("Exception: " + e.getMessage() + "\n" + darDetalleException(e));
+			return -1;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
 			pm.close();
 		}
 	}
@@ -390,6 +415,31 @@ public class PersistenciaAforoCC
         }
 	}
 	
+	public long cerraLocalComercial(long idLocal)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlLocalComercial.cerrarLocalComercial(pm, idLocal);
+			tx.commit();
+			return resp;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return -1;
+		}
+		finally
+        {
+        	if (tx.isActive())
+        		tx.rollback();
+        	pm.close();
+        }
+	}
+	
 	
 	public Visitante darVisitantePorCodigo(String codigo)
 	{
@@ -407,6 +457,11 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlEspacio.darVisitantesEspacio (pmf.getPersistenceManager(), espacio, horaIni, horaFin);
 	}
 	
+	public List<Visita> darVisitasEnCurso(long idLocal)
+	{
+		return (List<Visita>) sqlLocalComercial.darVisitasEnCurso(pmf.getPersistenceManager(), idLocal);
+	}
+	
 	
 	public CentroComercial darCentroComercial()
 	{
@@ -416,6 +471,11 @@ public class PersistenciaAforoCC
 	public TipoVisitante darTipoCentroComercialPorNombre(String nombre)
 	{
 		return (TipoVisitante) sqlTipoVisitante.darTipoVisitantePorNombre(pmf.getPersistenceManager(), nombre);
+	}
+	
+	public LocalComercial darLocalComercialPorIdEspacio(long idEspacio)
+	{
+		return (LocalComercial) sqlLocalComercial.darLocalComercialPorIdEspacio(pmf.getPersistenceManager(), idEspacio);
 	}
 	
 	

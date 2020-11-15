@@ -69,7 +69,7 @@ class SQLVisitante
 	 */
 	public long registrarVisitante (PersistenceManager pm, long id, String nombre, String correo, String telefono, String nombreEmergencia, String telefonoEmergencia, String tipoVisitante, String codigoQR, long centroComercial) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaVisitante () + "(id, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipVisitante, codigoQR, centroComercial) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaVisitante () + "(id, nombre, correo, telefono, nombre_Emergencia, telefono_Emergencia, tipo_Visitante, codigo_QR, centro_Comercial) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         q.setParameters(id, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, codigoQR, centroComercial);
         return (long) q.executeUnique();
 	}

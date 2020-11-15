@@ -5,29 +5,46 @@ public class LocalComercial implements VOLocalComercial
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
-	private long idEspacio;
+	public final static String CERRADO = "CERRADO";
+	
+	public final static String ABIERTO = "ABIERTO";
+	
+	private long id_Espacio;
 	
 	private int area;
 
-	private String tipoEstablecimiento;
+	private String tipo_Establecimiento;
+	
+	private String estado;
+	
+	private int clientes_atendidos;
+
+	
 
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
 	
-	public LocalComercial(long idEspacio, int area, String tipoEstablecimiento) {
+	public LocalComercial(long id_Espacio, int area, String tipo_Establecimiento, String estado, int clientes_atendidos) {
 		super();
-		this.idEspacio = idEspacio;
+		this.id_Espacio = id_Espacio;
 		this.area = area;
-		this.tipoEstablecimiento = tipoEstablecimiento;
-	}	
-
-	public long getIdEspacio() {
-		return idEspacio;
+		this.tipo_Establecimiento = tipo_Establecimiento;
+		this.estado = estado;
+		this.clientes_atendidos = clientes_atendidos;
+	}
+	
+	public LocalComercial()
+	{
+		
 	}
 
-	public void setIdEspacio(long idEspacio) {
-		this.idEspacio = idEspacio;
+	public long getId_Espacio() {
+		return id_Espacio;
+	}
+
+	public void setId_Espacio(long id_Espacio) {
+		this.id_Espacio = id_Espacio;
 	}
 
 	public int getArea() {
@@ -38,19 +55,31 @@ public class LocalComercial implements VOLocalComercial
 		this.area = area;
 	}
 
-	public String getTipoEstablecimiento() {
-		return tipoEstablecimiento;
+	public String getTipo_Establecimiento() {
+		return tipo_Establecimiento;
 	}
 
-	public void setTipoEstablecimiento(String tipoEstablecimiento) {
-		this.tipoEstablecimiento = tipoEstablecimiento;
+	public void setTipo_Establecimiento(String tipo_Establecimiento) {
+		this.tipo_Establecimiento = tipo_Establecimiento;
 	}
 
-	@Override
-	public String toString() {
-		return "LocalComercial [idEspacio=" + idEspacio + ", area=" + area + ", tipoEstablecimiento="
-				+ tipoEstablecimiento + "]";
+	public String getEstado() {
+		return estado;
 	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public int getClientes_atendidos() {
+		return clientes_atendidos;
+	}
+
+	public void setClientes_atendidos(int clientes_atendidos) {
+		this.clientes_atendidos = clientes_atendidos;
+	}
+	
+	
 	
 	
 
