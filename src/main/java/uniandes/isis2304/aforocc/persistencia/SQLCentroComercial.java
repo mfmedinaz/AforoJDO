@@ -83,7 +83,7 @@ public class SQLCentroComercial
 		return (int) q.executeUnique();
 	}
 	
-	public int darNumeroTotalBanios(PersistenceManager pm)
+	public int darNumeroTotalSanitarios(PersistenceManager pm)
 	{
 		String q1 = "SELECT SUM(BANIO.numero_sanitarios)\r\n"
 				+ "FROM ESPACIO\r\n"

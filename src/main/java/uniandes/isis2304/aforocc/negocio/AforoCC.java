@@ -19,6 +19,8 @@ import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+
 import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
 
@@ -136,6 +138,70 @@ public class AforoCC
 	{
 		log.info("Obteniendo centro comercial");
 		CentroComercial resp = pp.darCentroComercial();
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int mostrarAforoRealEstablecimiento(String horaIni, String horaFin, String idEspacio)
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.mostrarAforoRealEstablecimiento(horaIni, horaFin, idEspacio);
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int mostrarAforoRealTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.mostrarAforoRealTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int mostrarAreaEstablecimiento(String idEspacio)
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.mostrarAreaEstablecimiento(idEspacio);
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public List<Integer> mostrarAreasTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		log.info("Obteniendo centro comercial");
+		List<Integer> resp = pp.mostrarAreasTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int darAforoRealCC(String horaIni, String horaFin)
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.darAforoRealCC(horaIni, horaFin);
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int darAreaTotalLocalesComerciales()
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.darAreaTotalLocalesComerciales();
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int darNumeroTotalAscensores()
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.darNumeroTotalAscensores();
+		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
+		return resp;
+	}
+	
+	public int darNumeroTotalSanitarios()
+	{
+		log.info("Obteniendo centro comercial");
+		int resp = pp.darNumeroTotalSanitarios();
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}

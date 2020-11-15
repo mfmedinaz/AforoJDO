@@ -98,7 +98,7 @@ public class SQLEspacio
 		return (List<String>) q.executeList();
 	}
 	
-	public int mostarAforoRealEstablecimiento(PersistenceManager pm, String horaIni, String horaFin)
+	public int mostrarAforoRealEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String idEspacio)
 	{
 		String q1 = "SELECT COUNT(VISITANTE.id)\r\n"
 				+ "FROM VISITANTE\r\n"
@@ -106,7 +106,7 @@ public class SQLEspacio
 				+ "ON VISITANTE.id = VISITA.visitante\r\n"
 				+ "INNER JOIN ESPACIO\r\n"
 				+ "ON VISITA.lector = ESPACIO.lector"
-				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')";
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss') AND ESPACIO.id = " + idEspacio;
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(int.class);
@@ -114,7 +114,7 @@ public class SQLEspacio
 		return (int) q.executeUnique();
 	}
 	
-	public int mostarAforoRealTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
+	public int mostrarAforoRealTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
 	{
 		String q1 = "SELECT COUNT(VISITANTE.id)\r\n"
 				+ "FROM VISITANTE\r\n"
@@ -132,13 +132,13 @@ public class SQLEspacio
 		return (int) q.executeUnique();
 	}
 	
-	public int mostarAreaEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String nombreEstablecimiento)
+	public int mostrarAreaEstablecimiento(PersistenceManager pm, String idEspacio	)
 	{
 		String q1 = "SELECT LOCAL_COMERCIAL.area\r\n"
 				+ "FROM ESPACIO\r\n"
 				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
 				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id\r\n"
-				+ "WHERE ESPACIO.nombre = '" + nombreEstablecimiento + "'";
+				+ "WHERE ESPACIO.id = '" + idEspacio + "'";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(int.class);
@@ -146,7 +146,7 @@ public class SQLEspacio
 		return (int) q.executeUnique();
 	}
 	
-	public List<Integer> mostarAreasTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
+	public List<Integer> mostrarAreasTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
 	{
 		String q1 = "SELECT LOCAL_COMERCIAL.area\r\n"
 				+ "FROM ESPACIO\r\n"

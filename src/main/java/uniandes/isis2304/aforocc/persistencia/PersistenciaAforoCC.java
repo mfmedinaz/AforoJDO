@@ -421,10 +421,45 @@ public class PersistenciaAforoCC
 		return (TipoVisitante) sqlTipoVisitante.darTipoVisitantePorNombre(pmf.getPersistenceManager(), nombre);
 	}
 	
+	public int mostrarAforoRealEstablecimiento(String horaIni, String horaFin, String idEspacio)
+	{
+		return (int) sqlEspacio.mostrarAforoRealEstablecimiento(pmf.getPersistenceManager(), horaIni, horaFin, idEspacio);
+	}
 	
+	public int mostrarAforoRealTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		return (int) sqlEspacio.mostrarAforoRealTipoEstablecimiento(pmf.getPersistenceManager(), horaIni, horaFin, tipoEstablecimiento);
+	}
 	
+	public int mostrarAreaEstablecimiento(String idEspacio)
+	{
+		return (int) sqlEspacio.mostrarAreaEstablecimiento(pmf.getPersistenceManager(), idEspacio);
+	}
 	
+	public List<Integer> mostrarAreasTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		return (List<Integer>) sqlEspacio.mostrarAreasTipoEstablecimiento(pmf.getPersistenceManager(), horaIni, horaFin, tipoEstablecimiento);
+	}
 	
+	public int darAforoRealCC(String horaIni, String horaFin)
+	{
+		return (int) sqlCentroComercial.darAforoRealCC(pmf.getPersistenceManager(), horaIni, horaFin);
+	}
+	
+	public int darAreaTotalLocalesComerciales()
+	{
+		return (int) sqlCentroComercial.darAreaTotalLocalesComerciales(pmf.getPersistenceManager());
+	}
+	
+	public int darNumeroTotalAscensores()
+	{
+		return (int) sqlCentroComercial.darNumeroTotalAscensores(pmf.getPersistenceManager());
+	}
+	
+	public int darNumeroTotalSanitarios()
+	{
+		return (int) sqlCentroComercial.darNumeroTotalSanitarios(pmf.getPersistenceManager());
+	}
 	
 
 	/**

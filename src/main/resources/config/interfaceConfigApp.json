@@ -44,6 +44,15 @@
 				}
 			]
 		},
+		{ "menuTitle": "CentroComercial",
+		  "options":
+			[
+				{
+					"label": "Mostrar Indice Aforo CC",
+					"event": "mostrarIndiceAforoCC"
+				}
+			]
+		},
 		{ "menuTitle": "Mantenimiento",
 		  "options":
 			[
