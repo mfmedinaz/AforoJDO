@@ -53,20 +53,23 @@ public class SQLEspacio
 		return (Espacio) q.executeUnique();
 	}
 	
-	/**
-	 * Crea y ejecuta la sentencia SQL para encontrar la información de LOS BARES de la 
-	 * base de datos de Parranderos
-	 * @param pm - El manejador de persistencia
-	 * @return Una lista de objetos BAR
-	 */
-	public List<Visitante> darVisitantesEspacio(PersistenceManager pm, VOEspacio espacio, String horaIni, String horaFin)
+/**
+ * Retorna visitantes de un espacio en un rango de tiempo dado
+ * @param pm Manejador de persistencia
+ * @param espacio Espacio que se quiere consultar
+ * @param horaIni Hora Inicial del rango de horas que se quiere consultar
+ * @param horaFin Hora final del rango de horas que se quiere consultar
+ * @return
+ */
+	public List<Visitante> darVisitantesEspacio(PersistenceManager pm, String espacio, String horaIni, String horaFin)
 	{
-		String q1 = "SELECT VISITANTE.* FROM " + pp.darTablaVisitante();
+		String q1 = "SELECT VISITANTE.* ";
+		q1 += "FROM " + pp.darTablaVisitante();
 		q1+=" INNER JOIN " + pp.darTablaVisita();
 		q1+=" ON VISITANTE.id  = VISITA.visitante";
 		q1+=" INNER JOIN " + pp.darTablaEspacio();
 		q1+=" ON VISITA.lector = ESPACIO.lector";
-		q1+=" WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin +"' , 'hh24:mi:ss') AND ESPACIO.nombre = ?";
+		q1+=" WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "' , 'hh24:mi:ss') AND ESPACIO.nombre = '" + espacio + "'";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
@@ -74,4 +77,88 @@ public class SQLEspacio
 		
 		return (List<Visitante>) q.executeList();
 	}
+	
+	public List<String> mostrar20EstablecimientosMasPopulares(PersistenceManager pm, String horaIni, String horaFin)
+	{
+		String q1 = "SELECT ESPACIO.nombre"
+				+ " FROM " + pp.darTablaVisitante()
+				+ " INNER JOIN VISITA "  + pp.darTablaVisita()
+				+ " ON VISITANTE.id = VISITA.visitante"
+				+ " INNER JOIN " + pp.darTablaEspacio()
+				+ " ON VISITA.lector = ESPACIO.lector"
+				+ " INNER JOIN " + pp.darTablaLocalComercial()
+				+ " ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id"
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')"
+				+ " GROUP BY ESPACIO.nombre, ESPACIO.id"
+				+ " ORDER BY COUNT(ESPACIO.id) DESC";
+
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(String.class);
+		
+		return (List<String>) q.executeList();
+	}
+	
+	public int mostrarAforoRealEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String idEspacio)
+	{
+		String q1 = "SELECT COUNT(VISITANTE.id)\r\n"
+				+ "FROM VISITANTE\r\n"
+				+ "INNER JOIN VISITA\r\n"
+				+ "ON VISITANTE.id = VISITA.visitante\r\n"
+				+ "INNER JOIN ESPACIO\r\n"
+				+ "ON VISITA.lector = ESPACIO.lector"
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss') AND ESPACIO.id = " + idEspacio;
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (int) q.executeUnique();
+	}
+	
+	public int mostrarAforoRealTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		String q1 = "SELECT COUNT(VISITANTE.id)\r\n"
+				+ "FROM VISITANTE\r\n"
+				+ "INNER JOIN VISITA\r\n"
+				+ "ON VISITANTE.id = VISITA.visitante\r\n"
+				+ "INNER JOIN ESPACIO\r\n"
+				+ "ON VISITA.lector = ESPACIO.lector\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id"
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss') AND LOCAL_COMERCIAL.tipo_establecimiento = '" + tipoEstablecimiento + "'";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (int) q.executeUnique();
+	}
+	
+	public int mostrarAreaEstablecimiento(PersistenceManager pm, String idEspacio	)
+	{
+		String q1 = "SELECT LOCAL_COMERCIAL.area\r\n"
+				+ "FROM ESPACIO\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id\r\n"
+				+ "WHERE ESPACIO.id = '" + idEspacio + "'";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (int) q.executeUnique();
+	}
+	
+	public List<Integer> mostrarAreasTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		String q1 = "SELECT LOCAL_COMERCIAL.area\r\n"
+				+ "FROM ESPACIO\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id\r\n"
+				+ "WHERE LOCAL_COMERCIAL.tipo_establecimiento = '" + tipoEstablecimiento + "'";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (List<Integer>) q.executeList();
+	}
+	
 }

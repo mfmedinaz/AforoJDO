@@ -1,5 +1,5 @@
 {
-	"title": "Aplicación transaccional de AforoAndes",
+	"title": "Aplicaci�n transaccional de AforoAndes",
 	"frameH": 600,
 	"frameW": 800,
 	"bannerPath": "./src/main/resources/config/logo.png",
@@ -41,6 +41,19 @@
 				{
 					"label": "Cerrar local comercial",
 					"event": "cerrarEspacioComercial"
+				}
+				{
+					"label": "Mostrar 20 Establecimientos Más Populares",
+					"event": "mostrar20EstablecimientosMasPopulares"
+				}
+			]
+		},
+		{ "menuTitle": "CentroComercial",
+		  "options":
+			[
+				{
+					"label": "Mostrar Indice Aforo CC",
+					"event": "mostrarIndiceAforoCC"
 				}
 			]
 		},

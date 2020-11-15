@@ -162,7 +162,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		{
 			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
-			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "Parranderos App", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "AforoCC App", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
     }
@@ -441,19 +441,16 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		String nomEspacio = JOptionPane.showInputDialog(this, "Ingrese el espacio que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String espacio = JOptionPane.showInputDialog(this, "Ingrese el espacio que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
     		String horaInicial = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
     		String horaFinal = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
-    		if (nomEspacio != null)
+    		if (espacio != null && horaInicial != null && horaFinal !=null)
     		{
-    			VOEspacio espacio = aforoCC.darEspacioPorNombre(nomEspacio);
-
     			List<Visitante> visitantes = aforoCC.darVisitantesEspacio(espacio, horaInicial, horaFinal);
-    			System.out.println("visitante encontrado" + visitantes.get(0));
 
     			if (visitantes == null)
     			{
-    				throw new Exception ("No se pudo obtener visitantes del espacio " + nomEspacio + " en el rango [ " + horaInicial + ", " + horaFinal + "]");
+    				throw new Exception ("No se pudo obtener visitantes del espacio " + espacio + " en el rango [ " + horaInicial + ", " + horaFinal + "]");
     			}
     			String resultado = "Visitantes obtenidos\n\n";
     			for(Visitante vis: visitantes)
@@ -475,6 +472,139 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     		panelDatos.actualizarInterfaz(resultado);
     	}
     }
+    
+    public void mostrar20EstablecimientosMasPopulares( )
+    {
+    	try 
+    	{
+    		String horaInicial = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String horaFinal = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		if (horaInicial != null && horaFinal !=null)
+    		{
+    			List<String> espacios = aforoCC.mostrar20EstablecimientosMasPopulares(horaInicial, horaFinal);
+
+    			if (espacios == null)
+    			{
+    				throw new Exception ("No se pudo obtener espacios en el rango [ " + horaInicial + ", " + horaFinal + "]");
+    			}
+    			String resultado = "Espacios obtenidos\n\n";
+    			
+    			for(int i = 0; i < 20 && i < espacios.size(); i++)
+    			{
+    				resultado+= "Puesto " + i+1 + ": " + espacios.get(i) + "\n";
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	} 
+    	catch (Exception e) 
+    	{
+    		//			e.printStackTrace();
+    		String resultado = generarMensajeError(e);
+    		panelDatos.actualizarInterfaz(resultado);
+    	}
+    }
+    
+    public void mostrarIndiceAforoCC( )
+    {
+    	try 
+    	{
+    		String opcion = JOptionPane.showInputDialog(this, "Ingrese la opción que va a buscar (\"CC\", \"ESTABLECIMIENTO\", \"TIPOESTABLECIMIENTO\")", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    		
+    		if (opcion != null)
+    		{
+    			if(opcion.equalsIgnoreCase("cc"))
+    			{
+    				String horaIni = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				String horaFin = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				
+    				int aforoReal = aforoCC.darAforoRealCC(horaIni, horaFin);  				
+    				
+    				int areaEstablecimientos = aforoCC.darAreaTotalLocalesComerciales();
+    				int numAscensores = aforoCC.darNumeroTotalAscensores();
+    				int numSanitarios = aforoCC.darNumeroTotalSanitarios();
+    				int aforoMaximo = areaEstablecimientos/15 + numAscensores*2 + numSanitarios/2;
+    				
+    				int indiceAforo = aforoReal/aforoMaximo;
+    				
+    				String resultado = "Índice aforo del centro comercial\n\n";
+    				
+    				resultado+=indiceAforo;
+        			
+        			resultado += "\n Operación terminada";
+        			panelDatos.actualizarInterfaz(resultado);
+    			}
+    			else if(opcion.equalsIgnoreCase("establecimiento"))
+    			{
+    				System.out.println("establishment");
+    				String horaIni = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				String horaFin = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				String idEspacio = JOptionPane.showInputDialog(this, "Ingrese el id del espacio a consultar", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				
+    				int aforoReal = aforoCC.mostrarAforoRealEstablecimiento(horaIni, horaFin, idEspacio);
+    				
+    				int areaEstablecimiento = aforoCC.mostrarAreaEstablecimiento(idEspacio);
+    				int aforoMaximo = areaEstablecimiento/15;
+    				
+    				int indiceAforo = aforoReal/aforoMaximo;
+    				
+    				String resultado = "Índice aforo del centro comercial\n\n";
+    				
+    				resultado+=indiceAforo;
+        			
+        			resultado += "\n Operación terminada";
+        			panelDatos.actualizarInterfaz(resultado);
+    			}
+    			else if(opcion.equalsIgnoreCase("tipoestablecimiento"))
+    			{
+    				String horaIni = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				String horaFin = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				String tipoEstablecimiento = JOptionPane.showInputDialog(this, "Ingrese el tipo de establecimiento a consultar", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
+    				
+    				int aforoReal = aforoCC.mostrarAforoRealTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
+    				
+    				List<Integer> areasTipoEstablecimiento = aforoCC.mostrarAreasTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
+    				int totalAreasTipoEstablecimiento = 0;
+    				for(int area: areasTipoEstablecimiento)
+    				{
+    					totalAreasTipoEstablecimiento+=area;
+    				}
+    				int aforoMaximo = totalAreasTipoEstablecimiento/15;
+    				
+    				int indiceAforo = aforoReal/aforoMaximo;
+    				
+    				String resultado = "Índice aforo del centro comercial\n\n";
+    				
+    				resultado+=indiceAforo;
+        			
+        			resultado += "\n Operación terminada";
+        			panelDatos.actualizarInterfaz(resultado);
+    				
+    			}
+    			else
+    			{
+    				panelDatos.actualizarInterfaz("Opción Inválida");
+    			}
+
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	} 
+    	catch (Exception e) 
+    	{
+    		//			e.printStackTrace();
+    		String resultado = generarMensajeError(e);
+    		panelDatos.actualizarInterfaz(resultado);
+    	}
+    }
+    
+
 
 
 

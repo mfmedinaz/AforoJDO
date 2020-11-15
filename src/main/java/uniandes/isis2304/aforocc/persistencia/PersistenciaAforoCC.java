@@ -229,19 +229,24 @@ public class PersistenciaAforoCC
 	 */
 	public String darSeqAforoCC ()
 	{
-		return tablas.get (0);
+		return tablas.get(0);
 	}
-	
+
+	/**
+	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
+	 */
 	public String darTablaEspacio ()
 	{
 		return tablas.get (1);
 	}
 	
+	/**
+	 * @return La cadena de caracteres con el nombre de la tabla de Gustan de aforoCC
+	 */
 	public String darTablaLocalComercial()
 	{
 		return tablas.get(2);
 	}
-	
 	public String darTablaCentroComercial()
 	{
 		return tablas.get(5);
@@ -252,17 +257,22 @@ public class PersistenciaAforoCC
 		return tablas.get(6);
 	}
 	
+	/**
+	 * @return La cadena de caracteres con el nombre de la tabla de Bebedor de aforoCC
+	 */
 	public String darTablaVisitante ()
 	{
 		return tablas.get (7);
 	}
-	
 	
 	public String darTablaTipoVisitante ()
 	{
 		return tablas.get (8);
 	}
 	
+	/**
+	 * @return La cadena de caracteres con el nombre de la tabla de Bar de aforoCC
+	 */
 	public String darTablaLector ()
 	{
 		return tablas.get (9);
@@ -452,7 +462,7 @@ public class PersistenciaAforoCC
 	}
 	
 
-	public List<Visitante> darVisitantesEspacio(VOEspacio espacio, String horaIni, String horaFin)
+	public List<Visitante> darVisitantesEspacio(String espacio, String horaIni, String horaFin)
 	{
 		return (List<Visitante>) sqlEspacio.darVisitantesEspacio (pmf.getPersistenceManager(), espacio, horaIni, horaFin);
 	}
@@ -460,6 +470,10 @@ public class PersistenciaAforoCC
 	public List<Visita> darVisitasEnCurso(long idLocal)
 	{
 		return (List<Visita>) sqlLocalComercial.darVisitasEnCurso(pmf.getPersistenceManager(), idLocal);
+	}
+	public List<String> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
+	{
+		return (List<String>) sqlEspacio.mostrar20EstablecimientosMasPopulares(pmf.getPersistenceManager(), horaIni, horaFin);
 	}
 	
 	
@@ -478,10 +492,45 @@ public class PersistenciaAforoCC
 		return (LocalComercial) sqlLocalComercial.darLocalComercialPorIdEspacio(pmf.getPersistenceManager(), idEspacio);
 	}
 	
+	public int mostrarAforoRealEstablecimiento(String horaIni, String horaFin, String idEspacio)
+	{
+		return (int) sqlEspacio.mostrarAforoRealEstablecimiento(pmf.getPersistenceManager(), horaIni, horaFin, idEspacio);
+	}
 	
+	public int mostrarAforoRealTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		return (int) sqlEspacio.mostrarAforoRealTipoEstablecimiento(pmf.getPersistenceManager(), horaIni, horaFin, tipoEstablecimiento);
+	}
 	
+	public int mostrarAreaEstablecimiento(String idEspacio)
+	{
+		return (int) sqlEspacio.mostrarAreaEstablecimiento(pmf.getPersistenceManager(), idEspacio);
+	}
 	
+	public List<Integer> mostrarAreasTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		return (List<Integer>) sqlEspacio.mostrarAreasTipoEstablecimiento(pmf.getPersistenceManager(), horaIni, horaFin, tipoEstablecimiento);
+	}
 	
+	public int darAforoRealCC(String horaIni, String horaFin)
+	{
+		return (int) sqlCentroComercial.darAforoRealCC(pmf.getPersistenceManager(), horaIni, horaFin);
+	}
+	
+	public int darAreaTotalLocalesComerciales()
+	{
+		return (int) sqlCentroComercial.darAreaTotalLocalesComerciales(pmf.getPersistenceManager());
+	}
+	
+	public int darNumeroTotalAscensores()
+	{
+		return (int) sqlCentroComercial.darNumeroTotalAscensores(pmf.getPersistenceManager());
+	}
+	
+	public int darNumeroTotalSanitarios()
+	{
+		return (int) sqlCentroComercial.darNumeroTotalSanitarios(pmf.getPersistenceManager());
+	}
 	
 
 	/**
