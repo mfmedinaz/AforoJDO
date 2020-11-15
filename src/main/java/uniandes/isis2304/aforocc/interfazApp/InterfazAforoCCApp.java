@@ -402,6 +402,42 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     		panelDatos.actualizarInterfaz(resultado);
     	}
     }
+    
+    public void mostrarIndiceAforoCC( )
+    {
+    	try 
+    	{
+    		String horaInicial = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		String horaFinal = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango que se quiere consultar", "Mostrar visitantes", JOptionPane.QUESTION_MESSAGE);
+    		if (horaInicial != null && horaFinal !=null)
+    		{
+    			List<String> espacios = aforoCC.mostrar20EstablecimientosMasPopulares(horaInicial, horaFinal);
+
+    			if (espacios == null)
+    			{
+    				throw new Exception ("No se pudo obtener espacios en el rango [ " + horaInicial + ", " + horaFinal + "]");
+    			}
+    			String resultado = "Espacios obtenidos\n\n";
+    			
+    			for(int i = 0; i < 20 && i < espacios.size(); i++)
+    			{
+    				resultado+= "Puesto " + i+1 + ": " + espacios.get(i) + "\n";
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+    	} 
+    	catch (Exception e) 
+    	{
+    		//			e.printStackTrace();
+    		String resultado = generarMensajeError(e);
+    		panelDatos.actualizarInterfaz(resultado);
+    	}
+    }
 
 
 

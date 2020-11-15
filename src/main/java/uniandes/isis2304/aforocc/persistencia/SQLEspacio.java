@@ -98,4 +98,66 @@ public class SQLEspacio
 		return (List<String>) q.executeList();
 	}
 	
+	public int mostarAforoRealEstablecimiento(PersistenceManager pm, String horaIni, String horaFin)
+	{
+		String q1 = "SELECT COUNT(VISITANTE.id)\r\n"
+				+ "FROM VISITANTE\r\n"
+				+ "INNER JOIN VISITA\r\n"
+				+ "ON VISITANTE.id = VISITA.visitante\r\n"
+				+ "INNER JOIN ESPACIO\r\n"
+				+ "ON VISITA.lector = ESPACIO.lector"
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (int) q.executeUnique();
+	}
+	
+	public int mostarAforoRealTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		String q1 = "SELECT COUNT(VISITANTE.id)\r\n"
+				+ "FROM VISITANTE\r\n"
+				+ "INNER JOIN VISITA\r\n"
+				+ "ON VISITANTE.id = VISITA.visitante\r\n"
+				+ "INNER JOIN ESPACIO\r\n"
+				+ "ON VISITA.lector = ESPACIO.lector\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id"
+				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss') AND LOCAL_COMERCIAL.tipo_establecimiento = '" + tipoEstablecimiento + "'";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (int) q.executeUnique();
+	}
+	
+	public int mostarAreaEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String nombreEstablecimiento)
+	{
+		String q1 = "SELECT LOCAL_COMERCIAL.area\r\n"
+				+ "FROM ESPACIO\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id\r\n"
+				+ "WHERE ESPACIO.nombre = '" + nombreEstablecimiento + "'";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (int) q.executeUnique();
+	}
+	
+	public List<Integer> mostarAreasTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
+	{
+		String q1 = "SELECT LOCAL_COMERCIAL.area\r\n"
+				+ "FROM ESPACIO\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id\r\n"
+				+ "WHERE LOCAL_COMERCIAL.tipo_establecimiento = '" + tipoEstablecimiento + "'";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(int.class);
+		
+		return (List<Integer>) q.executeList();
+	}
+	
 }
