@@ -7,17 +7,23 @@ public class TipoEstablecimiento implements VOTipoEstablecimiento
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
+	public final static String LOCAL_COMERCIAL = "LOCAL_COMERCIAL";
+	public final static String BANIO = "BAÑO";
+	public final static String PARQUEADERO = "PARQUEADERO";
+	public final static String ASCENSOR = "ASCENSOR";
+	
+	
 	private String nombre;
 	
-	private Date HoraApertura;
+	private Date hora_apertura;
 	
-	private Date HoraCierre;
+	private Date hora_cierre;
 
 	public TipoEstablecimiento(String nombre, Date horaApertura, Date horaCierre) {
 		super();
 		this.nombre = nombre;
-		HoraApertura = horaApertura;
-		HoraCierre = horaCierre;
+		hora_apertura = horaApertura;
+		hora_cierre = horaCierre;
 	}
 
 	public String getNombre() {
@@ -28,25 +34,25 @@ public class TipoEstablecimiento implements VOTipoEstablecimiento
 		this.nombre = nombre;
 	}
 
-	public Date getHoraApertura() {
-		return HoraApertura;
+	public Date getHora_Apertura() {
+		return hora_apertura;
 	}
 
-	public void setHoraApertura(Date horaApertura) {
-		HoraApertura = horaApertura;
+	public void setHora_Apertura(Date horaApertura) {
+		hora_apertura = horaApertura;
 	}
 
-	public Date getHoraCierre() {
-		return HoraCierre;
+	public Date getHora_Cierre() {
+		return hora_cierre;
 	}
 
-	public void setHoraCierre(Date horaCierre) {
-		HoraCierre = horaCierre;
+	public void setHora_Cierre(Date horaCierre) {
+		hora_cierre = horaCierre;
 	}
 
 	@Override
 	public String toString() {
-		return "TipoEstablecimiento [nombre=" + nombre + ", HoraApertura=" + HoraApertura + ", HoraCierre=" + HoraCierre
+		return "TipoEstablecimiento [nombre=" + nombre + ", HoraApertura=" + hora_apertura + ", HoraCierre=" + hora_cierre
 				+ "]";
 	}
 

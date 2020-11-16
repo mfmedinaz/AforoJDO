@@ -9,9 +9,9 @@ public interface VOTipoEstablecimiento
 	 *****************************************************************/
 	public String getNombre();
 	
-	public Date getHoraApertura();
+	public Date getHora_Apertura();
 	
-	public Date getHoraCierre();
+	public Date getHora_Cierre();
 	
 
 	@Override
