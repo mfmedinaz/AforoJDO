@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import javax.jdo.JDODataStoreException;
@@ -377,6 +378,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 				List<Visita> visitasActivas = aforoCC.darVisitasEnCursoLocalComercial(idLocal);
 				if (!visitasActivas.isEmpty())
 				{
+					System.out.println(visitasActivas.get(0).getHora_Inicial());
 					throw new Exception("No se puede cerrar el local ya que hay visitantes adentro");
 				}
 				long vEdit = aforoCC.cerrarLocalComercial(idLocal);
@@ -534,7 +536,10 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     		
     		if (idVisitante != null && fecha != null)
     		{
-    			List<Visitante> visitantes = aforoCC.encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(idVisitante, fecha);
+    			//el formato debe ser ("yyyy/MM/dd HH:mm:ss")
+    			Date date = new Date(fecha);
+    			
+    			List<Visitante> visitantes = aforoCC.encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(idVisitante, date);
     			String resultado = "Visitantes que tuvieron contacto en los últimos 10 días con el visitante con id " + idVisitante + "\n\n";
     			
     			for(Visitante vis: visitantes)

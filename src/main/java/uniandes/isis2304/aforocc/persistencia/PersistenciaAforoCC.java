@@ -17,12 +17,13 @@ package uniandes.isis2304.aforocc.persistencia;
 
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
+//import java.sql.Date;
+//import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Date;
 
 import javax.jdo.JDODataStoreException;
 import javax.jdo.JDOHelper;
@@ -328,7 +329,7 @@ public class PersistenciaAforoCC
 			tx.commit();
 			
 			log.trace("Se registro un nuevo visitante [" + nombre + "]");
-			EstadoVisitante estado = new EstadoVisitante(nextval(), EstadoVisitante.VERDE, darFecha());
+			EstadoVisitante estado = new EstadoVisitante(nextval(), EstadoVisitante.VERDE, darFechaActual());
 			return new Visitante(idVisitante, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, codigoQR, centroComercial, estado.getId());
 		}
 		catch(Exception e)
@@ -374,7 +375,7 @@ public class PersistenciaAforoCC
 	}
 	
 	
-	public Visita registrarEntradaVisitante(String horaInicial, String horaFinal, long idVisitante, long idLector) 
+	public Visita registrarEntradaVisitante(Date horaInicial, Date horaFinal, long idVisitante, long idLector) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -392,6 +393,7 @@ public class PersistenciaAforoCC
 		catch (Exception e)
 		{
 			log.error("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			System.out.println("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
 			return null;
 		}
 		finally
@@ -535,7 +537,7 @@ public class PersistenciaAforoCC
 		return (int) sqlCentroComercial.darNumeroTotalSanitarios(pmf.getPersistenceManager());
 	}
 	
-	public List<Visita> darVisitasPorVisitanteDeterminado(String idVisitante, String fecha)
+	public List<Visita> darVisitasPorVisitanteDeterminado(String idVisitante, Date fecha)
 	{
 		return (List<Visita>) sqlVisita.darVisitasPorVisitanteDeterminado(pmf.getPersistenceManager(), idVisitante, fecha);
 	}
@@ -545,12 +547,13 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlVisitante.darVisitantesVisita(pmf.getPersistenceManager(), visita);
 	}
 	
-	public String darFecha()
+	public Date darFechaActual()
 	{
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");  
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
 		LocalDateTime now = LocalDateTime.now();
-		String fecha = dtf.format(now);
-		return fecha;
+		String hora = dtf.format(now);
+		Date date = new Date(hora);
+		return date;
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package uniandes.isis2304.aforocc.negocio;
 
+import java.util.Date;
+
 public class EstadoVisitante implements VOEstadoVisitante
 {
 	
@@ -10,9 +12,9 @@ public class EstadoVisitante implements VOEstadoVisitante
 	
 	private long id;
 	private String nombre;
-	private String fecha_asignacion;
+	private Date fecha_asignacion;
 	
-	public EstadoVisitante(long id, String nombre, String fecha_asignacion) {
+	public EstadoVisitante(long id, String nombre, Date fecha_asignacion) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -40,11 +42,11 @@ public class EstadoVisitante implements VOEstadoVisitante
 		this.nombre = nombre;
 	}
 
-	public String getFecha_asignacion() {
+	public Date getFecha_asignacion() {
 		return fecha_asignacion;
 	}
 
-	public void setFecha_asignacion(String fecha_asignacion) {
+	public void setFecha_asignacion(Date fecha_asignacion) {
 		this.fecha_asignacion = fecha_asignacion;
 	}
 	

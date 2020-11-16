@@ -1,6 +1,7 @@
 package uniandes.isis2304.aforocc.persistencia;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,12 +23,15 @@ public class SQLVisita
 		this.pa = pa;
 	}
 	
-	public long registrarEntradaVisitanteEspacio (PersistenceManager pm, long idVisita, String horaInicial, String horaFinal, long idVisitante, long idLector ) 
+	public long registrarEntradaVisitanteEspacio (PersistenceManager pm, long idVisita, Date horaInicial, Date horaFinal, long idVisitante, long idLector ) 
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss"); 
+		String fecha= sdf.format(horaInicial);
+		
 		String sql = "INSERT INTO " + pa.darTablaVisita();
 		sql+=" (id, hora_inicial, hora_final, visitante, lector)";
 		sql += " VALUES ";
-		sql += "( ? , TO_DATE('" + horaInicial + "', 'hh24:mi:ss') , null, ?, ?)";
+		sql += "( ? , TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS') , null, ?, ?)";
 
 		Query q = pm.newQuery(SQL, sql);
 		q.setParameters(idVisita,idVisitante, idLector);
@@ -38,14 +42,18 @@ public class SQLVisita
 	
 	public long registrarSalidaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idLector, String horaFinal)
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss"); 
+		String fecha= sdf.format(horaFinal);
 		Query q = pm.newQuery(SQL, "UPDATE " + pa.darTablaVisita () + " SET hora_final = "
-				+ "TO_DATE('" + horaFinal + "', 'hh24:mi:ss') WHERE visitante = ? AND lector = ?");
+				+ "TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS') WHERE visitante = ? AND lector = ?");
 		q.setParameters(idVisitante, idLector);
 		return (long) q.executeUnique(); 		
 	}
 	
-	public List<Visita> darVisitasPorVisitanteDeterminado(PersistenceManager pm, String idVisitante, String fecha)
+	public List<Visita> darVisitasPorVisitanteDeterminado(PersistenceManager pm, String idVisitante, Date fechaD)
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss"); 
+		String fecha= sdf.format(fechaD);
 		String q1 = "SELECT VISITA.*    \r\n"
 				+ "FROM VISITANTE\r\n"
 				+ "INNER JOIN VISITA\r\n"

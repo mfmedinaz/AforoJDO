@@ -1,6 +1,6 @@
 package uniandes.isis2304.aforocc.negocio;
 
-import java.sql.Date;
+import java.util.Date;
 
 public interface VOVisita 
 {
@@ -9,9 +9,9 @@ public interface VOVisita
 	 *****************************************************************/
 	public long getId();
 	
-	public String getHora_Inicial();
+	public Date getHora_Inicial();
 	
-	public String getHora_Final();
+	public Date getHora_Final();
 	
 	public long getVisitante();
 	

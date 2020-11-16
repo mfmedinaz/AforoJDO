@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,9 +103,7 @@ public class AforoCC
 	
 	public Visita registrarEntradaVisitante ( String codigoVisitante, String nomEspacio ) throws Exception
 	{	
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.now();
-		String horaInicial = dtf.format(now);	
+		Date horaInicial = pp.darFechaActual();
 		
 		Visitante visitante = darVisitantePorCodigo(codigoVisitante);
 	
@@ -126,7 +125,8 @@ public class AforoCC
 			idLector = espacio.getLector();
 			
 		}
-		Visita resp = pp.registrarEntradaVisitante(horaInicial, null, visitante.getId(), idLector);		
+		Visita resp = pp.registrarEntradaVisitante(horaInicial, null, visitante.getId(), idLector);
+		System.out.println(resp);
 		log.info("Registrando entrada: " + resp != null ? resp : "NO EXISTE");
 		return resp;
 	}
@@ -327,7 +327,7 @@ public class AforoCC
 		return resp;
 	}
 	
-	public List<Visitante> encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(String idVisitante, String fecha)
+	public List<Visitante> encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(String idVisitante, Date fecha)
 	{
 		log.info("Obteniendo ENCONTRAR LOS VISITANTES QUE ESTUVIERON CONTACTO CON OTRO DETERMINADO VISITANTE");
 		List<Visitante> visitantes = new ArrayList();

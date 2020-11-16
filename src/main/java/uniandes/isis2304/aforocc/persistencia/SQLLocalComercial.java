@@ -57,7 +57,7 @@ public class SQLLocalComercial
 		q1 += "espacio.id = ?";
 		
 		Query q = pm.newQuery(SQL, q1);	
-		q.setResultClass(Visitante.class);
+		q.setResultClass(Visita.class);
 		q.setParameters(idLocal);
 
 		return (List<Visita>) q.executeList();

@@ -1,6 +1,6 @@
 package uniandes.isis2304.aforocc.negocio;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Visita implements VOVisita
 {
@@ -9,9 +9,9 @@ public class Visita implements VOVisita
 	 *****************************************************************/
 	private long id;
 	
-	private String hora_Inicial;
+	private Date hora_Inicial;
 	
-	private String hora_Final;
+	private Date hora_Final;
 	
 	private long visitante;
 	
@@ -24,20 +24,12 @@ public class Visita implements VOVisita
 	public Visita(long id, Date horaInicial, Date horaFinal, long visitante, long lector) {
 		super();
 		this.id = id;
-		this.hora_Inicial = horaInicial +"";
-		this.hora_Final = horaFinal+"";
+		this.hora_Inicial = horaInicial;
+		this.hora_Final = horaFinal;
 		this.visitante = visitante;
 		this.lector = lector;
 	}
 	
-	public Visita(long id, String horaInicial, String horaFinal, long visitante, long lector) {
-		super();
-		this.id = id;
-		this.hora_Inicial = horaInicial +"";
-		this.hora_Final = horaFinal+"";
-		this.visitante = visitante;
-		this.lector = lector;
-	}
 	public Visita()
 	{
 		
@@ -51,20 +43,20 @@ public class Visita implements VOVisita
 		this.id = id;
 	}
 
-	public String getHora_Inicial() {
+	public Date getHora_Inicial() {
 		return hora_Inicial;
 	}
 
-	public void setHora_Inicial(String horaInicial) {
-		this.hora_Inicial = horaInicial;
+	public void setHora_Inicial(Date hora_Inicial) {
+		this.hora_Inicial = hora_Inicial;
 	}
 
-	public String getHora_Final() {
+	public Date getHora_Final() {
 		return hora_Final;
 	}
 
-	public void setHora_Final(String horaFinal) {
-		this.hora_Final = horaFinal;
+	public void setHora_Final(Date hora_Final) {
+		this.hora_Final = hora_Final;
 	}
 
 	public long getVisitante() {
