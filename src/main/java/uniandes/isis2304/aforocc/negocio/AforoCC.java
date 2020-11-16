@@ -16,10 +16,13 @@
 package uniandes.isis2304.aforocc.negocio;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
@@ -78,7 +81,8 @@ public class AforoCC
 	}
 	
 	
-	public Visitante registrarVisistante(String nombre, String correo, String telefono, String nombreEmergencia, String telefonoEmergencia, String tipoVisitante, long centroComercial)
+	public Visitante registrarVisistante(String nombre, String correo, String telefono, String nombreEmergencia, 
+			String telefonoEmergencia, String tipoVisitante, long centroComercial)
 	{
 		log.info("Registrando al visitante [" + nombre + "]");
 		Visitante resp = pp.registrarVisitante(nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, centroComercial);
@@ -95,18 +99,58 @@ public class AforoCC
 	}
 	
 	
-	public Visita registrarEntradaVisitante (String horaInicial, String horaFinal, long idVisitante, long idLector )
-	{
-		log.info("Registrando entrada  [" + horaInicial + ", " + idVisitante + "]");
-		Visita resp = pp.registrarEntradaVisitante(horaInicial, horaFinal, idVisitante, idLector);
+	public Visita registrarEntradaVisitante ( String codigoVisitante, String nomEspacio ) throws Exception
+	{	
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();
+		String horaInicial = dtf.format(now);	
+		
+		Visitante visitante = darVisitantePorCodigo(codigoVisitante);
+	
+		log.info("Registrando entrada  [" + horaInicial + ", " + visitante.getId() + "]");
+		
+		long idLector = -1;
+		
+		if (nomEspacio.equals("Centro comercial"))
+		{
+			VOCentroComercial cc = darCentroComercial();
+			idLector = cc.getLector_Entrada_CC();
+		}
+		else
+		{
+			Espacio espacio = darEspacioPorNombre(nomEspacio);
+			LocalComercial local = darLocalComercialPorIdEspacio(espacio.getId());
+			if (local != null && local.getEstado().equals(LocalComercial.CERRADO) && !visitante.getTipo_Visitante().equals(TipoVisitante.EMPLEADO_CC))
+				throw new Exception("No se puede registrar la entrada ya que el local está cerrado y el visitante no tiene permiso de entrar");
+			idLector = espacio.getLector();
+			
+		}
+		Visita resp = pp.registrarEntradaVisitante(horaInicial, null, visitante.getId(), idLector);		
 		log.info("Registrando entrada: " + resp != null ? resp : "NO EXISTE");
 		return resp;
 	}
 	
-	public long registrarSalidaVisitante(String horaFinal, long idVisitante, long idLector)
+	public long registrarSalidaVisitante(String codigoVisitante, String nomEspacio)
 	{
-		log.info("Registrando salida [" + horaFinal + ", " + idVisitante + "]");
-		long resp = pp.registrarSalidaVisitante(idVisitante, idLector, horaFinal);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();
+		String horaSalida = dtf.format(now);
+		Visitante visitante = darVisitantePorCodigo(codigoVisitante);
+
+		log.info("Registrando salida [" + horaSalida + ", " + visitante.getId() + "]");
+		long idLector = -1;
+		if (nomEspacio.equals("Centro comercial"))
+		{
+			VOCentroComercial cc = darCentroComercial();
+			idLector = cc.getLector_Entrada_CC();
+		}
+		else
+		{
+			VOEspacio espacio = darEspacioPorNombre(nomEspacio);
+			idLector = espacio.getLector();
+		}
+		
+		long resp = pp.registrarSalidaVisitante(visitante.getId(), idLector, horaSalida);
 		log.info("Registrando salida: " + resp + " tuplas editadas");
 		return resp;
 	}
@@ -148,6 +192,69 @@ public class AforoCC
 		List<String> resp = pp.mostrar20EstablecimientosMasPopulares(horaIni, horaFin);
 		log.info("Obteniendo 20 espacios más populares en rango de fechas: " + resp.size() + " existentes");
 		return resp;
+	}
+	
+	public String darIndiceAforo(String opcion,String horaIni,String horaFin,String idEspacio,String tipoEstablecimiento)
+	{
+		String resultado = "";
+		if(opcion.equalsIgnoreCase("cc"))
+		{
+			int aforoReal = darAforoRealCC(horaIni, horaFin);  				
+			
+			int areaEstablecimientos = darAreaTotalLocalesComerciales();
+			int numAscensores = darNumeroTotalAscensores();
+			int numSanitarios = darNumeroTotalSanitarios();
+			int aforoMaximo = areaEstablecimientos/15 + numAscensores*2 + numSanitarios/2;
+			
+			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
+			
+			resultado += "Índice aforo del centro comercial\n\n";
+			
+			resultado += indiceAforo*100 + "%";
+			
+			resultado += "\n Operación terminada";
+		}
+		else if(opcion.equalsIgnoreCase("establecimiento"))
+		{	
+			int aforoReal = mostrarAforoRealEstablecimiento(horaIni, horaFin, idEspacio);
+			
+			int areaEstablecimiento = mostrarAreaEstablecimiento(idEspacio);
+			int aforoMaximo = areaEstablecimiento/15;
+			
+			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
+			
+			resultado += "Índice aforo del centro comercial\n\n";
+			
+			resultado += indiceAforo*100 + "%";
+			
+			resultado += "\n Operación terminada";
+		}
+		else if(opcion.equalsIgnoreCase("tipoestablecimiento"))
+		{
+			int aforoReal = mostrarAforoRealTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
+			
+			List<Integer> areasTipoEstablecimiento = mostrarAreasTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
+			int totalAreasTipoEstablecimiento = 0;
+			for(int area: areasTipoEstablecimiento)
+			{
+				totalAreasTipoEstablecimiento+=area;
+			}
+			int aforoMaximo = totalAreasTipoEstablecimiento/15;
+			
+			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
+			
+			resultado += "Índice aforo del centro comercial\n\n";
+			
+			resultado+=indiceAforo*100 + "%";
+			
+			resultado += "\n Operación terminada";
+			
+		}
+		else
+		{
+			resultado += "Opción Inválida";
+		}
+		return resultado;
 	}
 	
 	public Espacio darEspacioPorNombre(String nombre)
