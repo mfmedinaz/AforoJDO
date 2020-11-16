@@ -523,6 +523,41 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 	}
 
 
+        
+    public void encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante()
+    {
+    	try 
+    	{
+    		String idVisitante = JOptionPane.showInputDialog (this, "Ingrese el codigo del visitante determinado", "Encontrar visitante", JOptionPane.QUESTION_MESSAGE);
+    		String fecha = JOptionPane.showInputDialog(this, "Ingrese fecha de la consulta", "Encontrar visitante", JOptionPane.QUESTION_MESSAGE);
+    		
+    		
+    		if (idVisitante != null && fecha != null)
+    		{
+    			List<Visitante> visitantes = aforoCC.encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(idVisitante, fecha);
+    			String resultado = "Visitantes que tuvieron contacto en los últimos 10 días con el visitante con id " + idVisitante + "\n\n";
+    			
+    			for(Visitante vis: visitantes)
+    			{
+    				resultado+=vis.getNombre();
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+
 
 
 

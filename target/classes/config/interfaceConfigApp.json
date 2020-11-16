@@ -28,6 +28,10 @@
 				{
 					"label": "Eliminar visitante",
 					"event": "eliminarVisitante"
+				},
+				{
+					"label": "Encontrar Visitantes Que Tuvieron Contacto Con Otro Determinado Visitante",
+					"event": "encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante"
 				}
 			]
 		},

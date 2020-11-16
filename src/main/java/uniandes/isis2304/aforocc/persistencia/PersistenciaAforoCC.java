@@ -532,6 +532,16 @@ public class PersistenciaAforoCC
 		return (int) sqlCentroComercial.darNumeroTotalSanitarios(pmf.getPersistenceManager());
 	}
 	
+	public List<Visita> darVisitasPorVisitanteDeterminado(String idVisitante, String fecha)
+	{
+		return (List<Visita>) sqlVisita.darVisitasPorVisitanteDeterminado(pmf.getPersistenceManager(), idVisitante, fecha);
+	}
+	
+	public List<Visitante> darVisitantesVisita(Visita visita)
+	{
+		return (List<Visitante>) sqlVisitante.darVisitantesVisita(pmf.getPersistenceManager(), visita);
+	}
+	
 
 	/**
 	 * Elimina todas las tuplas de todas las tablas de la base de datos de AforoCC

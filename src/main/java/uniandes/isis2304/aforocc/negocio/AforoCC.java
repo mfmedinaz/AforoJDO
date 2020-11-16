@@ -18,6 +18,7 @@ package uniandes.isis2304.aforocc.negocio;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -324,6 +325,27 @@ public class AforoCC
 		int resp = pp.darNumeroTotalSanitarios();
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
+	}
+	
+	public List<Visitante> encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(String idVisitante, String fecha)
+	{
+		log.info("Obteniendo ENCONTRAR LOS VISITANTES QUE ESTUVIERON CONTACTO CON OTRO DETERMINADO VISITANTE");
+		List<Visitante> visitantes = new ArrayList();
+		List<Visita> visitas = pp.darVisitasPorVisitanteDeterminado(idVisitante, fecha);
+		for(Visita vis: visitas)
+		{
+			List<Visitante> visits = pp.darVisitantesVisita(vis);
+			for(Visitante visitors: visits)
+			{
+				if(visitors.getId()!=Long.parseLong(idVisitante))
+				{
+					visitantes.add(visitors);
+				}
+			}
+		}
+		
+		return visitantes;
+		
 	}
 
 	/**
