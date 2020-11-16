@@ -19,6 +19,8 @@ package uniandes.isis2304.aforocc.persistencia;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -326,7 +328,8 @@ public class PersistenciaAforoCC
 			tx.commit();
 			
 			log.trace("Se registro un nuevo visitante [" + nombre + "]");
-			return new Visitante(idVisitante, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, codigoQR, centroComercial);
+			EstadoVisitante estado = new EstadoVisitante(nextval(), EstadoVisitante.VERDE, darFecha());
+			return new Visitante(idVisitante, nombre, correo, telefono, nombreEmergencia, telefonoEmergencia, tipoVisitante, codigoQR, centroComercial, estado.getId());
 		}
 		catch(Exception e)
 		{
@@ -542,6 +545,13 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlVisitante.darVisitantesVisita(pmf.getPersistenceManager(), visita);
 	}
 	
+	public String darFecha()
+	{
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();
+		String fecha = dtf.format(now);
+		return fecha;
+	}
 
 	/**
 	 * Elimina todas las tuplas de todas las tablas de la base de datos de AforoCC

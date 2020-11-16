@@ -14,6 +14,8 @@ public interface VOEspacio
 	public long getLector();
 	
 	public String getTipo();
+	
+	public long getEstado();
 
 	@Override
 	public String toString();

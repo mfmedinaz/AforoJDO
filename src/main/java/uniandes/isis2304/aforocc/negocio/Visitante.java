@@ -23,6 +23,8 @@ public class Visitante implements VOVisitante
 	
 	private long centro_Comercial;
 	
+	private long estado;
+	
 
 	/* ****************************************************************
 	 * 			Métodos 
@@ -35,7 +37,7 @@ public class Visitante implements VOVisitante
 	}
 	
 	public Visitante(long id, String nombre, String correo, String telefono, String nombre_Emergencia,
-			String telefono_Emergencia, String tipo_Visitante, String codigo_QR, long centro_Comercial) {
+			String telefono_Emergencia, String tipo_Visitante, String codigo_QR, long centro_Comercial, long estado) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -46,6 +48,7 @@ public class Visitante implements VOVisitante
 		this.tipo_Visitante = tipo_Visitante;
 		this.codigo_QR = codigo_QR;
 		this.centro_Comercial = centro_Comercial;
+		this.estado = estado;
 	}
 
 	
@@ -120,6 +123,14 @@ public class Visitante implements VOVisitante
 
 	public void setCentro_Comercial(long centro_Comercial) {
 		this.centro_Comercial = centro_Comercial;
+	}
+
+	public long getEstado() {
+		return estado;
+	}
+
+	public void setEstado(long estado) {
+		this.estado = estado;
 	}
 
 	@Override

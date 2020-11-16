@@ -14,18 +14,21 @@ public class Espacio implements VOEspacio
 	private long lector;
 	
 	private String tipo;
+	
+	private long estado;
 
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
 	
-	public Espacio(long id, String nombre, long centroComercial, long lector, String tipo) {
+	public Espacio(long id, String nombre, long centroComercial, long lector, String tipo, long estado) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.centro_Comercial = centroComercial;
 		this.lector = lector;
 		this.tipo = tipo;
+		this.estado = estado;
 	}
 	
 	
@@ -74,6 +77,16 @@ public class Espacio implements VOEspacio
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+
+	public long getEstado() {
+		return estado;
+	}
+
+	public void setEstado(long estado) {
+		this.estado = estado;
+	}
+
+
 
 	@Override
 	public String toString() {

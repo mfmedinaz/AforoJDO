@@ -24,6 +24,8 @@ public interface VOVisitante
 	public String getCodigo_QR();
 	
 	public long getCentro_Comercial();
+	
+	public long getEstado();
 
 	@Override
 	public String toString();
