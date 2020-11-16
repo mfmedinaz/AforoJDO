@@ -9,9 +9,9 @@ public class Visita implements VOVisita
 	 *****************************************************************/
 	private long id;
 	
-	private String horaInicial;
+	private String hora_Inicial;
 	
-	private String horaFinal;
+	private String hora_Final;
 	
 	private long visitante;
 	
@@ -21,13 +21,26 @@ public class Visita implements VOVisita
 	/* ****************************************************************
 	 * 			Métodos 
 	 *****************************************************************/
+	public Visita(long id, Date horaInicial, Date horaFinal, long visitante, long lector) {
+		super();
+		this.id = id;
+		this.hora_Inicial = horaInicial +"";
+		this.hora_Final = horaFinal+"";
+		this.visitante = visitante;
+		this.lector = lector;
+	}
+	
 	public Visita(long id, String horaInicial, String horaFinal, long visitante, long lector) {
 		super();
 		this.id = id;
-		this.horaInicial = horaInicial;
-		this.horaFinal = horaFinal;
+		this.hora_Inicial = horaInicial +"";
+		this.hora_Final = horaFinal+"";
 		this.visitante = visitante;
 		this.lector = lector;
+	}
+	public Visita()
+	{
+		
 	}
 
 	public long getId() {
@@ -38,20 +51,20 @@ public class Visita implements VOVisita
 		this.id = id;
 	}
 
-	public String getHoraInicial() {
-		return horaInicial;
+	public String getHora_Inicial() {
+		return hora_Inicial;
 	}
 
-	public void setHoraInicial(String horaInicial) {
-		this.horaInicial = horaInicial;
+	public void setHora_Inicial(String horaInicial) {
+		this.hora_Inicial = horaInicial;
 	}
 
-	public String getHoraFinal() {
-		return horaFinal;
+	public String getHora_Final() {
+		return hora_Final;
 	}
 
-	public void setHoraFinal(String horaFinal) {
-		this.horaFinal = horaFinal;
+	public void setHora_Final(String horaFinal) {
+		this.hora_Final = horaFinal;
 	}
 
 	public long getVisitante() {
@@ -72,7 +85,7 @@ public class Visita implements VOVisita
 
 	@Override
 	public String toString() {
-		return "Visita [id=" + id + ", horaInicial=" + horaInicial + ", horaFinal=" + horaFinal + ", visitante="
+		return "Visita [id=" + id + ", horaInicial=" + hora_Inicial + ", horaFinal=" + hora_Final + ", visitante="
 				+ visitante + ", lector=" + lector + "]";
 	}
 	
