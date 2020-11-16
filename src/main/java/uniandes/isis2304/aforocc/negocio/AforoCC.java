@@ -140,6 +140,7 @@ public class AforoCC
 		log.info("Obteniendo las visitas en curso del local: " + idLocal);
 		List<Visita> resp = pp.darVisitasEnCurso(idLocal);
 		log.info("Obteniendo las visitas en curso del local: " + resp.size() + " existentes");
+		return resp;
 	}
 	public List<String> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
 	{

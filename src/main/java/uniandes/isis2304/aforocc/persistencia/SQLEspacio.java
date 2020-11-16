@@ -73,7 +73,7 @@ public class SQLEspacio
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
-		q.setParameters(espacio.getNombre());
+		q.setParameters(espacio);
 		
 		return (List<Visitante>) q.executeList();
 	}
