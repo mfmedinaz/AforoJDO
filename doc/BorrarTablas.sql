@@ -1,3 +1,4 @@
+SET AUTOCOMMIT 1;
 DROP SEQUENCE AFOROCC_SEQUENCE; 
 
 drop table 	ADMINISTRADOR	cascade constraints;
@@ -13,3 +14,5 @@ drop table 	TIPO_ESTABLECIMIENTO	cascade constraints;
 drop table 	TIPO_VISITANTE	cascade constraints;
 drop table 	VISITA	cascade constraints;
 drop table 	VISITANTE	cascade constraints;
+drop table  ESTADO_VISITANTE cascade constraints;
+drop table  ESTADO_ESPACIO cascade constraints;
