@@ -1,8 +1,10 @@
+
 --RFC7 - Analizar la operación de AFOROCC
-SELECT VISITANTE.*
+
+--Hora mayor afluencia
+SELECT COUNT(Espacio.id)
 FROM VISITANTE
 INNER JOIN VISITA
 ON VISITANTE.id = VISITA.visitante
 INNER JOIN ESPACIO
-ON VISITA.lector = ESPACIO.lector
-WHERE hora_inicial BETWEEN TO_DATE('10:00:00', 'hh24:mi:ss') AND TO_DATE('20:00:00', 'hh24:mi:ss') AND ESPACIO.nombre = 'Zara';
+ON VISITA.lector = ESPACIO.lector;  
