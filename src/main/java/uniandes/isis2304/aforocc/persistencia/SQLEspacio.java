@@ -110,9 +110,9 @@ public class SQLEspacio
 				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss') AND ESPACIO.id = " + idEspacio;
 		
 		Query q = pm.newQuery(SQL, q1);	
-		q.setResultClass(int.class);
+		q.setResultClass(Integer.class);
 		
-		return (int) q.executeUnique();
+		return (Integer) q.executeUnique();
 	}
 	
 	public int mostrarAforoRealTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
@@ -128,9 +128,9 @@ public class SQLEspacio
 				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss') AND LOCAL_COMERCIAL.tipo_establecimiento = '" + tipoEstablecimiento + "'";
 		
 		Query q = pm.newQuery(SQL, q1);	
-		q.setResultClass(int.class);
+		q.setResultClass(Integer.class);
 		
-		return (int) q.executeUnique();
+		return (Integer) q.executeUnique();
 	}
 	
 	public int mostrarAreaEstablecimiento(PersistenceManager pm, String idEspacio	)
@@ -142,9 +142,9 @@ public class SQLEspacio
 				+ "WHERE ESPACIO.id = '" + idEspacio + "'";
 		
 		Query q = pm.newQuery(SQL, q1);	
-		q.setResultClass(int.class);
+		q.setResultClass(Integer.class);
 		
-		return (int) q.executeUnique();
+		return (Integer) q.executeUnique();
 	}
 	
 	public List<Integer> mostrarAreasTipoEstablecimiento(PersistenceManager pm, String horaIni, String horaFin, String tipoEstablecimiento)
@@ -156,7 +156,7 @@ public class SQLEspacio
 				+ "WHERE LOCAL_COMERCIAL.tipo_establecimiento = '" + tipoEstablecimiento + "'";
 		
 		Query q = pm.newQuery(SQL, q1);	
-		q.setResultClass(int.class);
+		q.setResultClass(Integer.class);
 		
 		return (List<Integer>) q.executeList();
 	}

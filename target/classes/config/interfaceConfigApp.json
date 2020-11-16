@@ -41,7 +41,7 @@
 				{
 					"label": "Cerrar local comercial",
 					"event": "cerrarEspacioComercial"
-				}
+				},
 				{
 					"label": "Mostrar 20 Establecimientos Más Populares",
 					"event": "mostrar20EstablecimientosMasPopulares"

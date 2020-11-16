@@ -237,9 +237,6 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
         setJMenuBar ( menuBar );	
     }
     
-	/* ****************************************************************
-	 * 			CRUD de TipoBebida
-	 *****************************************************************/
     /**
      * Adiciona un tipo de bebida con la información dada por el usuario
      * Se crea una nueva tupla de tipoBebida en la base de datos, si un tipo de bebida con ese nombre no existía
@@ -529,18 +526,17 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     				int numSanitarios = aforoCC.darNumeroTotalSanitarios();
     				int aforoMaximo = areaEstablecimientos/15 + numAscensores*2 + numSanitarios/2;
     				
-    				int indiceAforo = aforoReal/aforoMaximo;
+    				double indiceAforo = (double)aforoReal/(double)aforoMaximo;
     				
     				String resultado = "Índice aforo del centro comercial\n\n";
     				
-    				resultado+=indiceAforo;
+    				resultado+=indiceAforo*100 + "%";
         			
         			resultado += "\n Operación terminada";
         			panelDatos.actualizarInterfaz(resultado);
     			}
     			else if(opcion.equalsIgnoreCase("establecimiento"))
     			{
-    				System.out.println("establishment");
     				String horaIni = JOptionPane.showInputDialog(this, "Ingrese la hora inicial del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
     				String horaFin = JOptionPane.showInputDialog(this, "Ingrese la hora final del rango", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
     				String idEspacio = JOptionPane.showInputDialog(this, "Ingrese el id del espacio a consultar", "Mostrar Indice", JOptionPane.QUESTION_MESSAGE);
@@ -550,11 +546,11 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     				int areaEstablecimiento = aforoCC.mostrarAreaEstablecimiento(idEspacio);
     				int aforoMaximo = areaEstablecimiento/15;
     				
-    				int indiceAforo = aforoReal/aforoMaximo;
+    				double indiceAforo = (double)aforoReal/(double)aforoMaximo;
     				
     				String resultado = "Índice aforo del centro comercial\n\n";
     				
-    				resultado+=indiceAforo;
+    				resultado+=indiceAforo*100 + "%";
         			
         			resultado += "\n Operación terminada";
         			panelDatos.actualizarInterfaz(resultado);
@@ -575,11 +571,11 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     				}
     				int aforoMaximo = totalAreasTipoEstablecimiento/15;
     				
-    				int indiceAforo = aforoReal/aforoMaximo;
+    				double indiceAforo = (double)aforoReal/(double)aforoMaximo;
     				
     				String resultado = "Índice aforo del centro comercial\n\n";
     				
-    				resultado+=indiceAforo;
+    				resultado+=indiceAforo*100 + "%";
         			
         			resultado += "\n Operación terminada";
         			panelDatos.actualizarInterfaz(resultado);

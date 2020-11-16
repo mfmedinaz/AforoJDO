@@ -58,8 +58,8 @@ public class SQLCentroComercial
 				+ "ON VISITA.lector = ESPACIO.lector\r\n"
 				+ " WHERE hora_inicial BETWEEN TO_DATE( '" + horaIni + "' , 'hh24:mi:ss') AND TO_DATE('" + horaFin + "', 'hh24:mi:ss')";
 		Query q = pm.newQuery(SQL, q1);
-		q.setResultClass(int.class);
-		return (int) q.executeUnique();
+		q.setResultClass(Integer.class);
+		return (Integer) q.executeUnique();
 	}
 	
 	public int darAreaTotalLocalesComerciales(PersistenceManager pm)
@@ -69,8 +69,8 @@ public class SQLCentroComercial
 				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
 				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id";
 		Query q = pm.newQuery(SQL, q1);
-		q.setResultClass(int.class);
-		return (int) q.executeUnique();
+		q.setResultClass(Integer.class);
+		return (Integer) q.executeUnique();
 	}
 	
 	public int darNumeroTotalAscensores(PersistenceManager pm)
@@ -79,8 +79,8 @@ public class SQLCentroComercial
 				+ "FROM ESPACIO\r\n"
 				+ "WHERE ESPACIO.tipo = 'ASCENSOR'";
 		Query q = pm.newQuery(SQL, q1);
-		q.setResultClass(int.class);
-		return (int) q.executeUnique();
+		q.setResultClass(Integer.class);
+		return (Integer) q.executeUnique();
 	}
 	
 	public int darNumeroTotalSanitarios(PersistenceManager pm)
@@ -90,7 +90,7 @@ public class SQLCentroComercial
 				+ "INNER JOIN BANIO\r\n"
 				+ "ON BANIO.id_espacio = ESPACIO.id";
 		Query q = pm.newQuery(SQL, q1);
-		q.setResultClass(int.class);
-		return (int) q.executeUnique();
+		q.setResultClass(Integer.class);
+		return (Integer) q.executeUnique();
 	}
 }
