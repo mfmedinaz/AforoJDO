@@ -332,6 +332,7 @@ public class AforoCC
 		log.info("Obteniendo ENCONTRAR LOS VISITANTES QUE ESTUVIERON CONTACTO CON OTRO DETERMINADO VISITANTE");
 		List<Visitante> visitantes = new ArrayList();
 		List<Visita> visitas = pp.darVisitasPorVisitanteDeterminado(idVisitante, fecha);
+		System.out.println(visitas.size());
 		for(Visita vis: visitas)
 		{
 			List<Visitante> visits = pp.darVisitantesVisita(vis);

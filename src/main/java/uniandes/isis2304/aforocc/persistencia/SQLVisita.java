@@ -54,13 +54,13 @@ public class SQLVisita
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss"); 
 		String fecha= sdf.format(fechaD);
-		String q1 = "SELECT VISITA.*    \r\n"
-				+ "FROM VISITANTE\r\n"
-				+ "INNER JOIN VISITA\r\n"
-				+ "ON VISITANTE.id = VISITA.visitante\r\n"
-				+ "INNER JOIN ESPACIO\r\n"
-				+ "ON VISITA.lector = ESPACIO.lector\r\n"
-				+ "WHERE VISITANTE.id = 1 AND hora_inicial BETWEEN TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS')-11 AND TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS')";
+		String q1 = "SELECT VISITA.*"
+				+ " FROM VISITANTE"
+				+ " INNER JOIN VISITA"
+				+ " ON VISITANTE.id = VISITA.visitante"
+				+ " INNER JOIN ESPACIO"
+				+ " ON VISITA.lector = ESPACIO.lector"
+				+ " WHERE VISITANTE.id = " + idVisitante + " AND hora_inicial BETWEEN TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS')-11 AND TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS')";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visita.class);

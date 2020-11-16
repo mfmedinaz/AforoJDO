@@ -119,7 +119,7 @@ class SQLVisitante
 				+ "ON VISITANTE.id = VISITA.visitante\r\n"
 				+ "INNER JOIN ESPACIO\r\n"
 				+ "ON VISITA.lector = ESPACIO.lector\r\n"
-				+ "WHERE VISITA.lector = " + visita.getLector() + " AND hora_inicial <  TO_DATE('" + visita.getHora_Final() + "', 'YYYY-MM-DD-HH24:MI:SS') AND hora_final > TO_DATE('" + visita.getHora_Inicial() + "', 'YYYY-MM-DD-HH24:MI:SS')";
+				+ "WHERE VISITA.lector = " + visita.getLector() + " AND hora_inicial <=  TO_DATE('" + visita.getHora_Final() + "', 'YYYY-MM-DD-HH24:MI:SS') AND hora_final >= TO_DATE('" + visita.getHora_Inicial() + "', 'YYYY-MM-DD-HH24:MI:SS')";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
