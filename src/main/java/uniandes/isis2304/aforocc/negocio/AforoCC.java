@@ -194,9 +194,8 @@ public class AforoCC
 		return resp;
 	}
 	
-	public String darIndiceAforo(String opcion,String horaIni,String horaFin,String idEspacio,String tipoEstablecimiento)
+	public double darIndiceAforo(String opcion,String horaIni,String horaFin,String idEspacio,String tipoEstablecimiento)
 	{
-		String resultado = "";
 		if(opcion.equalsIgnoreCase("cc"))
 		{
 			int aforoReal = darAforoRealCC(horaIni, horaFin);  				
@@ -207,12 +206,7 @@ public class AforoCC
 			int aforoMaximo = areaEstablecimientos/15 + numAscensores*2 + numSanitarios/2;
 			
 			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
-			
-			resultado += "Índice aforo del centro comercial\n\n";
-			
-			resultado += indiceAforo*100 + "%";
-			
-			resultado += "\n Operación terminada";
+			return indiceAforo;
 		}
 		else if(opcion.equalsIgnoreCase("establecimiento"))
 		{	
@@ -222,12 +216,7 @@ public class AforoCC
 			int aforoMaximo = areaEstablecimiento/15;
 			
 			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
-			
-			resultado += "Índice aforo del centro comercial\n\n";
-			
-			resultado += indiceAforo*100 + "%";
-			
-			resultado += "\n Operación terminada";
+			return indiceAforo;
 		}
 		else if(opcion.equalsIgnoreCase("tipoestablecimiento"))
 		{
@@ -242,19 +231,10 @@ public class AforoCC
 			int aforoMaximo = totalAreasTipoEstablecimiento/15;
 			
 			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
-			
-			resultado += "Índice aforo del centro comercial\n\n";
-			
-			resultado+=indiceAforo*100 + "%";
-			
-			resultado += "\n Operación terminada";
+			return indiceAforo;
 			
 		}
-		else
-		{
-			resultado += "Opción Inválida";
-		}
-		return resultado;
+		return -1;
 	}
 	
 	public Espacio darEspacioPorNombre(String nombre)
