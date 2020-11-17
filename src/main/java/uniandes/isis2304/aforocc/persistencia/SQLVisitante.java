@@ -16,6 +16,7 @@
 package uniandes.isis2304.aforocc.persistencia;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
 import java.time.format.DateTimeFormatter;  
@@ -113,18 +114,42 @@ class SQLVisitante
 	
 	public List<Visitante> darVisitantesVisita(PersistenceManager pm, Visita visita)
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss"); 
+		String fechaFinal= sdf.format(visita.getHora_Final());
+		String fechaInicial= sdf.format(visita.getHora_Inicial());
+		
 		String q1 = "SELECT VISITANTE.*\r\n"
 				+ "FROM VISITANTE\r\n"
 				+ "INNER JOIN VISITA\r\n"
 				+ "ON VISITANTE.id = VISITA.visitante\r\n"
 				+ "INNER JOIN ESPACIO\r\n"
 				+ "ON VISITA.lector = ESPACIO.lector\r\n"
-				+ "WHERE VISITA.lector = " + visita.getLector() + " AND hora_inicial <=  TO_DATE('" + visita.getHora_Final() + "', 'YYYY-MM-DD-HH24:MI:SS') AND hora_final >= TO_DATE('" + visita.getHora_Inicial() + "', 'YYYY-MM-DD-HH24:MI:SS')";
+				+ "WHERE VISITA.lector = " + visita.getLector() + " AND hora_inicial <=  TO_DATE('" + fechaFinal + "', 'YYYY-MM-DD-HH24:MI:SS') AND hora_final >= TO_DATE('" + fechaInicial + "', 'YYYY-MM-DD-HH24:MI:SS')";
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
 		
 		return (List<Visitante>) q.executeList();
+	}
+	
+	public Visitante darVisitantesMasDeTresVisitasMesEspacioDeterminado(PersistenceManager pm, String mes, String anio, String espacio)
+	{		
+		String q1 = "SELECT Visitante.*\r\n"
+				+ "FROM VISITANTE\r\n"
+				+ "INNER JOIN VISITA\r\n"
+				+ "ON VISITANTE.id = VISITA.visitante\r\n"
+				+ "INNER JOIN ESPACIO\r\n"
+				+ "ON VISITA.lector = ESPACIO.lector\r\n"
+				+ "INNER JOIN LOCAL_COMERCIAL\r\n"
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id\r\n"
+				+ "WHERE ESPACIO.id =" + espacio + " AND  VISITANTE.tipo_visitante = 'CONSUMIDOR' AND hora_inicial BETWEEN TO_DATE('" + anio + "-" + mes + "10-02-23:59:59', 'YYYY-MM-DD-HH24:MI:SS') AND ADD_MONTHS(TO_DATE('" + anio + "-" + mes + "-02-23:59:59', 'YYYY-MM-DD-HH24:MI:SS'),1)\r\n"
+				+ "GROUP BY Visitante.id\r\n"
+				+ "HAVING COUNT(Visitante.id) >=3";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(Visitante.class);
+		
+		return (Visitante) q.executeList();
 	}
 
 

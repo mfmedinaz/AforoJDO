@@ -544,7 +544,40 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
     			
     			for(Visitante vis: visitantes)
     			{
-    				resultado+=vis.getNombre();
+    				resultado+=vis.getNombre() +"\n";
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    public void darVisitantesFrecuentesEspacio()
+    {
+    	try 
+    	{
+    		String espacio = JOptionPane.showInputDialog (this, "Ingrese el id del espacio a consultar", "Encontrar clientes frecuentes", JOptionPane.QUESTION_MESSAGE);    		
+    		
+    		if (espacio != null)
+    		{    
+    			String resultado = "Consumidores frecuentes del espacio con id " + espacio + "\n\n";
+    			
+    			List<Visitante> frecuentes = aforoCC.darVisitantesFrecuentesEspacio(espacio);
+    			
+    			for(Visitante vis: frecuentes)
+    			{
+    				resultado+= vis.toString();
+    				resultado += "\n";
     			}
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);

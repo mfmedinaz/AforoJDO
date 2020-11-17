@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
 
+import jdk.internal.org.jline.utils.Log;
 import uniandes.isis2304.aforocc.persistencia.PersistenciaAforoCC;
 
 /**
@@ -332,7 +333,7 @@ public class AforoCC
 		log.info("Obteniendo ENCONTRAR LOS VISITANTES QUE ESTUVIERON CONTACTO CON OTRO DETERMINADO VISITANTE");
 		List<Visitante> visitantes = new ArrayList();
 		List<Visita> visitas = pp.darVisitasPorVisitanteDeterminado(idVisitante, fecha);
-		System.out.println(visitas.size());
+
 		for(Visita vis: visitas)
 		{
 			List<Visitante> visits = pp.darVisitantesVisita(vis);
@@ -347,6 +348,38 @@ public class AforoCC
 		
 		return visitantes;
 		
+	}
+	
+	public List<Visitante> darVisitantesFrecuentesEspacio(String espacio)
+	{
+		Log.info("Encontrando clientes frecuentes");
+		List<Visitante> visitantes = new ArrayList();
+		List<Visitante> imposibles = new ArrayList();
+		int primerAnio = 2018;
+		int primerMes = 1;
+		for(int i = primerAnio; i <= pp.darFechaActual().getMonth(); i++)
+		{
+			for(int j = primerMes; j <= pp.darFechaActual().getMonth(); j++)
+			{
+				List<Visitante> candidatos = pp.darVisitantesMasDeTresVisitasMesEspacioDeterminado(j+"", i+"", espacio);
+				if(i == primerAnio && j == primerMes)
+				{
+					visitantes = candidatos;
+				}
+				
+				for(Visitante vis: visitantes)
+				{
+					if(!candidatos.contains(vis))
+					{
+						visitantes.remove(vis);
+					}
+				}
+			}
+			
+		}
+		
+		
+		return visitantes;
 	}
 
 	/**

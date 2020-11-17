@@ -52,7 +52,7 @@ public class SQLVisita
 	
 	public List<Visita> darVisitasPorVisitanteDeterminado(PersistenceManager pm, String idVisitante, Date fechaD)
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss"); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss"); 
 		String fecha= sdf.format(fechaD);
 		String q1 = "SELECT VISITA.*"
 				+ " FROM VISITANTE"

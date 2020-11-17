@@ -547,6 +547,12 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlVisitante.darVisitantesVisita(pmf.getPersistenceManager(), visita);
 	}
 	
+	public List<Visitante> darVisitantesMasDeTresVisitasMesEspacioDeterminado(String mes, String anio, String espacio)
+	{
+		return (List<Visitante>) sqlVisitante.darVisitantesMasDeTresVisitasMesEspacioDeterminado(pmf.getPersistenceManager(), mes, anio, espacio);
+	}
+	
+	
 	public Date darFechaActual()
 	{
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  

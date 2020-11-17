@@ -58,6 +58,10 @@
 				{
 					"label": "Mostrar Indice Aforo CC",
 					"event": "mostrarIndiceAforoCC"
+				},
+				{
+					"label": "Mostrar Clientes Frecuentes Espacio",
+					"event": "darVisitantesFrecuentesEspacio"
 				}
 			]
 		},
