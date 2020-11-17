@@ -518,6 +518,121 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		} 
 		catch (Exception e) 
 		{
+						e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+	
+	public void cambiarEstadoVisitante()
+	{
+		try 
+		{
+			String idVisStr = JOptionPane.showInputDialog(this, "Ingrese el id del visitante", "Cambiar estado visitante", JOptionPane.QUESTION_MESSAGE);
+			String nuevoEstado = JOptionPane.showInputDialog(this, "Ingrese el nuevo estado", "Cambiar estado visitante", JOptionPane.QUESTION_MESSAGE);
+			if (idVisStr != null && nuevoEstado != null)
+			{
+				long resp = aforoCC.cambiarEstadoVisitante(Long.valueOf(idVisStr), nuevoEstado);
+				String resultado = "Se actualizaron " + resp + " registros";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
+		} 
+		catch (Exception e) 
+		{
+						e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+	
+	public void cambiarEstadoEspacio()
+	{
+		try 
+		{
+			String idEspStr = JOptionPane.showInputDialog(this, "Ingrese el id del espacio", "Cambiar estado espacio", JOptionPane.QUESTION_MESSAGE);
+			String nuevoEstado = JOptionPane.showInputDialog(this, "Ingrese el nuevo estado", "Cambiar estado espacio", JOptionPane.QUESTION_MESSAGE);
+			if (idEspStr != null && nuevoEstado != null)
+			{
+				long resp = aforoCC.cambiarEstadoEspacio(Long.valueOf(idEspStr), nuevoEstado);
+				String resultado = "Se actualizaron " + resp + " registros";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
+		} 
+		catch (Exception e) 
+		{
+						e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+	
+	public void actualizarEstados()
+	{
+		try 
+		{
+			
+				aforoCC.actualizarEstados();
+				String resultado = "Se actualizaron los estados de los visitantes y de los espacios";
+				panelDatos.actualizarInterfaz(resultado);
+		} 
+		catch (Exception e) 
+		{
+						e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+	
+	public void deshabilitarEspacio()
+	{
+		try 
+		{
+			String idEspStr = JOptionPane.showInputDialog(this, "Ingrese el id del espacio", "Deshabilitar un espacio", JOptionPane.QUESTION_MESSAGE);
+			if (idEspStr != null)
+			{
+				long resp = aforoCC.desHabilitarUnEspacio(Long.valueOf(idEspStr));
+				String resultado = "Se actualizaron " + resp + " registros";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
+		} 
+		catch (Exception e) 
+		{
+					e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+	
+	public void habilitarEspacio()
+	{
+		try 
+		{
+			String idEspStr = JOptionPane.showInputDialog(this, "Ingrese el id del espacio", "habilitar un espacio", JOptionPane.QUESTION_MESSAGE);
+			if (idEspStr != null)
+			{
+				long resp = aforoCC.desHabilitarUnEspacio(Long.valueOf(idEspStr));
+				String resultado = "Se actualizaron " + resp + " registros";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
+		} 
+		catch (Exception e) 
+		{
 			//			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);

@@ -7,10 +7,7 @@ public class TipoEstablecimiento implements VOTipoEstablecimiento
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
-	public final static String LOCAL_COMERCIAL = "LOCAL_COMERCIAL";
-	public final static String BANIO = "BAÑO";
-	public final static String PARQUEADERO = "PARQUEADERO";
-	public final static String ASCENSOR = "ASCENSOR";
+
 	
 	
 	private String nombre;

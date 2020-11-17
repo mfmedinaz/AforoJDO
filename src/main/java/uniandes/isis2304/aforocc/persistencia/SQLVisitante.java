@@ -150,6 +150,19 @@ class SQLVisitante
 		q.setResultClass(Visitante.class);
 		
 		return (Visitante) q.executeList();
+	public List<Visitante> darVisitantes(PersistenceManager pm)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaVisitante ());
+		q.setResultClass(Visitante.class);
+		return (List<Visitante>) q.executeList();
+	}
+	
+	public long actualizarEstado(PersistenceManager pm, long idVisitante, long idNuevoEstado)
+	{
+		String q1 = "UPDATE " + pp.darTablaVisitante() + " SET estado = ? WHERE ID = ?";
+		Query q = pm.newQuery(SQL, q1);
+		q.setParameters(idNuevoEstado, idVisitante);
+		return (long) q.executeUnique(); 	
 	}
 
 

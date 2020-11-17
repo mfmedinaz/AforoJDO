@@ -116,6 +116,10 @@ public class PersistenciaAforoCC
 	
 	private SQLLocalComercial sqlLocalComercial;
 	
+	private SQLEstadoVisitante sqlEstadoVisitante;
+	
+	private SQLEstadoEspacio sqlEstadoEspacio;
+	
 	/* ****************************************************************
 	 * 			Métodos del MANEJADOR DE PERSISTENCIA
 	 *****************************************************************/
@@ -144,6 +148,8 @@ public class PersistenciaAforoCC
 		tablas.add ("ADMIN_CC");
 		tablas.add ("ADMIN_LOCAL");
 		tablas.add ("TIPO_ESTABLECMIENTO");
+		tablas.add ("ESTADO_VISITANTE");
+		tablas.add ("ESTADO_ESPACIO");
 }
 
 	/**
@@ -225,6 +231,8 @@ public class PersistenciaAforoCC
 		sqlCentroComercial = new SQLCentroComercial(this);
 		sqlTipoVisitante = new SQLTipoVisitante(this);
 		sqlLocalComercial = new SQLLocalComercial(this);
+		sqlEstadoVisitante = new SQLEstadoVisitante(this);
+		sqlEstadoEspacio = new SQLEstadoEspacio(this);
 	}
 
 	/**
@@ -279,6 +287,16 @@ public class PersistenciaAforoCC
 	public String darTablaLector ()
 	{
 		return tablas.get (9);
+	}
+	
+	public String darTablaEstadoVisitante ()
+	{
+		return tablas.get (14);
+	}
+	
+	public String darTablaEstadoEspacio ()
+	{
+		return tablas.get (15);
 	}
 
 	
@@ -405,7 +423,7 @@ public class PersistenciaAforoCC
 	}
 	
 	
-	public long registrarSalidaVisitante(long idVisitante, long idLector, String horaFinal)
+	public long registrarSalidaVisitante(long idVisitante, long idLector, Date horaFinal)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
@@ -455,15 +473,148 @@ public class PersistenciaAforoCC
         }
 	}
 	
+	public long actualizarEstadoVisitante(long idVisitante, long idNuevoEstado)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlVisitante.actualizarEstado(pm, idVisitante, idNuevoEstado);
+			tx.commit();
+			return resp;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return -1;
+		}
+		finally
+        {
+        	if (tx.isActive())
+        		tx.rollback();
+        	pm.close();
+        }
+	}
+	
+	public EstadoVisitante crearNuevoEstadoVisitante(String nombre, Date fechaAsignacion)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long idEstado = nextval() + 10;
+			long tuplasInsertadas = sqlEstadoVisitante.registrarNuevoEstadoVisitante(pm, idEstado, nombre, fechaAsignacion);
+			tx.commit();
+			
+			log.trace("Insercion a estadoVisitante de nueva entrada: [" + idEstado +"]."
+					+ " " + tuplasInsertadas + " tuplas insertadas");
+			return new EstadoVisitante(idEstado, nombre, fechaAsignacion);
+		}
+		catch (Exception e)
+		{
+			log.error("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			System.out.println("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+				tx.rollback();
+			pm.close();
+		}
+	}
+	
+	
+	public long actualizarEstadoEspacio(long idEspacio, long idNuevoEstado)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlEspacio.actualizarEstado(pm, idEspacio, idNuevoEstado);
+			tx.commit();
+			return resp;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return -1;
+		}
+		finally
+        {
+        	if (tx.isActive())
+        		tx.rollback();
+        	pm.close();
+        }
+	}
+	
+	public EstadoEspacio crearNuevoEstadoEspacio(String nombre, Date fechaAsignacion)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long idEstado = nextval();
+			long tuplasInsertadas = sqlEstadoEspacio.registrarNuevoEstadoEspacio(pm, idEstado, nombre, fechaAsignacion);
+			tx.commit();
+			
+			log.trace("Insercion a estadoEspacio de nueva entrada: [" + idEstado +"]."
+					+ " " + tuplasInsertadas + " tuplas insertadas");
+			return new EstadoEspacio(idEstado, nombre, fechaAsignacion);
+		}
+		catch (Exception e)
+		{
+			log.error("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			System.out.println("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+				tx.rollback();
+			pm.close();
+		}
+	}
 	
 	public Visitante darVisitantePorCodigo(String codigo)
 	{
 		return (Visitante) sqlVisitante.darVisitantePorCodigo(pmf.getPersistenceManager(), codigo);
 	}
 	
+	public Visitante darVisitantePorId(long idVisitante)
+	{
+		return (Visitante) sqlVisitante.darVisitantePorId(pmf.getPersistenceManager(), idVisitante);
+	}
+	
 	public Espacio darEspacioPorNombre(String nombre)
 	{
 		return (Espacio) sqlEspacio.darEspacioPorNombre(pmf.getPersistenceManager(), nombre);
+	}
+	
+	public Espacio darEspacioPorLector(long idLector)
+	{
+		return (Espacio) sqlEspacio.darEspacioPorLector(pmf.getPersistenceManager(), idLector);
+	}
+	
+	public Espacio darEspacioPorId(long idEspacio)
+	{
+		return (Espacio) sqlEspacio.darEspacioPorId(pmf.getPersistenceManager(), idEspacio);
+	}
+	
+	public List<Visitante> darVisitantes()
+	{
+		return (List<Visitante>) sqlVisitante.darVisitantes(pmf.getPersistenceManager());
+	}
+	
+	public List<Espacio> darEspacios()
+	{
+		return (List<Espacio>) sqlEspacio.darEspacios(pmf.getPersistenceManager());
 	}
 	
 
@@ -472,15 +623,30 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlEspacio.darVisitantesEspacio (pmf.getPersistenceManager(), espacio, horaIni, horaFin);
 	}
 	
-	public List<Visita> darVisitasEnCurso(long idLocal)
+	public List<Visita> darVisitasEnCursoLocal(long idLocal)
 	{
 		return (List<Visita>) sqlLocalComercial.darVisitasEnCurso(pmf.getPersistenceManager(), idLocal);
 	}
+	
+	public List<Visita> darVisitasEnCursoEspacio(long idEspacio)
+	{
+		return (List<Visita>) sqlEspacio.darVisitasEnCurso(pmf.getPersistenceManager(), idEspacio);
+	}
+	
 	public List<String> mostrar20EstablecimientosMasPopulares(String horaIni, String horaFin)
 	{
 		return (List<String>) sqlEspacio.mostrar20EstablecimientosMasPopulares(pmf.getPersistenceManager(), horaIni, horaFin);
 	}
 	
+	public EstadoEspacio darEstadoEspacioPorId(long idEstado)
+	{
+		return (EstadoEspacio) sqlEstadoEspacio.darEstadoEspacioPorId(pmf.getPersistenceManager(), idEstado);
+	}
+	
+	public EstadoVisitante darEstadoVisitantePorId(long idEstado)
+	{
+		return (EstadoVisitante) sqlEstadoVisitante.darEstadoVisitantePorId(pmf.getPersistenceManager(), idEstado);
+	}
 	
 	public CentroComercial darCentroComercial()
 	{
@@ -542,6 +708,11 @@ public class PersistenciaAforoCC
 		return (List<Visita>) sqlVisita.darVisitasPorVisitanteDeterminado(pmf.getPersistenceManager(), idVisitante, fecha);
 	}
 	
+	public List<Espacio> darEspaciosVisitadosPorVisitanteDeterminado(String idVisitante, Date fecha)
+	{
+		return (List<Espacio>) sqlEspacio.darEspacioVisitadosPorVisitanteDeterminado(pmf.getPersistenceManager(), idVisitante, fecha);
+	}
+	
 	public List<Visitante> darVisitantesVisita(Visita visita)
 	{
 		return (List<Visitante>) sqlVisitante.darVisitantesVisita(pmf.getPersistenceManager(), visita);
@@ -552,6 +723,7 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlVisitante.darVisitantesMasDeTresVisitasMesEspacioDeterminado(pmf.getPersistenceManager(), mes, anio, espacio);
 	}
 	
+
 	
 	public Date darFechaActual()
 	{

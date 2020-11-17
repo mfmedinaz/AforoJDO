@@ -1,15 +1,18 @@
 package uniandes.isis2304.aforocc.persistencia;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import java.util.Date;
 import java.util.List;
 
 import uniandes.isis2304.aforocc.negocio.Espacio;
 import uniandes.isis2304.aforocc.negocio.VOEspacio;
+import uniandes.isis2304.aforocc.negocio.Visita;
 import uniandes.isis2304.aforocc.negocio.Visitante;
 
 public class SQLEspacio 
@@ -51,6 +54,29 @@ public class SQLEspacio
 		q.setResultClass(Espacio.class);
 		q.setParameters(nombre);
 		return (Espacio) q.executeUnique();
+	}
+	
+	public Espacio darEspacioPorLector(PersistenceManager pm, long idLector)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaEspacio() + " WHERE lector = ?");
+		q.setResultClass(Espacio.class);
+		q.setParameters(idLector);
+		return (Espacio) q.executeUnique();
+	}
+	
+	public Espacio darEspacioPorId(PersistenceManager pm, long idEspacio)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaEspacio() + " WHERE ID = ?");
+		q.setResultClass(Espacio.class);
+		q.setParameters(idEspacio);
+		return (Espacio) q.executeUnique();
+	}
+	
+	public List<Espacio> darEspacios(PersistenceManager pm)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaEspacio());
+		q.setResultClass(Espacio.class);
+		return (List<Espacio>) q.executeList();
 	}
 	
 /**
@@ -159,6 +185,48 @@ public class SQLEspacio
 		q.setResultClass(Integer.class);
 		
 		return (List<Integer>) q.executeList();
+	}
+	
+	public long actualizarEstado(PersistenceManager pm, long idEspacio, long idNuevoEstado)
+	{
+		String q1 = "UPDATE " + pp.darTablaEspacio() + " SET estado = ? WHERE ID = ?";
+		Query q = pm.newQuery(SQL, q1);
+		q.setParameters(idNuevoEstado, idEspacio);
+		return (long) q.executeUnique(); 	
+	}
+	
+	public List<Espacio> darEspacioVisitadosPorVisitanteDeterminado(PersistenceManager pm, String idVisitante, Date fechaD)
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss"); 
+		String fecha= sdf.format(fechaD);
+		String q1 = "SELECT ESPACIO.*"
+				+ " FROM VISITANTE"
+				+ " INNER JOIN VISITA"
+				+ " ON VISITANTE.id = VISITA.visitante"
+				+ " INNER JOIN ESPACIO"
+				+ " ON VISITA.lector = ESPACIO.lector"
+				+ " WHERE VISITANTE.id = " + idVisitante + " AND hora_inicial BETWEEN TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS')-11 AND TO_DATE('" + fecha + "', 'YYYY-MM-DD-HH24:MI:SS')";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(Espacio.class);
+		
+		return (List<Espacio>) q.executeList();
+	}
+	
+	public List<Visita> darVisitasEnCurso(PersistenceManager pm, long idEspacio)
+	{
+		String q1 = "SELECT VISITA.* ";
+		q1 += "FROM " + pp.darTablaVisita() + ", "  + pp.darTablaLector() + ", " + pp.darTablaEspacio(); 
+		q1 += " WHERE visita.lector = LECTOR.ID AND ";
+		q1 += "espacio.lector = LECTOR.ID AND ";
+		q1 += "visita.hora_final IS NULL AND ";
+		q1 += "espacio.id = ?";
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(Visita.class);
+		q.setParameters(idEspacio);
+
+		return (List<Visita>) q.executeList();
 	}
 	
 }

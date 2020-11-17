@@ -32,6 +32,10 @@
 				{
 					"label": "Encontrar Visitantes Que Tuvieron Contacto Con Otro Determinado Visitante",
 					"event": "encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante"
+				},
+				{
+					"label": "Cambiar estado",
+					"event": "cambiarEstadoVisitante"
 				}
 			]
 		},
@@ -49,6 +53,18 @@
 				{
 					"label": "Mostrar 20 Establecimientos Más Populares",
 					"event": "mostrar20EstablecimientosMasPopulares"
+				},
+				{
+					"label": "Cambiar estado",
+					"event": "cambiarEstadoEspacio"
+				},
+				{
+					"label": "Deshabilitar espacio",
+					"event": "cambiarEstadoEspacio"
+				},
+				{
+					"label": "Habilitar espacio",
+					"event": "habilitarEspacio"
 				}
 			]
 		},
@@ -62,6 +78,10 @@
 				{
 					"label": "Mostrar Clientes Frecuentes Espacio",
 					"event": "darVisitantesFrecuentesEspacio"
+				},
+				{
+					"label": "Actualizar estados",
+					"event": "actualizarEstados"
 				}
 			]
 		},

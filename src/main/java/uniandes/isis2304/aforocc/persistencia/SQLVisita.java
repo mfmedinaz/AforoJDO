@@ -40,7 +40,7 @@ public class SQLVisita
 		return resp;
 	}
 	
-	public long registrarSalidaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idLector, String horaFinal)
+	public long registrarSalidaVisitanteEspacio (PersistenceManager pm, long idVisitante, long idLector, Date horaFinal)
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss"); 
 		String fecha= sdf.format(horaFinal);

@@ -54,7 +54,7 @@ public class AforoCC
 	 * El manejador de persistencia
 	 */
 	private PersistenciaAforoCC pp;
-	
+
 	/* ****************************************************************
 	 * 			Métodos
 	 *****************************************************************/
@@ -65,7 +65,7 @@ public class AforoCC
 	{
 		pp = PersistenciaAforoCC.getInstance ();
 	}
-	
+
 	/**
 	 * El constructor qye recibe los nombres de las tablas en tableConfig
 	 * @param tableConfig - Objeto Json con los nombres de las tablas y de la unidad de persistencia
@@ -74,7 +74,7 @@ public class AforoCC
 	{
 		pp = PersistenciaAforoCC.getInstance (tableConfig);
 	}
-	
+
 	/**
 	 * Cierra la conexión con la base de datos (Unidad de persistencia)
 	 */
@@ -82,8 +82,8 @@ public class AforoCC
 	{
 		pp.cerrarUnidadPersistencia ();
 	}
-	
-	
+
+
 	public Visitante registrarVisistante(String nombre, String correo, String telefono, String nombreEmergencia, 
 			String telefonoEmergencia, String tipoVisitante, long centroComercial)
 	{
@@ -92,7 +92,7 @@ public class AforoCC
 		log.info("Registrando al visitante: " + resp != null ? resp : "NO EXISTE");
 		return resp;
 	}
-	
+
 	public long eliminarVisitantePorId(long idVisitante)
 	{
 		log.info("Eliminando Visitante por Id: " + idVisitante);
@@ -100,43 +100,51 @@ public class AforoCC
 		log.info("Eliminando Visitante por id " + resp + " tuplas eliminadas");
 		return resp;
 	}
-	
-	
+
+
 	public Visita registrarEntradaVisitante ( String codigoVisitante, String nomEspacio ) throws Exception
 	{	
 		Date horaInicial = pp.darFechaActual();
-		
+
 		Visitante visitante = darVisitantePorCodigo(codigoVisitante);
-	
+
 		log.info("Registrando entrada  [" + horaInicial + ", " + visitante.getId() + "]");
-		
+
 		long idLector = -1;
-		
-		if (nomEspacio.equals("Centro comercial"))
+		EstadoVisitante estadoVisitante = pp.darEstadoVisitantePorId(visitante.getEstado());
+		if (estadoVisitante.getNombre().equals(EstadoVisitante.VERDE)) 
 		{
-			VOCentroComercial cc = darCentroComercial();
-			idLector = cc.getLector_Entrada_CC();
-		}
-		else
-		{
-			Espacio espacio = darEspacioPorNombre(nomEspacio);
-			LocalComercial local = darLocalComercialPorIdEspacio(espacio.getId());
-			if (local != null && local.getEstado().equals(LocalComercial.CERRADO) && !visitante.getTipo_Visitante().equals(TipoVisitante.EMPLEADO_CC))
-				throw new Exception("No se puede registrar la entrada ya que el local está cerrado y el visitante no tiene permiso de entrar");
-			idLector = espacio.getLector();
-			
+			if (nomEspacio.equals("Centro comercial"))
+			{
+				VOCentroComercial cc = darCentroComercial();
+				idLector = cc.getLector_Entrada_CC();
+			}
+			else
+			{
+				Espacio espacio = darEspacioPorNombre(nomEspacio);
+				EstadoEspacio estadoEspacio = pp.darEstadoEspacioPorId(espacio.getEstado());
+				
+				LocalComercial local = darLocalComercialPorIdEspacio(espacio.getId());
+				if (local != null && local.getEstado().equals(LocalComercial.CERRADO) && !visitante.getTipo_Visitante().equals(TipoVisitante.EMPLEADO_CC))
+					throw new Exception("No se puede registrar la entrada ya que el local está cerrado y el visitante no tiene permiso de entrar");
+				if ((estadoEspacio.getNombre().equals(EstadoEspacio.DESHABILITADO) || estadoEspacio.getNombre().equals(EstadoEspacio.DESOCUPADO)) 
+						&& !visitante.getTipo_Visitante().equals(TipoVisitante.EMPLEADO_CC)) 
+				{
+					throw new Exception("No se puede registrar la entrada ya que el espacio no está disponible para este tipo de visitante");
+				}
+				idLector = espacio.getLector();
+
+			}
 		}
 		Visita resp = pp.registrarEntradaVisitante(horaInicial, null, visitante.getId(), idLector);
 		System.out.println(resp);
 		log.info("Registrando entrada: " + resp != null ? resp : "NO EXISTE");
 		return resp;
 	}
-	
+
 	public long registrarSalidaVisitante(String codigoVisitante, String nomEspacio)
 	{
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.now();
-		String horaSalida = dtf.format(now);
+		Date horaSalida = pp.darFechaActual();
 		Visitante visitante = darVisitantePorCodigo(codigoVisitante);
 
 		log.info("Registrando salida [" + horaSalida + ", " + visitante.getId() + "]");
@@ -151,12 +159,14 @@ public class AforoCC
 			VOEspacio espacio = darEspacioPorNombre(nomEspacio);
 			idLector = espacio.getLector();
 		}
-		
+
 		long resp = pp.registrarSalidaVisitante(visitante.getId(), idLector, horaSalida);
 		log.info("Registrando salida: " + resp + " tuplas editadas");
 		return resp;
 	}
-	
+
+
+
 	public long cerrarLocalComercial(long idLocal)
 	{
 		log.info("Cerrando local comercial " + idLocal);
@@ -164,7 +174,7 @@ public class AforoCC
 		log.info("Cerrando local comercial: " + resp + " tuplas editadas");
 		return resp;
 	}
-	
+
 	public Visitante darVisitantePorCodigo(String codigo)
 	{
 		log.info("Obteniendo visitante por codigo [" + codigo + "]");
@@ -172,7 +182,7 @@ public class AforoCC
 		log.info("Obteniendo visitante por codigo:" + resp != null ? resp : "NO EXISTE");
 		return resp;
 	}
-	
+
 	public List<Visitante> darVisitantesEspacio(String espacio, String horaIni, String horaFin)
 	{
 		log.info("Obteniendo visitantes espacio en rango de fechas [" + espacio + ", " + horaIni + "," + horaFin + "]");
@@ -180,11 +190,11 @@ public class AforoCC
 		log.info("Obteniendo visitantes espacio en rango de fechas: " + resp.size() + " existentes");
 		return resp;
 	}
-	
+
 	public List<Visita> darVisitasEnCursoLocalComercial(long idLocal)
 	{
 		log.info("Obteniendo las visitas en curso del local: " + idLocal);
-		List<Visita> resp = pp.darVisitasEnCurso(idLocal);
+		List<Visita> resp = pp.darVisitasEnCursoLocal(idLocal);
 		log.info("Obteniendo las visitas en curso del local: " + resp.size() + " existentes");
 		return resp;
 	}
@@ -195,35 +205,35 @@ public class AforoCC
 		log.info("Obteniendo 20 espacios más populares en rango de fechas: " + resp.size() + " existentes");
 		return resp;
 	}
-	
+
 	public double darIndiceAforo(String opcion,String horaIni,String horaFin,String idEspacio,String tipoEstablecimiento)
 	{
 		if(opcion.equalsIgnoreCase("cc"))
 		{
 			int aforoReal = darAforoRealCC(horaIni, horaFin);  				
-			
+
 			int areaEstablecimientos = darAreaTotalLocalesComerciales();
 			int numAscensores = darNumeroTotalAscensores();
 			int numSanitarios = darNumeroTotalSanitarios();
 			int aforoMaximo = areaEstablecimientos/15 + numAscensores*2 + numSanitarios/2;
-			
+
 			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
 			return indiceAforo;
 		}
 		else if(opcion.equalsIgnoreCase("establecimiento"))
 		{	
 			int aforoReal = mostrarAforoRealEstablecimiento(horaIni, horaFin, idEspacio);
-			
+
 			int areaEstablecimiento = mostrarAreaEstablecimiento(idEspacio);
 			int aforoMaximo = areaEstablecimiento/15;
-			
+
 			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
 			return indiceAforo;
 		}
 		else if(opcion.equalsIgnoreCase("tipoestablecimiento"))
 		{
 			int aforoReal = mostrarAforoRealTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
-			
+
 			List<Integer> areasTipoEstablecimiento = mostrarAreasTipoEstablecimiento(horaIni, horaFin, tipoEstablecimiento);
 			int totalAreasTipoEstablecimiento = 0;
 			for(int area: areasTipoEstablecimiento)
@@ -231,14 +241,106 @@ public class AforoCC
 				totalAreasTipoEstablecimiento+=area;
 			}
 			int aforoMaximo = totalAreasTipoEstablecimiento/15;
-			
+
 			double indiceAforo = (double)aforoReal/(double)aforoMaximo;
 			return indiceAforo;
-			
+
 		}
 		return -1;
 	}
-	
+
+	public long cambiarEstadoVisitante(long idVisitante, String nuevoEstado)
+	{
+		Date hora = pp.darFechaActual();
+		EstadoVisitante estado = pp.crearNuevoEstadoVisitante(nuevoEstado, hora);
+		long resp = pp.actualizarEstadoVisitante(idVisitante, estado.getId());
+		if (nuevoEstado.contentEquals(EstadoVisitante.POSITIVO))
+		{
+			List<Visitante> visitantes = encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(idVisitante + "", hora);
+			List<Espacio> espacios = pp.darEspaciosVisitadosPorVisitanteDeterminado(idVisitante+"", hora);
+			for (Espacio espacio : espacios) {
+				cambiarEstadoEspacio(espacio.getId(), EstadoEspacio.ROJO);
+			}
+			for (Visitante visitante : visitantes) {
+				Espacio espContacto = encontrarEspacioContactoEntreVisitantes(idVisitante+"", visitante.getId()+"", hora);
+				if(espContacto.getTipo().equals(Espacio.LOCAL_COMERCIAL))
+					cambiarEstadoVisitante(visitante.getId(), EstadoVisitante.ROJO);
+				else
+					cambiarEstadoVisitante(visitante.getId(), EstadoVisitante.NARANJA);
+			}
+		}
+		return resp;
+	}
+
+	public long cambiarEstadoEspacio(long idEspacio, String nuevoEstado)
+	{
+		Date hora = pp.darFechaActual();
+		EstadoEspacio estado = pp.crearNuevoEstadoEspacio(nuevoEstado, hora);
+		long resp = pp.actualizarEstadoEspacio(idEspacio, estado.getId());
+		List<Visita> enCurso = pp.darVisitasEnCursoEspacio(idEspacio);
+		Espacio esp = pp.darEspacioPorId(idEspacio);
+		for (Visita visita : enCurso) {
+			Visitante vis = pp.darVisitantePorId(visita.getVisitante());
+			registrarSalidaVisitante(vis.getCodigo_QR(), esp.getNombre());
+		}
+		return resp;
+	}
+
+	public long desHabilitarUnEspacio(long idEspacio)
+	{
+		Date hora = pp.darFechaActual();
+		EstadoEspacio estado = pp.crearNuevoEstadoEspacio(EstadoEspacio.DESHABILITADO, hora);
+		long resp = pp.actualizarEstadoEspacio(idEspacio, estado.getId());
+		List<Visita> enCurso = pp.darVisitasEnCursoEspacio(idEspacio);
+		Espacio esp = pp.darEspacioPorId(idEspacio);
+		for (Visita visita : enCurso) {
+			Visitante vis = pp.darVisitantePorId(visita.getVisitante());
+			registrarSalidaVisitante(vis.getCodigo_QR(), esp.getNombre());
+			cambiarEstadoVisitante(vis.getId(), EstadoVisitante.NARANJA);
+		}
+		return resp;
+	}
+
+	public void actualizarEstados()
+	{
+		List<Visitante> visitantes = pp.darVisitantes();
+		List<Espacio> espacios = pp.darEspacios();
+		Date ahora = pp.darFechaActual();
+		for (Espacio espacio : espacios) 
+		{
+			EstadoEspacio estado = pp.darEstadoEspacioPorId(espacio.getEstado());
+			if (estado.getNombre().equals(EstadoEspacio.ROJO) || estado.getNombre().equals(EstadoEspacio.NARANJA))
+			{
+				long diasDiferencia = (ahora.getTime() - estado.getFecha_asignacion().getTime()) / (1000 * 60 * 60 * 24);
+				if (diasDiferencia > 2) 
+				{
+					cambiarEstadoEspacio(espacio.getId(), EstadoEspacio.VERDE);
+				}
+			}
+		}
+
+		for (Visitante visitante : visitantes) 
+		{
+			EstadoVisitante estado = pp.darEstadoVisitantePorId(visitante.getId());
+			if (estado.getNombre().equals(EstadoVisitante.ROJO) || estado.getNombre().equals(EstadoVisitante.NARANJA)) 
+			{
+				long diasDiferencia = (ahora.getTime() - estado.getFecha_asignacion().getTime()) / (1000 * 60 * 60 * 24);
+				if (diasDiferencia > 10) 
+				{
+					cambiarEstadoVisitante(visitante.getId(), EstadoVisitante.VERDE);
+				}
+			}
+		}
+	}
+
+	public long habilitarEspacio(long idEspacio)
+	{
+		Date hora = pp.darFechaActual();
+		EstadoEspacio estado = pp.crearNuevoEstadoEspacio(EstadoEspacio.VERDE, hora);
+		long resp = pp.actualizarEstadoEspacio(idEspacio, estado.getId());
+		return resp;
+	}
+
 	public Espacio darEspacioPorNombre(String nombre)
 	{
 		log.info("Obteniendo espacio por nombre [" + nombre + "]");
@@ -246,7 +348,7 @@ public class AforoCC
 		log.info("Obteniendo espacio por nombre: " + resp != null? resp : "NO EXISTE");
 		return resp;
 	}
-	
+
 	public CentroComercial darCentroComercial()
 	{
 		log.info("Obteniendo centro comercial");
@@ -254,7 +356,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public LocalComercial darLocalComercialPorIdEspacio(long idEspacio)
 	{
 		log.info("Obteniendo local comercial " + idEspacio);
@@ -262,8 +364,8 @@ public class AforoCC
 		log.info("Obteniendo local comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
-	
+
+
 	public int mostrarAforoRealEstablecimiento(String horaIni, String horaFin, String idEspacio)
 	{
 		log.info("Obteniendo centro comercial");
@@ -271,7 +373,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public int mostrarAforoRealTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
 	{
 		log.info("Obteniendo centro comercial");
@@ -279,7 +381,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public int mostrarAreaEstablecimiento(String idEspacio)
 	{
 		log.info("Obteniendo centro comercial");
@@ -287,7 +389,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public List<Integer> mostrarAreasTipoEstablecimiento(String horaIni, String horaFin, String tipoEstablecimiento)
 	{
 		log.info("Obteniendo centro comercial");
@@ -295,7 +397,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public int darAforoRealCC(String horaIni, String horaFin)
 	{
 		log.info("Obteniendo centro comercial");
@@ -303,7 +405,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public int darAreaTotalLocalesComerciales()
 	{
 		log.info("Obteniendo centro comercial");
@@ -311,7 +413,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public int darNumeroTotalAscensores()
 	{
 		log.info("Obteniendo centro comercial");
@@ -319,7 +421,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public int darNumeroTotalSanitarios()
 	{
 		log.info("Obteniendo centro comercial");
@@ -327,7 +429,7 @@ public class AforoCC
 		log.info("Obteniendo centro comercial: " + resp != null ? resp: "NO EXISTE");
 		return resp;
 	}
-	
+
 	public List<Visitante> encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(String idVisitante, Date fecha)
 	{
 		log.info("Obteniendo ENCONTRAR LOS VISITANTES QUE ESTUVIERON CONTACTO CON OTRO DETERMINADO VISITANTE");
@@ -345,9 +447,29 @@ public class AforoCC
 				}
 			}
 		}
-		
+
 		return visitantes;
-		
+
+	}
+
+	public Espacio encontrarEspacioContactoEntreVisitantes(String idVisitante1, String idVisitante2, Date fecha)
+	{
+		Espacio esp = null;
+
+		List<Visita> visitas = pp.darVisitasPorVisitanteDeterminado(idVisitante1, fecha);
+		System.out.println(visitas.size());
+		for(Visita vis: visitas)
+		{
+			List<Visitante> visits = pp.darVisitantesVisita(vis);
+			for(Visitante visitors: visits)
+			{
+				if(visitors.getId()!=Long.parseLong(idVisitante1) && (visitors.getId()+"").equals(idVisitante2))
+				{
+					esp = pp.darEspacioPorLector(vis.getLector());
+				}
+			}
+		}
+		return esp;
 	}
 	
 	public List<Visitante> darVisitantesFrecuentesEspacio(String espacio)
@@ -389,9 +511,9 @@ public class AforoCC
 	 */
 	public long [] limpiarAforoCC ()
 	{
-        log.info ("Limpiando la BD de AforoCC");
-        long [] borrrados = pp.limpiarAforoCC();	
-        log.info ("Limpiando la BD de AforoCC: Listo!");
-        return borrrados;
+		log.info ("Limpiando la BD de AforoCC");
+		long [] borrrados = pp.limpiarAforoCC();	
+		log.info ("Limpiando la BD de AforoCC: Listo!");
+		return borrrados;
 	}
 }

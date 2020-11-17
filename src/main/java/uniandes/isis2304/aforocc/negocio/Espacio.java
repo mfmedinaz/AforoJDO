@@ -5,6 +5,11 @@ public class Espacio implements VOEspacio
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
+	public final static String LOCAL_COMERCIAL = "LOCAL_COMERCIAL";
+	public final static String BANIO = "BAÑO";
+	public final static String PARQUEADERO = "PARQUEADERO";
+	public final static String ASCENSOR = "ASCENSOR";
+	
 	private long id;
 	
 	private String nombre;
