@@ -1,0 +1,40 @@
+
+SELECT owner,COUNT(*) FROM all_tables GROUP BY owner ;
+
+WITH  
+
+    tabla_1 AS( 
+
+    SELECT TABLE_NAME as NOMBRETABLA, COLUMN_NAME as NOMBRECOLUMNA, DATA_TYPE, NULLABLE 
+
+    from all_tab_columns 
+
+    where owner = 'ISIS2304C142020' 
+
+    ), 
+
+     
+
+    tabla_2 AS( 
+
+    SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME 
+
+    from ALL_CONS_COLUMNS 
+
+    where owner = 'ISIS2304C142020' AND 
+
+    constraint_name NOT LIKE 'BIN$%' 
+
+    ) 
+
+     
+
+SELECT NOMBRETABLA, NOMBRECOLUMNA, DATA_TYPE as TIPODEDATO, NVL(CONSTRAINT_NAME,'NO TIENE') as NOMBRERESTRICCION, NULLABLE as PERMITENULOS 
+
+FROM tabla_1   
+
+FULL JOIN tabla_2 
+
+ON tabla_1.NOMBRETABLA = tabla_2.table_name AND tabla_1.NOMBRECOLUMNA = tabla_2.column_name 
+
+ORDER BY NOMBRETABLA, NOMBRECOLUMNA, CONSTRAINT_NAME; 
