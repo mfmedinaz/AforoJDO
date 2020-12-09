@@ -11,6 +11,7 @@ import javax.jdo.Query;
 
 import uniandes.isis2304.aforocc.negocio.Espacio;
 import uniandes.isis2304.aforocc.negocio.Visita;
+import uniandes.isis2304.aforocc.negocio.Visitante;
 
 public class SQLVisita 
 {
@@ -66,5 +67,25 @@ public class SQLVisita
 		q.setResultClass(Visita.class);
 		
 		return (List<Visita>) q.executeList();
+	}
+	
+	//RFC10
+	public List<Visitante> consultarVisitasEnAforoCC(PersistenceManager pm, String fechaInicial, String fechaFinal, String criterioOrdenamiento)
+	{
+		String q1 = "SELECT VISITANTE.* "
+				+ "FROM VISITANTE "
+				+ "INNER JOIN VISITA "
+				+ "ON VISITANTE.id = VISITA.visitante "
+				+ "INNER JOIN ESPACIO "
+				+ "ON VISITA.lector = ESPACIO.lector "
+				+ "INNER JOIN LOCAL_COMERCIAL "
+				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id "
+				+ "WHERE hora_inicial BETWEEN TO_DATE('" + fechaInicial + "', 'YYYY-MM-DD-HH24:MI:SS')-11 AND TO_DATE('" + fechaFinal + "', 'YYYY-MM-DD-HH24:MI:SS') "
+				+ "ORDER BY " + criterioOrdenamiento;
+		
+		Query q = pm.newQuery(SQL, q1);	
+		q.setResultClass(Visitante.class);
+		
+		return (List<Visitante>) q.executeList();
 	}
 }

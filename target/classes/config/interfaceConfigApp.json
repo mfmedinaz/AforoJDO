@@ -15,6 +15,10 @@
 				{
 					"label": "Registrar salida",
 					"event": "registrarSalidaVisitante"
+				},
+				{
+					"label": "Consultar Visitas en Aforo-CC (RFC10)",
+					"event": "consultarVisitasEnAforoCC"
 				}
 			]
 		},

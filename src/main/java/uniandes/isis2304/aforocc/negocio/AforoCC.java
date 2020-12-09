@@ -503,6 +503,13 @@ public class AforoCC
 		
 		return visitantes;
 	}
+	
+	//RFC10
+	public List<Visitante> consultarVisitasEnAforoCC(String fechaInicial, String fechaFinal, String criterioOrdenamiento)
+	{
+		Log.info("Consultando visitas en aforoCC");
+		return pp.consultarVisitasEnAforoCC(fechaInicial, fechaFinal, criterioOrdenamiento);
+	}
 
 	/**
 	 * Elimina todas las tuplas de todas las tablas de la base de datos de AforoCC

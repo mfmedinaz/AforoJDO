@@ -723,6 +723,12 @@ public class PersistenciaAforoCC
 		return (List<Visitante>) sqlVisitante.darVisitantesMasDeTresVisitasMesEspacioDeterminado(pmf.getPersistenceManager(), mes, anio, espacio);
 	}
 	
+	//RFC10
+	public List<Visitante> consultarVisitasEnAforoCC(String fechaInicial, String fechaFinal, String criterioOrdenamiento)
+	{
+		return (List<Visitante>) sqlVisita.consultarVisitasEnAforoCC(pmf.getPersistenceManager(), fechaInicial, fechaFinal, criterioOrdenamiento);
+	}
+	
 
 	
 	public Date darFechaActual()

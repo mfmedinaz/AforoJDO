@@ -710,6 +710,42 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		}
     }
     
+    //RFC10 
+    public void consultarVisitasEnAforoCC()
+    {
+    	try 
+    	{
+    		String fechaInicial = JOptionPane.showInputDialog (this, "Ingrese la fecha inicial del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+    		String fechaFinal = JOptionPane.showInputDialog (this, "Ingrese la fecha final del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+    		String criterioOrdenamiento = JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+    		
+    		if (fechaInicial != null && fechaFinal != null && criterioOrdenamiento != null)
+    		{    
+    			String resultado = "Visitantes encontrados: \n\n";
+    			
+    			List<Visitante> visitantesEncontrados = aforoCC.consultarVisitasEnAforoCC(fechaInicial, fechaFinal, criterioOrdenamiento);
+    			
+    			for(Visitante vis: visitantesEncontrados)
+    			{
+    				resultado+= vis.toString();
+    				resultado += "\n";
+    			}
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
 
 
 
@@ -939,7 +975,6 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -150,6 +150,8 @@ class SQLVisitante
 		q.setResultClass(Visitante.class);
 		
 		return (Visitante) q.executeList();
+	}
+	
 	public List<Visitante> darVisitantes(PersistenceManager pm)
 	{
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaVisitante ());
