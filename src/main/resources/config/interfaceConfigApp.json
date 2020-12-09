@@ -19,6 +19,10 @@
 				{
 					"label": "Consultar Visitas en Aforo-CC (RFC10)",
 					"event": "consultarVisitasEnAforoCC"
+				},
+			    {
+					"label": "Consultar Visitas en Aforo-CC V2(RFC11)",
+					"event": "consultarVisitasEnAforoCCV2"
 				}
 			]
 		},

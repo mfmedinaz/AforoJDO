@@ -70,7 +70,7 @@ public class SQLVisita
 	}
 	
 	//RFC10
-	public List<Visitante> consultarVisitasEnAforoCC(PersistenceManager pm, String fechaInicial, String fechaFinal, String criterioOrdenamiento)
+	public List<Visitante> consultarVisitasEnAforoCC(PersistenceManager pm, String fechaInicial, String fechaFinal, String criterioOrdenamiento, String idEstablecimiento)
 	{
 		String q1 = "SELECT VISITANTE.* "
 				+ "FROM VISITANTE "
@@ -80,12 +80,32 @@ public class SQLVisita
 				+ "ON VISITA.lector = ESPACIO.lector "
 				+ "INNER JOIN LOCAL_COMERCIAL "
 				+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id "
-				+ "WHERE hora_inicial BETWEEN TO_DATE('" + fechaInicial + "', 'YYYY-MM-DD-HH24:MI:SS')-11 AND TO_DATE('" + fechaFinal + "', 'YYYY-MM-DD-HH24:MI:SS') "
-				+ "ORDER BY " + criterioOrdenamiento;
+				+ "WHERE hora_inicial BETWEEN TO_DATE('" + fechaInicial + "', 'YYYY-MM-DD-HH24:MI:SS') AND TO_DATE('" + fechaFinal + "', 'YYYY-MM-DD-HH24:MI:SS') AND ESPACIO.id = " + idEstablecimiento
+				+ " ORDER BY " + criterioOrdenamiento;
 		
 		Query q = pm.newQuery(SQL, q1);	
 		q.setResultClass(Visitante.class);
 		
 		return (List<Visitante>) q.executeList();
 	}
+	
+	//RFC11
+		public List<Visitante> consultarVisitasEnAforoCCV2(PersistenceManager pm, String fechaInicial, String fechaFinal, String criterioOrdenamiento, String idEstablecimiento)
+		{
+			String q1 = "SELECT VISITANTE.* "
+					+ "FROM VISITANTE "
+					+ "OUTER JOIN VISITA "
+					+ "ON VISITANTE.id = VISITA.visitante "
+					+ "INNER JOIN ESPACIO "
+					+ "ON VISITA.lector = ESPACIO.lector "
+					+ "INNER JOIN LOCAL_COMERCIAL "
+					+ "ON LOCAL_COMERCIAL.id_espacio = ESPACIO.id "
+					+ "WHERE hora_inicial BETWEEN TO_DATE('" + fechaInicial + "', 'YYYY-MM-DD-HH24:MI:SS') AND TO_DATE('" + fechaFinal + "', 'YYYY-MM-DD-HH24:MI:SS') AND ESPACIO.id = " + idEstablecimiento
+					+ " ORDER BY " + criterioOrdenamiento;
+			
+			Query q = pm.newQuery(SQL, q1);	
+			q.setResultClass(Visitante.class);
+			
+			return (List<Visitante>) q.executeList();
+		}
 }

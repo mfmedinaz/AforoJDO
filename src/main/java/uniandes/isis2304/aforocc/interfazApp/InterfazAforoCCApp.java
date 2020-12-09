@@ -518,12 +518,12 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		} 
 		catch (Exception e) 
 		{
-						e.printStackTrace();
+			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
 	}
-	
+
 	public void cambiarEstadoVisitante()
 	{
 		try 
@@ -543,12 +543,12 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		} 
 		catch (Exception e) 
 		{
-						e.printStackTrace();
+			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
 	}
-	
+
 	public void cambiarEstadoEspacio()
 	{
 		try 
@@ -568,29 +568,29 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		} 
 		catch (Exception e) 
 		{
-						e.printStackTrace();
+			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
 	}
-	
+
 	public void actualizarEstados()
 	{
 		try 
 		{
-			
-				aforoCC.actualizarEstados();
-				String resultado = "Se actualizaron los estados de los visitantes y de los espacios";
-				panelDatos.actualizarInterfaz(resultado);
+
+			aforoCC.actualizarEstados();
+			String resultado = "Se actualizaron los estados de los visitantes y de los espacios";
+			panelDatos.actualizarInterfaz(resultado);
 		} 
 		catch (Exception e) 
 		{
-						e.printStackTrace();
+			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
 	}
-	
+
 	public void deshabilitarEspacio()
 	{
 		try 
@@ -609,12 +609,12 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 		} 
 		catch (Exception e) 
 		{
-					e.printStackTrace();
+			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
 	}
-	
+
 	public void habilitarEspacio()
 	{
 		try 
@@ -640,112 +640,150 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 	}
 
 
-        
-    public void encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante()
-    {
-    	try 
-    	{
-    		String idVisitante = JOptionPane.showInputDialog (this, "Ingrese el codigo del visitante determinado", "Encontrar visitante", JOptionPane.QUESTION_MESSAGE);
-    		String fecha = JOptionPane.showInputDialog(this, "Ingrese fecha de la consulta", "Encontrar visitante", JOptionPane.QUESTION_MESSAGE);
-    		
-    		
-    		if (idVisitante != null && fecha != null)
-    		{
-    			//el formato debe ser ("yyyy/MM/dd HH:mm:ss")
-    			Date date = new Date(fecha);
-    			
-    			List<Visitante> visitantes = aforoCC.encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(idVisitante, date);
-    			String resultado = "Visitantes que tuvieron contacto en los últimos 10 días con el visitante con id " + idVisitante + "\n\n";
-    			
-    			for(Visitante vis: visitantes)
-    			{
-    				resultado+=vis.getNombre() +"\n";
-    			}
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
+
+	public void encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante()
+	{
+		try 
+		{
+			String idVisitante = JOptionPane.showInputDialog (this, "Ingrese el codigo del visitante determinado", "Encontrar visitante", JOptionPane.QUESTION_MESSAGE);
+			String fecha = JOptionPane.showInputDialog(this, "Ingrese fecha de la consulta", "Encontrar visitante", JOptionPane.QUESTION_MESSAGE);
+
+
+			if (idVisitante != null && fecha != null)
+			{
+				//el formato debe ser ("yyyy/MM/dd HH:mm:ss")
+				Date date = new Date(fecha);
+
+				List<Visitante> visitantes = aforoCC.encontrarVisitantesQueTuvieronContactoConOtroDeterminadoVisitante(idVisitante, date);
+				String resultado = "Visitantes que tuvieron contacto en los últimos 10 días con el visitante con id " + idVisitante + "\n\n";
+
+				for(Visitante vis: visitantes)
+				{
+					resultado+=vis.getNombre() +"\n";
+				}
+				resultado += "\n Operación terminada";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
 		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
+		catch (Exception e) 
+		{
+			//			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
-    }
-    
-    public void darVisitantesFrecuentesEspacio()
-    {
-    	try 
-    	{
-    		String espacio = JOptionPane.showInputDialog (this, "Ingrese el id del espacio a consultar", "Encontrar clientes frecuentes", JOptionPane.QUESTION_MESSAGE);    		
-    		
-    		if (espacio != null)
-    		{    
-    			String resultado = "Consumidores frecuentes del espacio con id " + espacio + "\n\n";
-    			
-    			List<Visitante> frecuentes = aforoCC.darVisitantesFrecuentesEspacio(espacio);
-    			
-    			for(Visitante vis: frecuentes)
-    			{
-    				resultado+= vis.toString();
-    				resultado += "\n";
-    			}
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
+	}
+
+	public void darVisitantesFrecuentesEspacio()
+	{
+		try 
+		{
+			String espacio = JOptionPane.showInputDialog (this, "Ingrese el id del espacio a consultar", "Encontrar clientes frecuentes", JOptionPane.QUESTION_MESSAGE);    		
+
+			if (espacio != null)
+			{    
+				String resultado = "Consumidores frecuentes del espacio con id " + espacio + "\n\n";
+
+				List<Visitante> frecuentes = aforoCC.darVisitantesFrecuentesEspacio(espacio);
+
+				for(Visitante vis: frecuentes)
+				{
+					resultado+= vis.toString();
+					resultado += "\n";
+				}
+				resultado += "\n Operación terminada";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
 		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
+		catch (Exception e) 
+		{
+			//			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
-    }
-    
-    //RFC10 
-    public void consultarVisitasEnAforoCC()
-    {
-    	try 
-    	{
-    		String fechaInicial = JOptionPane.showInputDialog (this, "Ingrese la fecha inicial del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
-    		String fechaFinal = JOptionPane.showInputDialog (this, "Ingrese la fecha final del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
-    		String criterioOrdenamiento = JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
-    		
-    		if (fechaInicial != null && fechaFinal != null && criterioOrdenamiento != null)
-    		{    
-    			String resultado = "Visitantes encontrados: \n\n";
-    			
-    			List<Visitante> visitantesEncontrados = aforoCC.consultarVisitasEnAforoCC(fechaInicial, fechaFinal, criterioOrdenamiento);
-    			
-    			for(Visitante vis: visitantesEncontrados)
-    			{
-    				resultado+= vis.toString();
-    				resultado += "\n";
-    			}
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
+	}
+
+	//RFC10 
+	public void consultarVisitasEnAforoCC()
+	{
+		try 
+		{
+			String fechaInicial = JOptionPane.showInputDialog (this, "Ingrese la fecha inicial del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String fechaFinal = JOptionPane.showInputDialog (this, "Ingrese la fecha final del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String criterioOrdenamiento = JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String idEstablecimiento= JOptionPane.showInputDialog (this, "Ingrese el id del establecimiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE); JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+
+			if (fechaInicial != null && fechaFinal != null && criterioOrdenamiento != null)
+			{    
+				String resultado = "Visitantes encontrados: \n\n";
+
+				List<Visitante> visitantesEncontrados = aforoCC.consultarVisitasEnAforoCC(fechaInicial, fechaFinal, criterioOrdenamiento, idEstablecimiento);
+
+				for(Visitante vis: visitantesEncontrados)
+				{
+					resultado+= vis.toString();
+					resultado += "\n";
+				}
+				resultado += "\n Operación terminada";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
 		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
+		catch (Exception e) 
+		{
+			//			e.printStackTrace();
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
-    }
-    
+	}
+
+	//RFC11
+	public void consultarVisitasEnAforoCCV2()
+	{
+		try 
+		{
+			String fechaInicial = JOptionPane.showInputDialog (this, "Ingrese la fecha inicial del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String fechaFinal = JOptionPane.showInputDialog (this, "Ingrese la fecha final del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String criterioOrdenamiento = JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String idEstablecimiento = JOptionPane.showInputDialog (this, "Ingrese el id del establecimiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+
+			if (fechaInicial != null && fechaFinal != null && criterioOrdenamiento != null)
+			{    
+				String resultado = "Visitantes encontrados: \n\n";
+
+				List<Visitante> visitantesEncontrados = aforoCC.consultarVisitasEnAforoCCV2(fechaInicial, fechaFinal, criterioOrdenamiento, idEstablecimiento);
+
+				for(Visitante vis: visitantesEncontrados)
+				{
+					resultado+= vis.toString();
+					resultado += "\n";
+				}
+				resultado += "\n Operación terminada";
+				panelDatos.actualizarInterfaz(resultado);
+			}
+			else
+			{
+				panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+			}
+		} 
+		catch (Exception e) 
+		{
+			//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+	}
+
 
 
 

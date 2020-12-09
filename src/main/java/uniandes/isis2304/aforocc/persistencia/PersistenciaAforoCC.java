@@ -724,9 +724,15 @@ public class PersistenciaAforoCC
 	}
 	
 	//RFC10
-	public List<Visitante> consultarVisitasEnAforoCC(String fechaInicial, String fechaFinal, String criterioOrdenamiento)
+	public List<Visitante> consultarVisitasEnAforoCC(String fechaInicial, String fechaFinal, String criterioOrdenamiento, String idEstablecimiento)
 	{
-		return (List<Visitante>) sqlVisita.consultarVisitasEnAforoCC(pmf.getPersistenceManager(), fechaInicial, fechaFinal, criterioOrdenamiento);
+		return (List<Visitante>) sqlVisita.consultarVisitasEnAforoCC(pmf.getPersistenceManager(), fechaInicial, fechaFinal, criterioOrdenamiento, idEstablecimiento);
+	}
+	
+	//RFC11
+	public List<Visitante> consultarVisitasEnAforoCCV2(String fechaInicial, String fechaFinal, String criterioOrdenamiento, String idEstablecimiento)
+	{
+		return (List<Visitante>) sqlVisita.consultarVisitasEnAforoCCV2(pmf.getPersistenceManager(), fechaInicial, fechaFinal, criterioOrdenamiento, idEstablecimiento);
 	}
 	
 

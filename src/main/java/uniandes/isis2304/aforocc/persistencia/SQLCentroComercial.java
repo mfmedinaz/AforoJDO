@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import uniandes.isis2304.aforocc.negocio.CentroComercial;
+import uniandes.isis2304.aforocc.negocio.Espacio;
 import uniandes.isis2304.aforocc.negocio.Visitante;
 
 public class SQLCentroComercial 
@@ -93,4 +94,5 @@ public class SQLCentroComercial
 		q.setResultClass(Integer.class);
 		return (Integer) q.executeUnique();
 	}
+	
 }
