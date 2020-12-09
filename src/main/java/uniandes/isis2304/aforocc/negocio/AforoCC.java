@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
 
-import jdk.internal.org.jline.utils.Log;
+//import jdk.internal.org.jline.utils.Log;
 import uniandes.isis2304.aforocc.persistencia.PersistenciaAforoCC;
 
 /**
@@ -474,7 +474,7 @@ public class AforoCC
 	
 	public List<Visitante> darVisitantesFrecuentesEspacio(String espacio)
 	{
-		Log.info("Encontrando clientes frecuentes");
+		log.info("Encontrando clientes frecuentes");
 		List<Visitante> visitantes = new ArrayList();
 		List<Visitante> imposibles = new ArrayList();
 		int primerAnio = 2018;

@@ -68,7 +68,7 @@
 				},
 				{
 					"label": "Deshabilitar espacio",
-					"event": "cambiarEstadoEspacio"
+					"event": "deshabilitarEspacio"
 				},
 				{
 					"label": "Habilitar espacio",
