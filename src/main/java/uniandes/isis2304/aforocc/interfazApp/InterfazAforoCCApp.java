@@ -718,7 +718,7 @@ public class InterfazAforoCCApp extends JFrame implements ActionListener
 			String fechaInicial = JOptionPane.showInputDialog (this, "Ingrese la fecha inicial del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
 			String fechaFinal = JOptionPane.showInputDialog (this, "Ingrese la fecha final del rango a consultar", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
 			String criterioOrdenamiento = JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
-			String idEstablecimiento= JOptionPane.showInputDialog (this, "Ingrese el id del establecimiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE); JOptionPane.showInputDialog (this, "Ingrese el criterio de ordenamiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE);
+			String idEstablecimiento= JOptionPane.showInputDialog (this, "Ingrese el id del establecimiento de la consulta", "Consultar visitas en aforo cc", JOptionPane.QUESTION_MESSAGE); 
 
 			if (fechaInicial != null && fechaFinal != null && criterioOrdenamiento != null)
 			{    

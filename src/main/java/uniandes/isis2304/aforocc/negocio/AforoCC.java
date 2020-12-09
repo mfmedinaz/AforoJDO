@@ -507,14 +507,14 @@ public class AforoCC
 	//RFC10
 	public List<Visitante> consultarVisitasEnAforoCC(String fechaInicial, String fechaFinal, String criterioOrdenamiento, String idEstablecimiento)
 	{
-		Log.info("Consultando visitas en aforoCC");
+		log.info("Consultando visitas en aforoCC");
 		return pp.consultarVisitasEnAforoCC(fechaInicial, fechaFinal, criterioOrdenamiento, idEstablecimiento);
 	}
 	
 	//RFC11
 	public List<Visitante> consultarVisitasEnAforoCCV2(String fechaInicial, String fechaFinal, String criterioOrdenamiento, String idEstablecimiento)
 	{
-		Log.info("Consultando visitas en aforoCCV2");
+		log.info("Consultando visitas en aforoCCV2");
 		return pp.consultarVisitasEnAforoCCV2(fechaInicial, fechaFinal, criterioOrdenamiento, idEstablecimiento);
 	}
 
